@@ -1,4 +1,5 @@
-[![codecov](https://codecov.io/gh/AY2526S2-CS2103T-W08-3/team-repo/graph/badge.svg?token=4FF2154EUE)](https://codecov.io/gh/AY2526S2-CS2103T-W08-3/team-repo)
+[![Java CI](https://github.com/AY2526S2-CS2103T-W08-3/tp/actions/workflows/gradle.yml/badge.svg)](https://github.com/AY2526S2-CS2103T-W08-3/tp/actions/workflows/gradle.yml)
+[![codecov](https://codecov.io/gh/AY2526S2-CS2103T-W08-3/tp/graph/badge.svg?token=4FF2154EUE)](https://codecov.io/gh/AY2526S2-CS2103T-W08-3/tp)
 ![Ui](docs/images/Ui.png)
 
 # FitDesk CLI
