@@ -286,13 +286,16 @@ _{Explain here how the data archiving feature will be implemented}_
 
 Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unlikely to have) - `*`
 
-| Priority | As a …​                                     | I can/want to …​                | So that I can…​                      |
-|----------|---------------------------------------------|---------------------------------|--------------------------------------|
-| `* * *`  | user                                        | view all members                | so that I can browse the database    |
-| `* * *`  | user                                        | add a new member                | register new members to the database |
-| `* * *`  | user                                        | delete a member                 | remove inactive records              |
-| `* * *`  | user                                        | view full details of a member   | manage members' account effectively  |
-| `* * *`  | user                                        | view members' membership status | track active or expired memberships  |
+| Priority | As a …​                                     | I can/want to …​                      | So that I can…​                                                   |
+|----------|---------------------------------------------|---------------------------------------|-------------------------------------------------------------------|
+| `* * *`  | user                                        | view all members                      | so that I can browse the database                                 |
+| `* * *`  | user                                        | add a new member                      | register new members to the database                              |
+| `* * *`  | user                                        | delete a member                       | remove inactive records                                           |
+| `* * *`  | user                                        | view full details of a member         | manage members' account effectively                               |
+| `* * *`  | user                                        | find members' by name                 | locate details of a members without going through the entire list |
+| `* *`    | user                                        | edit a member's details               | keep member records updated                                       |
+| `* *`    | user                                        | track membership validity and status  | get a quick overview of active and valid memberships              |
+| `*`      | user                                        | filter members by membership status   | track active or inactive memberships                              |
 
 *{More to be added}*
 
