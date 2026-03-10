@@ -377,6 +377,22 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
   
       Use case ends.
 
+**Use case: Filter Member List by Status**
+
+**MSS**
+
+1.  Receptionist requests to filter members by status (Active/Inactive)
+2.  FitDesk filters member list by specified status
+3.  FitDesk displays filtered member list
+
+    Use case ends.
+
+**Extensions**
+
+* 2a. The given status is invalid.
+    * 2a1. FitDesk shows an error message.
+
+      Use case ends.
 
 *{More to be added}*
 
