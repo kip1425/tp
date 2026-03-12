@@ -13,6 +13,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
+import seedu.address.model.GenerateMemberIds;
 import seedu.address.model.Model;
 import seedu.address.model.person.Person;
 
@@ -62,6 +63,7 @@ public class AddCommand extends Command {
         requireNonNull(model);
 
         if (model.hasPerson(toAdd)) {
+            GenerateMemberIds.decrementMaxId();
             throw new CommandException(MESSAGE_DUPLICATE_PERSON);
         }
 

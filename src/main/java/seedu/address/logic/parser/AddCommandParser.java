@@ -45,20 +45,14 @@ public class AddCommandParser implements Parser<AddCommand> {
                 ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_PHONE, PREFIX_GENDER, PREFIX_DATEOFBIRTH,
                         PREFIX_EMAIL, PREFIX_ADDRESS, PREFIX_MEMBERSHIP_TYPE, PREFIX_TAG);
 
-        if (!arePrefixesPresent(argMultimap, PREFIX_NAME, PREFIX_ADDRESS, PREFIX_PHONE, PREFIX_EMAIL,
-                PREFIX_GENDER, PREFIX_DATEOFBIRTH, PREFIX_MEMBERSHIP_TYPE)
+        if (!arePrefixesPresent(argMultimap, PREFIX_NAME, PREFIX_PHONE, PREFIX_GENDER, PREFIX_DATEOFBIRTH,
+                PREFIX_EMAIL, PREFIX_ADDRESS, PREFIX_MEMBERSHIP_TYPE)
                 || !argMultimap.getPreamble().isEmpty()) {
-            ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_PHONE, PREFIX_EMAIL, PREFIX_ADDRESS,
-                    PREFIX_MEMBERSHIP_TYPE, PREFIX_TAG);
-        }
-
-        if (!arePrefixesPresent(argMultimap, PREFIX_NAME, PREFIX_ADDRESS, PREFIX_PHONE,
-                PREFIX_EMAIL, PREFIX_MEMBERSHIP_TYPE) || !argMultimap.getPreamble().isEmpty()) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddCommand.MESSAGE_USAGE));
         }
 
         argMultimap.verifyNoDuplicatePrefixesFor(PREFIX_NAME, PREFIX_PHONE, PREFIX_GENDER, PREFIX_DATEOFBIRTH,
-                PREFIX_EMAIL, PREFIX_ADDRESS);
+                PREFIX_EMAIL, PREFIX_ADDRESS, PREFIX_MEMBERSHIP_TYPE);
         Name name = ParserUtil.parseName(argMultimap.getValue(PREFIX_NAME).get());
         Phone phone = ParserUtil.parsePhone(argMultimap.getValue(PREFIX_PHONE).get());
         Gender gender = ParserUtil.parseGender(argMultimap.getValue(PREFIX_GENDER).get());
@@ -69,8 +63,8 @@ public class AddCommandParser implements Parser<AddCommand> {
         Set<Tag> tagList = ParserUtil.parseTags(argMultimap.getAllValues(PREFIX_TAG));
         MemberId memberId = GenerateMemberIds.generateNextId();
         MembershipJoinDate joinDate = new MembershipJoinDate();
-        Person person = new Person(memberId, name, phone, gender, dateOfBirth, email, address, membershipType, joinDate, tagList);
-
+        Person person = new Person(memberId, name, phone, gender, dateOfBirth, email, address,
+                membershipType, joinDate, tagList);
 
         return new AddCommand(person);
     }

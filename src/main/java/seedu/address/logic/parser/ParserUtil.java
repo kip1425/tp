@@ -79,7 +79,7 @@ public class ParserUtil {
         requireNonNull(gender);
         String trimmedGender = gender.trim();
         if (!Gender.isValidGender(trimmedGender)) {
-            throw new ParseException(Name.MESSAGE_CONSTRAINTS);
+            throw new ParseException(Gender.MESSAGE_CONSTRAINTS);
         }
         return new Gender(trimmedGender);
     }
@@ -94,7 +94,7 @@ public class ParserUtil {
         requireNonNull(dateOfBirth);
         String trimmedDateOfBirth = dateOfBirth.trim();
         if (!DateOfBirth.isValidDateOfBirth(trimmedDateOfBirth)) {
-            throw new ParseException(Phone.MESSAGE_CONSTRAINTS);
+            throw new ParseException(DateOfBirth.MESSAGE_CONSTRAINTS);
         }
         return new DateOfBirth(trimmedDateOfBirth);
     }
@@ -152,7 +152,7 @@ public class ParserUtil {
         requireNonNull(type);
         String trimmedType = type.trim();
         if (!MembershipType.isValidType(trimmedType)) {
-            throw new ParseException(Email.MESSAGE_CONSTRAINTS);
+            throw new ParseException(MembershipType.MESSAGE_CONSTRAINTS);
         }
         return new MembershipType(trimmedType);
     }

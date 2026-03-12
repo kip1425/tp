@@ -12,6 +12,7 @@ public class GenerateMemberIds {
     public static void initialize(int maxId) {
         currentMaxId = maxId;
     }
+
     /**
      * Ensures no gym members share the same ID
      * @return an id representing the next unique available membership
@@ -20,6 +21,16 @@ public class GenerateMemberIds {
         currentMaxId++;
         return new MemberId(currentMaxId);
     }
+
+    /**
+     * Decrements current max ID by one.
+     */
+    public static void decrementMaxId() {
+        if (currentMaxId >= 0) {
+            currentMaxId--;
+        }
+    }
+
     public static int getCurrentMaxId() {
         return currentMaxId;
     }
