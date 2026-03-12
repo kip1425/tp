@@ -10,7 +10,7 @@ import static seedu.address.commons.util.AppUtil.checkArgument;
 public class Gender {
 
     public static final String MESSAGE_CONSTRAINTS =
-            "Gender should only contain one alphanumeric characters F or M" ;
+            "Gender should only contain one alphanumeric characters F or M";
     public static final String VALIDATION_REGEX = "[A-Za-z]";
     public final String gender;
 
@@ -29,7 +29,7 @@ public class Gender {
      * Returns true if a given string is a valid name.
      */
     public static boolean isValidGender(String test) {
-            return test.matches(VALIDATION_REGEX);
+        return test.matches(VALIDATION_REGEX);
     }
 
     @Override
