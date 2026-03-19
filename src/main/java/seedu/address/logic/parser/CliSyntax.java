@@ -17,4 +17,9 @@ public class CliSyntax {
     public static final Prefix PREFIX_TAG = new Prefix("t/");
     public static final Prefix PREFIX_JOIN_DATE = new Prefix("j/");
     public static final Prefix PREFIX_EMERGENCY_CONTACT = new Prefix("ec/");
+    public static final Prefix PREFIX_AGE_GREATER = new Prefix("age>/");
+    public static final Prefix PREFIX_AGE_LESS = new Prefix("age</");
+    public static final Prefix PREFIX_AGE_EQUAL = new Prefix("age=/");
+    public static final Prefix PREFIX_JOIN_DATE_AFTER = new Prefix("j>/");
+    public static final Prefix PREFIX_JOIN_DATE_BEFORE = new Prefix("j</");
 }

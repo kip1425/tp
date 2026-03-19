@@ -9,7 +9,11 @@ import static seedu.address.testutil.TypicalPersons.CARL;
 import static seedu.address.testutil.TypicalPersons.ELLE;
 import static seedu.address.testutil.TypicalPersons.FIONA;
 import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
+import static seedu.address.testutil.TypicalPersons.getTypicalPersons;
 
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.Collections;
 
@@ -18,12 +22,17 @@ import org.junit.jupiter.api.Test;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
+import seedu.address.model.person.AgeEqualsPredicate;
+import seedu.address.model.person.AgeGreaterThanPredicate;
+import seedu.address.model.person.AgeLessThanPredicate;
+import seedu.address.model.person.JoinDateAfterPredicate;
 import seedu.address.model.person.NameContainsKeywordsPredicate;
 
 /**
  * Contains integration tests (interaction with the Model) for {@code FindCommand}.
  */
 public class FilterCommandTest {
+    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd-MM-yyyy");
     private Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
     private Model expectedModel = new ModelManager(getTypicalAddressBook(), new UserPrefs());
 
@@ -75,6 +84,49 @@ public class FilterCommandTest {
     }
 
     @Test
+    public void execute_ageEquals_allPersonsFound() {
+        int age = calculateAge("01-01-1990");
+        AgeEqualsPredicate predicate = new AgeEqualsPredicate(age);
+        FilterCommand command = new FilterCommand(predicate);
+        expectedModel.updateFilteredPersonList(predicate);
+        String expectedMessage = String.format(MESSAGE_PERSONS_LISTED_OVERVIEW, getTypicalPersons().size());
+        assertCommandSuccess(command, model, expectedMessage, expectedModel);
+        assertEquals(getTypicalPersons(), model.getFilteredPersonList());
+    }
+
+    @Test
+    public void execute_ageGreaterThan_allPersonsFound() {
+        int age = calculateAge("01-01-1990");
+        AgeGreaterThanPredicate predicate = new AgeGreaterThanPredicate(age - 1);
+        FilterCommand command = new FilterCommand(predicate);
+        expectedModel.updateFilteredPersonList(predicate);
+        String expectedMessage = String.format(MESSAGE_PERSONS_LISTED_OVERVIEW, getTypicalPersons().size());
+        assertCommandSuccess(command, model, expectedMessage, expectedModel);
+        assertEquals(getTypicalPersons(), model.getFilteredPersonList());
+    }
+
+    @Test
+    public void execute_ageLessThan_noPersonFound() {
+        int age = calculateAge("01-01-1990");
+        AgeLessThanPredicate predicate = new AgeLessThanPredicate(age);
+        FilterCommand command = new FilterCommand(predicate);
+        expectedModel.updateFilteredPersonList(predicate);
+        String expectedMessage = String.format(MESSAGE_PERSONS_LISTED_OVERVIEW, 0);
+        assertCommandSuccess(command, model, expectedMessage, expectedModel);
+        assertEquals(Collections.emptyList(), model.getFilteredPersonList());
+    }
+
+    @Test
+    public void execute_joinDateAfter_allPersonsFound() {
+        JoinDateAfterPredicate predicate = new JoinDateAfterPredicate(LocalDate.of(2026, 3, 10));
+        FilterCommand command = new FilterCommand(predicate);
+        expectedModel.updateFilteredPersonList(predicate);
+        String expectedMessage = String.format(MESSAGE_PERSONS_LISTED_OVERVIEW, getTypicalPersons().size());
+        assertCommandSuccess(command, model, expectedMessage, expectedModel);
+        assertEquals(getTypicalPersons(), model.getFilteredPersonList());
+    }
+
+    @Test
     public void toStringMethod() {
         NameContainsKeywordsPredicate predicate = new NameContainsKeywordsPredicate(Arrays.asList("keyword"));
         FilterCommand filterCommand = new FilterCommand(predicate);
@@ -87,5 +139,10 @@ public class FilterCommandTest {
      */
     private NameContainsKeywordsPredicate preparePredicate(String userInput) {
         return new NameContainsKeywordsPredicate(Arrays.asList(userInput.split("\\s+")));
+    }
+
+    private int calculateAge(String dateOfBirth) {
+        LocalDate dob = LocalDate.parse(dateOfBirth, DATE_FORMATTER);
+        return Period.between(dob, LocalDate.now()).getYears();
     }
 }
