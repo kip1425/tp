@@ -129,6 +129,16 @@ Examples:
 * `find alex david` returns `Alex Yeoh`, `David Li`<br>
   ![result for 'find alex david'](images/findAlexDavidResult.png)
 
+### Filtering members by fields: `filter`
+
+Filters member list and displays members who have fields matching the given attribute.
+
+Format: `filter [s/STATUS] [g/GENDER] [m/MEMBERSHIP_TYPE] [age>/AGE] [age</AGE] [age=/AGE] [j>/DATE] [j</DATE]`
+
+Examples:
+* `filter s/valid` returns list of members with valid memberships
+  ![result for 'find alex david'](images/findAlexDavidResult.png)
+
 ### Deleting a person : `delete`
 
 Deletes the specified member from the list.
@@ -199,6 +209,6 @@ Action     | Format, Examples
 **Delete** | `delete INDEX`<br> e.g., `delete 3`
 **Edit**   | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [g/GENDER] [d/DATE_OF_BIRTH] [m/MEMBERSHIP_TYPE] [j/JOIN_DATE] [e/EMAIL] [a/EMERGENCY_CONTACT] ​`<br> e.g.,`edit 2 n/James Lee m/monthly e/jameslee@example.com`
 **Find**   | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`
-**Filter**   | `filter [s/STATUS] [MORE_FIELDS]`<br> e.g., `filter s/valid`
+**Filter**   | `filter [s/STATUS] [g/GENDER] [m/MEMBERSHIP_TYPE] [age>/AGE] [age</AGE] [age=/AGE] [j>/DATE] [j</DATE]`<br> e.g., `filter s/valid g/M`
 **List**   | `list`
 **Help**   | `help`
