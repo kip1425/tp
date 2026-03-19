@@ -1,0 +1,19 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:se-education.org)",
+      "Bash(./gradlew compileJava:*)",
+      "Bash(./gradlew test:*)",
+      "Bash(./gradlew compileTestJava:*)",
+      "Bash(git:*)",
+      "Bash(./gradlew checkstyleTest:*)",
+      "Bash(./gradlew checkstyleMain:*)",
+      "Bash(./gradlew clean:*)",
+      "Bash(xargs cat:*)",
+      "Bash(xargs -I{} jar tf {})",
+      "Bash(jar tf:*)",
+      "Bash(xargs sh:*)",
+      "Bash(gh issue:*)"
+    ]
+  }
+}

@@ -25,9 +25,7 @@ public class PersonContainsKeywordsPredicate implements Predicate<Person> {
                     || person.getGender().gender.toLowerCase().contains(lowerKeyword)
                     || person.getEmergencyContact().value.toLowerCase().contains(lowerKeyword)
                     || person.getMembershipType().value.toLowerCase().contains(lowerKeyword)
-                    || person.getId().toString().toLowerCase().contains(lowerKeyword)
-                    || person.getTags().stream()
-                            .anyMatch(tag -> tag.tagName.toLowerCase().contains(lowerKeyword));
+                    || person.getId().toString().toLowerCase().contains(lowerKeyword);
         });
     }
 
