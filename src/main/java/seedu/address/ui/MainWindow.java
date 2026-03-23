@@ -1,13 +1,16 @@
 package seedu.address.ui;
 
+import java.util.Objects;
 import java.util.logging.Logger;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextInputControl;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import seedu.address.commons.core.GuiSettings;
@@ -34,13 +37,13 @@ public class MainWindow extends UiPart<Stage> {
     private PersonListPanel personListPanel;
     private ResultDisplay resultDisplay;
     private HelpWindow helpWindow;
+    private DashBoard dashBoard;
 
     @FXML
     private StackPane commandBoxPlaceholder;
 
     @FXML
     private MenuItem helpMenuItem;
-
     @FXML
     private StackPane personListPanelPlaceholder;
     @FXML
@@ -115,14 +118,25 @@ public class MainWindow extends UiPart<Stage> {
         personListPanel = new PersonListPanel(logic.getFilteredPersonList());
         personListPanelPlaceholder.getChildren().add(personListPanel.getRoot());
 
+        dashBoard = new DashBoard(logic);
+        memberDetailsPlaceholder.getChildren().add(dashBoard.getRoot());
+
         personListPanel.getListView().getSelectionModel()
                 .selectedItemProperty()
                 .addListener((observable, oldValue, newValue) -> {
                     if (newValue != null) {
                         memberDetailsPlaceholder.getChildren().setAll(
                                 new MemberDetails(newValue).getRoot());
+                    } else {
+                        memberDetailsPlaceholder.getChildren().setAll(dashBoard.getRoot());
                     }
                 });
+        primaryStage.addEventFilter(MouseEvent.MOUSE_PRESSED, e -> {
+            if (personListPanel.getListView().getSelectionModel().getSelectedItem() != null) {
+                personListPanel.getListView().getSelectionModel().clearSelection();
+                memberDetailsPlaceholder.getChildren().setAll(dashBoard.getRoot());
+            }
+        });
 
         resultDisplay = new ResultDisplay();
         resultDisplayPlaceholder.getChildren().add(resultDisplay.getRoot());

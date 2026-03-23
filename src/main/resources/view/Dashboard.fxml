@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox alignment="TOP_LEFT" spacing="15" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+
+    <padding>
+        <Insets bottom="10" left="15" right="10" top="10" />
+    </padding>
+
+    <HBox spacing="10">
+        <VBox>
+            <Label fx:id="memberCount" styleClass="details-name-label" />
+            <Label text="Registered Members" styleClass="details-small-label" />
+        </VBox>
+    </HBox>
+
+    <HBox spacing="10">
+        <VBox>
+            <Label fx:id="expiringMemberships" styleClass="details-name-label" />
+            <Label text="Expiring in next 7 days" styleClass="details-small-label" />
+        </VBox>
+    </HBox>
+
+    <HBox spacing="30">
+        <VBox>
+            <Label fx:id="annualMembers" styleClass="details-name-label" />
+            <Label text="Annual Memberships" styleClass="details-small-label" />
+        </VBox>
+        <VBox>
+            <Label fx:id="monthlyMembers" styleClass="details-name-label" />
+            <Label text="Monthly Memberships" styleClass="details-small-label" />
+        </VBox>
+    </HBox>
+    <HBox spacing="10">
+        <VBox>
+            <Label fx:id="newMembers" styleClass="details-name-label" />
+            <Label text="New Memberships" styleClass="details-small-label" />
+        </VBox>
+    </HBox>
+</VBox>
