@@ -19,7 +19,7 @@ public class FilterCommand extends Command {
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Filters members by a specified field.\n"
             + "Parameters: [s/STATUS] [g/GENDER] [m/MEMBERSHIP_TYPE] [age>/AGE] [age</AGE] [age=/AGE] "
-            + "[j>/DATE] [j</DATE]\n"
+            + "[j>/DATE] [j</DATE] [j=/DATE]\n"
             + "Example: " + COMMAND_WORD + " s/valid age>/21 j</01-01-2024";
 
     private final Predicate<Person> predicate;

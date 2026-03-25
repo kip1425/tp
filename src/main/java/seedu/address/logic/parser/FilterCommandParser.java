@@ -8,6 +8,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_AGE_LESS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_GENDER;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_JOIN_DATE_AFTER;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_JOIN_DATE_BEFORE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_JOIN_DATE_EQUALS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_MEMBERSHIP_TYPE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_MEMBERSTATUS;
 
@@ -24,6 +25,7 @@ import seedu.address.model.person.AgeLessThanPredicate;
 import seedu.address.model.person.GenderMatchesPredicate;
 import seedu.address.model.person.JoinDateAfterPredicate;
 import seedu.address.model.person.JoinDateBeforePredicate;
+import seedu.address.model.person.JoinDateEqualsPredicate;
 import seedu.address.model.person.MembershipTypeMatchesPredicate;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.StatusMatchesPredicate;
@@ -44,11 +46,11 @@ public class FilterCommandParser implements Parser<FilterCommand> {
         ArgumentMultimap argMultimap =
                 ArgumentTokenizer.tokenize(args, PREFIX_MEMBERSTATUS, PREFIX_GENDER, PREFIX_MEMBERSHIP_TYPE,
                         PREFIX_AGE_GREATER, PREFIX_AGE_LESS, PREFIX_AGE_EQUAL,
-                        PREFIX_JOIN_DATE_AFTER, PREFIX_JOIN_DATE_BEFORE);
+                        PREFIX_JOIN_DATE_AFTER, PREFIX_JOIN_DATE_BEFORE, PREFIX_JOIN_DATE_EQUALS);
 
         argMultimap.verifyNoDuplicatePrefixesFor(PREFIX_MEMBERSTATUS, PREFIX_GENDER, PREFIX_MEMBERSHIP_TYPE,
                 PREFIX_AGE_GREATER, PREFIX_AGE_LESS, PREFIX_AGE_EQUAL,
-                PREFIX_JOIN_DATE_AFTER, PREFIX_JOIN_DATE_BEFORE);
+                PREFIX_JOIN_DATE_AFTER, PREFIX_JOIN_DATE_BEFORE, PREFIX_JOIN_DATE_EQUALS);
 
         if (!argMultimap.getPreamble().isEmpty()) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, FilterCommand.MESSAGE_USAGE));
@@ -114,6 +116,14 @@ public class FilterCommandParser implements Parser<FilterCommand> {
                 throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, FilterCommand.MESSAGE_USAGE));
             }
             predicates.add(new JoinDateBeforePredicate(ParserUtil.parseJoinDate(joinDate).getDate()));
+        }
+
+        if (argMultimap.getValue(PREFIX_JOIN_DATE_EQUALS).isPresent()) {
+            String joinDate = argMultimap.getValue(PREFIX_JOIN_DATE_EQUALS).get().trim();
+            if (joinDate.isEmpty()) {
+                throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, FilterCommand.MESSAGE_USAGE));
+            }
+            predicates.add(new JoinDateEqualsPredicate(ParserUtil.parseJoinDate(joinDate).getDate()));
         }
 
         if (predicates.isEmpty()) {
