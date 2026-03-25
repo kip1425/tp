@@ -48,4 +48,9 @@ public class PersonListPanel extends UiPart<Region> {
         }
     }
 
+    public void selectPerson(Person person) {
+        personListView.getSelectionModel().select(person);
+        personListView.scrollTo(person);
+    }
+
 }

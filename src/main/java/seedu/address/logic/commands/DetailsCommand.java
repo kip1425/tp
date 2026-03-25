@@ -24,6 +24,7 @@ public class DetailsCommand extends Command {
 
     private final Index index;
 
+    public static final String MESSAGE_SUCCESS = "Details displayed";
     /**
      * @param index of the person in the person list to display details of
      */
@@ -42,7 +43,7 @@ public class DetailsCommand extends Command {
         }
 
         Person person = lastShownList.get(index.getZeroBased());
-        return new CommandResult(String.format(Messages.format(person)));
+        return new CommandResult(MESSAGE_SUCCESS, person);
     }
 
     @Override
