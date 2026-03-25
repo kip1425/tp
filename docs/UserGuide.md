@@ -123,23 +123,24 @@ Examples:
 *  `edit 2 n/Betsy Crower m/annual` Edits the name and membership type of the 2nd member to be `Betsy Crower`and `annual` respectively.
   ![result for 'edit 2 n/Betsy Crower m/annual'](images/Edit_Example_2.png)
 
-### Locating persons by name: `find`
+### Locating members by keyword: `find`
 
-Finds members whose names contain any of the given keywords.
+Finds members whose fields contain the search query as a substring.
 
-Format: `find KEYWORD [MORE_KEYWORDS]`
+Format: `find QUERY`
 
 * The search is case-insensitive. e.g `hans` will match `Hans`
-* The order of the keywords does not matter. e.g. `Hans Bo` will match `Bo Hans`
-* Only the name is searched.
-* Only full words will be matched e.g. `Han` will not match `Hans`
-* Members matching at least one keyword will be returned (i.e. `OR` search).
-  e.g. `Hans Bo` will return `Hans Gruber`, `Bo Yang`
+* Only text-based fields are searched: name, phone, email, gender, emergency contact, membership type, and membership status.
+  Date-based fields (date of birth, join date, expiry date) are not searchable.
+* The entire query is matched as a literal substring against each field.
+  e.g. `find john doe` will only return members whose field contains `"john doe"`, not members with just `john` or just `doe`
 
 Examples:
-* `find John` returns `john` and `John Doe`
-* `find alex david` returns `Alex Yeoh`, `David Li`<br>
-  ![result for 'find alex david'](images/find_result.png)
+* `find John` returns members with `John` in any field
+* `find john doe` returns members whose name (or other field) contains `"john doe"`<br>
+  ![result for 'find john doe'](images/findResult.png)
+* `find 9123` returns members whose phone number or other field contains `9123`
+* `find annual` returns members with `annual` membership type
 
 ### Filtering members by fields: `filter`
 
@@ -149,7 +150,7 @@ Format: `filter [s/STATUS] [g/GENDER] [m/MEMBERSHIP_TYPE] [age>/AGE] [age</AGE] 
 
 Examples:
 * `filter s/valid` returns list of members with valid memberships
-  ![result for 'filter s/valid'](images/filter_result.png)
+  ![result for 'filter s/valid'](images/filterResult.png)
 
 ### Deleting a person : `delete`
 
