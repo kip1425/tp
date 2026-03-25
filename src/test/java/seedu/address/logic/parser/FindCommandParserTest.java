@@ -22,12 +22,13 @@ public class FindCommandParserTest {
 
     @Test
     public void parse_validArgs_returnsFindCommand() {
+        // multi-word query treated as literal substring
         FindCommand expectedFindCommand =
-                new FindCommand(new PersonContainsKeywordsPredicate(Arrays.asList("Alice", "Bob")));
+                new FindCommand(new PersonContainsKeywordsPredicate(Arrays.asList("Alice Bob")));
         assertParseSuccess(parser, "Alice Bob", expectedFindCommand);
 
-        // multiple whitespaces between keywords
-        assertParseSuccess(parser, " \n Alice \n \t Bob  \t", expectedFindCommand);
+        // leading/trailing whitespace is trimmed
+        assertParseSuccess(parser, " Alice Bob ", expectedFindCommand);
     }
 
     @Test

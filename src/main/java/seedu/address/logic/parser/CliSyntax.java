@@ -12,7 +12,6 @@ public class CliSyntax {
     public static final Prefix PREFIX_DATEOFBIRTH = new Prefix("d/");
     public static final Prefix PREFIX_MEMBERSTATUS = new Prefix("s/");
     public static final Prefix PREFIX_EMAIL = new Prefix("e/");
-    public static final Prefix PREFIX_ADDRESS = new Prefix("a/");
     public static final Prefix PREFIX_MEMBERSHIP_TYPE = new Prefix("m/");
     public static final Prefix PREFIX_JOIN_DATE = new Prefix("j/");
     public static final Prefix PREFIX_EMERGENCY_CONTACT = new Prefix("ec/");

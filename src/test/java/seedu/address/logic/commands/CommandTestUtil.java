@@ -2,9 +2,9 @@ package seedu.address.logic.commands;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_DATEOFBIRTH;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_EMERGENCY_CONTACT;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_GENDER;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_MEMBERSHIP_TYPE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_MEMBERSTATUS;
@@ -58,8 +58,10 @@ public class CommandTestUtil {
     public static final String MEMBERSTATUS_DESC_BOB = " " + PREFIX_MEMBERSTATUS + VALID_MEMBERSTATUS_BOB;
     public static final String EMAIL_DESC_AMY = " " + PREFIX_EMAIL + VALID_EMAIL_AMY;
     public static final String EMAIL_DESC_BOB = " " + PREFIX_EMAIL + VALID_EMAIL_BOB;
-    public static final String EMERGENCY_CONTACT_DESC_AMY = " " + PREFIX_ADDRESS + VALID_EMERGENCY_CONTACT_AMY;
-    public static final String EMERGENCY_CONTACT_DESC_BOB = " " + PREFIX_ADDRESS + VALID_EMERGENCY_CONTACT_BOB;
+    public static final String EMERGENCY_CONTACT_DESC_AMY = " " + PREFIX_EMERGENCY_CONTACT
+            + VALID_EMERGENCY_CONTACT_AMY;
+    public static final String EMERGENCY_CONTACT_DESC_BOB = " " + PREFIX_EMERGENCY_CONTACT
+            + VALID_EMERGENCY_CONTACT_BOB;
     public static final String TYPE_DESC_AMY = " " + PREFIX_MEMBERSHIP_TYPE + VALID_TYPE_AMY;
     public static final String TYPE_DESC_BOB = " " + PREFIX_MEMBERSHIP_TYPE + VALID_TYPE_BOB;
 
@@ -70,7 +72,7 @@ public class CommandTestUtil {
     public static final String INVALID_MEMBERSTATUS_DESC = " " + PREFIX_MEMBERSTATUS + "on"; // only 'valid'/'invalid'
     public static final String INVALID_EMAIL_DESC = " " + PREFIX_EMAIL + "bob!yahoo"; // missing '@' symbol
     // empty string not allowed for emergency contact
-    public static final String INVALID_EMERGENCY_CONTACT_DESC = " " + PREFIX_ADDRESS;
+    public static final String INVALID_EMERGENCY_CONTACT_DESC = " " + PREFIX_EMERGENCY_CONTACT;
     public static final String INVALID_TYPE_DESC = " " + PREFIX_MEMBERSHIP_TYPE + "senior"; // missing '@' symbol
 
     public static final String PREAMBLE_WHITESPACE = "\t  \r  \n";

@@ -10,17 +10,17 @@ import seedu.address.model.Model;
 import seedu.address.model.person.Person;
 
 /**
- * Finds and lists all persons in address book matching the specified field criteria.
- * Keyword matching is case-insensitive.
+ * Finds and lists all persons in address book whose any field contains the query as a literal substring.
+ * Matching is case-insensitive.
  */
 public class FindCommand extends Command {
 
     public static final String COMMAND_WORD = "find";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Finds all members whose any field contains "
-            + "any of the specified keywords (case-insensitive) and displays them as a list with index numbers.\n"
-            + "Parameters: KEYWORD [MORE_KEYWORDS]...\n"
-            + "Example: " + COMMAND_WORD + " alice 91234567 gold";
+            + "the specified query as a literal substring (case-insensitive).\n"
+            + "Parameters: QUERY\n"
+            + "Example: " + COMMAND_WORD + " john doe";
 
     private final Predicate<Person> predicate;
 

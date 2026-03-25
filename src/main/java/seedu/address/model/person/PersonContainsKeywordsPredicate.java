@@ -6,7 +6,7 @@ import java.util.function.Predicate;
 import seedu.address.commons.util.ToStringBuilder;
 
 /**
- * Tests that any of a {@code Person}'s fields contain any of the given keywords (case-insensitive).
+ * Tests that any of a {@code Person}'s fields contain the given query as a literal substring (case-insensitive).
  */
 public class PersonContainsKeywordsPredicate implements Predicate<Person> {
     private final List<String> keywords;
@@ -25,6 +25,7 @@ public class PersonContainsKeywordsPredicate implements Predicate<Person> {
                     || person.getGender().gender.toLowerCase().contains(lowerKeyword)
                     || person.getEmergencyContact().value.toLowerCase().contains(lowerKeyword)
                     || person.getMembershipType().value.toLowerCase().contains(lowerKeyword)
+                    || person.getMemberStatus().memberStatus.toLowerCase().contains(lowerKeyword)
                     || person.getId().toString().toLowerCase().contains(lowerKeyword);
         });
     }
