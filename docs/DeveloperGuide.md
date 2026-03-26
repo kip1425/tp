@@ -297,7 +297,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 | `* *`    | user                                        | track membership validity and status  | get a quick overview of active and valid memberships              |
 | `* *`    | user                                        | view memberships expiring soon        | remind members to renew memberships                               |
 | `* *`    | user                                        | view recently added members           | follow up on new member requests                                  |
-| `* *`    | user                                        | filter members by age/joined time/gender | view members in specific groups                                |
+| `* *`    | user                                        | filter members by age/joined time/expiry time/gender | view members in specific groups                                |
 | `* *`    | user                                        | access a help command                 | review the list of commands                                       |
 | `* *`    | user                                        | view command history                  | check past activity                                               |
 | `* *`    | user                                        | auto-save data                        | avoid losing changes if the app closes                            |

@@ -5,6 +5,9 @@ import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_AGE_EQUAL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_AGE_GREATER;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_AGE_LESS;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_EXPIRY_DATE_AFTER;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_EXPIRY_DATE_BEFORE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_EXPIRY_DATE_EQUALS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_GENDER;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_JOIN_DATE_AFTER;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_JOIN_DATE_BEFORE;
@@ -22,6 +25,9 @@ import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.person.AgeEqualsPredicate;
 import seedu.address.model.person.AgeGreaterThanPredicate;
 import seedu.address.model.person.AgeLessThanPredicate;
+import seedu.address.model.person.ExpiryDateAfterPredicate;
+import seedu.address.model.person.ExpiryDateBeforePredicate;
+import seedu.address.model.person.ExpiryDateEqualsPredicate;
 import seedu.address.model.person.GenderMatchesPredicate;
 import seedu.address.model.person.JoinDateAfterPredicate;
 import seedu.address.model.person.JoinDateBeforePredicate;
@@ -46,11 +52,13 @@ public class FilterCommandParser implements Parser<FilterCommand> {
         ArgumentMultimap argMultimap =
                 ArgumentTokenizer.tokenize(args, PREFIX_MEMBERSTATUS, PREFIX_GENDER, PREFIX_MEMBERSHIP_TYPE,
                         PREFIX_AGE_GREATER, PREFIX_AGE_LESS, PREFIX_AGE_EQUAL,
-                        PREFIX_JOIN_DATE_AFTER, PREFIX_JOIN_DATE_BEFORE, PREFIX_JOIN_DATE_EQUALS);
+                        PREFIX_JOIN_DATE_AFTER, PREFIX_JOIN_DATE_BEFORE, PREFIX_JOIN_DATE_EQUALS,
+                        PREFIX_EXPIRY_DATE_AFTER, PREFIX_EXPIRY_DATE_BEFORE, PREFIX_EXPIRY_DATE_EQUALS);
 
         argMultimap.verifyNoDuplicatePrefixesFor(PREFIX_MEMBERSTATUS, PREFIX_GENDER, PREFIX_MEMBERSHIP_TYPE,
                 PREFIX_AGE_GREATER, PREFIX_AGE_LESS, PREFIX_AGE_EQUAL,
-                PREFIX_JOIN_DATE_AFTER, PREFIX_JOIN_DATE_BEFORE, PREFIX_JOIN_DATE_EQUALS);
+                PREFIX_JOIN_DATE_AFTER, PREFIX_JOIN_DATE_BEFORE, PREFIX_JOIN_DATE_EQUALS,
+                PREFIX_EXPIRY_DATE_AFTER, PREFIX_EXPIRY_DATE_BEFORE, PREFIX_EXPIRY_DATE_EQUALS);
 
         if (!argMultimap.getPreamble().isEmpty()) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, FilterCommand.MESSAGE_USAGE));
@@ -124,6 +132,31 @@ public class FilterCommandParser implements Parser<FilterCommand> {
                 throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, FilterCommand.MESSAGE_USAGE));
             }
             predicates.add(new JoinDateEqualsPredicate(ParserUtil.parseJoinDate(joinDate).getDate()));
+        }
+
+        // Filter based on expiry date
+        if (argMultimap.getValue(PREFIX_EXPIRY_DATE_AFTER).isPresent()) {
+            String expiryDate = argMultimap.getValue(PREFIX_EXPIRY_DATE_AFTER).get().trim();
+            if (expiryDate.isEmpty()) {
+                throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, FilterCommand.MESSAGE_USAGE));
+            }
+            predicates.add(new ExpiryDateAfterPredicate(ParserUtil.parseExpiryDate(expiryDate).getExpiryDate()));
+        }
+
+        if (argMultimap.getValue(PREFIX_EXPIRY_DATE_BEFORE).isPresent()) {
+            String expiryDate = argMultimap.getValue(PREFIX_EXPIRY_DATE_BEFORE).get().trim();
+            if (expiryDate.isEmpty()) {
+                throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, FilterCommand.MESSAGE_USAGE));
+            }
+            predicates.add(new ExpiryDateBeforePredicate(ParserUtil.parseExpiryDate(expiryDate).getExpiryDate()));
+        }
+
+        if (argMultimap.getValue(PREFIX_EXPIRY_DATE_EQUALS).isPresent()) {
+            String expiryDate = argMultimap.getValue(PREFIX_EXPIRY_DATE_EQUALS).get().trim();
+            if (expiryDate.isEmpty()) {
+                throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, FilterCommand.MESSAGE_USAGE));
+            }
+            predicates.add(new ExpiryDateEqualsPredicate(ParserUtil.parseExpiryDate(expiryDate).getExpiryDate()));
         }
 
         if (predicates.isEmpty()) {

@@ -21,4 +21,7 @@ public class CliSyntax {
     public static final Prefix PREFIX_JOIN_DATE_AFTER = new Prefix("j>/");
     public static final Prefix PREFIX_JOIN_DATE_BEFORE = new Prefix("j</");
     public static final Prefix PREFIX_JOIN_DATE_EQUALS = new Prefix("j=/");
+    public static final Prefix PREFIX_EXPIRY_DATE_AFTER = new Prefix("exp>/");
+    public static final Prefix PREFIX_EXPIRY_DATE_BEFORE = new Prefix("exp</");
+    public static final Prefix PREFIX_EXPIRY_DATE_EQUALS = new Prefix("exp=/");
 }

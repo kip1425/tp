@@ -10,6 +10,7 @@ import seedu.address.model.person.DateOfBirth;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.EmergencyContact;
 import seedu.address.model.person.Gender;
+import seedu.address.model.person.MembershipExpiryDate;
 import seedu.address.model.person.MembershipJoinDate;
 import seedu.address.model.person.MembershipType;
 import seedu.address.model.person.Name;
@@ -137,6 +138,21 @@ public class ParserUtil {
             throw new ParseException(MembershipJoinDate.MESSAGE_CONSTRAINTS);
         }
         return new MembershipJoinDate(trimmedJoinDate);
+    }
+
+    /**
+     * Parses a {@code String expiryDate} into a {@code MembershipExpiryDate}.
+     * Leading and trailing whitespaces will be trimmed.
+     *
+     * @throws ParseException if the given {@code expiryDate} is invalid.
+     */
+    public static MembershipExpiryDate parseExpiryDate(String expiryDate) throws ParseException {
+        requireNonNull(expiryDate);
+        String trimmedExpiryDate = expiryDate.trim();
+        if (!MembershipExpiryDate.isValidExpiryDate(trimmedExpiryDate)) {
+            throw new ParseException(MembershipExpiryDate.MESSAGE_CONSTRAINTS);
+        }
+        return new MembershipExpiryDate(trimmedExpiryDate);
     }
 
     /**
