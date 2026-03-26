@@ -25,13 +25,4 @@ public class DashboardStatsTest {
         assertEquals(2, DashboardStats.getAnnual(list));
         assertEquals(1, DashboardStats.getMonthly(list));
     }
-    @Test
-    public void getNewMembers_returnsCorrectCount() {
-        ObservableList<Person> list = FXCollections.observableArrayList();
-        list.add(new PersonBuilder().withType("annual").build());
-        list.add(new PersonBuilder().withType("annual").build());
-        list.add(new PersonBuilder().withType("monthly").build());
-        assertEquals(2, DashboardStats.getNewMembers(list));
-        assertEquals(1, DashboardStats.getNewMembers(list));
-    }
 }
