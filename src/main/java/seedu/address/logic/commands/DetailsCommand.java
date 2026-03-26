@@ -22,9 +22,9 @@ public class DetailsCommand extends Command {
             + "Parameters: INDEX (must be a positive integer)\n"
             + "Example: " + COMMAND_WORD + " 1";
 
-    private final Index index;
-
     public static final String MESSAGE_SUCCESS = "Details displayed";
+
+    private final Index index;
     /**
      * @param index of the person in the person list to display details of
      */
