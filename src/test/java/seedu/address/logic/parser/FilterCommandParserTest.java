@@ -19,6 +19,7 @@ import seedu.address.model.person.ExpiryDateEqualsPredicate;
 import seedu.address.model.person.GenderMatchesPredicate;
 import seedu.address.model.person.JoinDateAfterPredicate;
 import seedu.address.model.person.JoinDateBeforePredicate;
+import seedu.address.model.person.JoinDateEqualsPredicate;
 import seedu.address.model.person.MembershipExpiryDate;
 import seedu.address.model.person.MembershipJoinDate;
 import seedu.address.model.person.MembershipTypeMatchesPredicate;
@@ -189,6 +190,25 @@ public class FilterCommandParserTest {
     public void parse_duplicatePrefix_failure() {
         assertParseFailure(parser, " age=/21 age=/22",
                 Messages.getErrorMessageForDuplicatePrefixes(PREFIX_AGE_EQUAL));
+    }
+
+    @Test
+    public void parse_emptyJoinDateBefore_failure() {
+        assertParseFailure(parser, " j</",
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, FilterCommand.MESSAGE_USAGE));
+    }
+
+    @Test
+    public void parse_joinDateEquals_success() {
+        FilterCommand expectedCommand =
+                new FilterCommand(new JoinDateEqualsPredicate(new MembershipJoinDate("01-01-2024").getDate()));
+        assertParseSuccess(parser, " j=/01-01-2024", expectedCommand);
+    }
+
+    @Test
+    public void parse_emptyJoinDateEquals_failure() {
+        assertParseFailure(parser, " j=/",
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, FilterCommand.MESSAGE_USAGE));
     }
 
     @Test

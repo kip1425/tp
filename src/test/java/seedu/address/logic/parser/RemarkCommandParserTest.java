@@ -43,4 +43,10 @@ public class RemarkCommandParserTest {
         assertParseFailure(parser, "r/Likes to swim.",
                 String.format(MESSAGE_INVALID_COMMAND_FORMAT, RemarkCommand.MESSAGE_USAGE));
     }
+
+    @Test
+    public void parse_validIndexMissingRemarkPrefix_throwsParseException() {
+        assertParseFailure(parser, "1",
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, RemarkCommand.MESSAGE_USAGE));
+    }
 }
