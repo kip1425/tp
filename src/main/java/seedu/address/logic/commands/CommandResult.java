@@ -40,6 +40,11 @@ public class CommandResult {
         this(feedbackToUser, false, false);
     }
 
+    /**
+     * Constructs a {@code CommandResult} with the specified {@code feedbackToUser},
+     * the specified {@code personToSelect},
+     * and other fields set to their default value.
+     */
     public CommandResult(String feedbackToUser, Person personToSelect) {
         this.feedbackToUser = feedbackToUser;
         this.personToSelect = personToSelect;

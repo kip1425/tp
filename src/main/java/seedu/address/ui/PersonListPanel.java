@@ -48,6 +48,9 @@ public class PersonListPanel extends UiPart<Region> {
         }
     }
 
+    /**
+     * Selects the given {@code Person} in the list view and scrolls to it.
+     */
     public void selectPerson(Person person) {
         personListView.getSelectionModel().select(person);
         personListView.scrollTo(person);

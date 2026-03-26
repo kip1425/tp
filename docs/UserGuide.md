@@ -174,6 +174,31 @@ Examples:
   
 * `find Alex` followed by `delete 1` deletes the 1st person in the results of the `find` command.
 
+### Viewing the details of a person : `details`
+
+Shows the details of the specified member from the list.
+
+Format: `details INDEX`
+
+* Shows the details of the person at the specified `INDEX`.
+* The index refers to the index number shown in the displayed person list.
+* The index **must be a positive integer** 1, 2, 3, …​
+
+Examples:
+* `list` followed by `details 1` shows the details of the 1st member in the address book.
+  1. `list`
+    
+        ![list of members](images/details_list1.png)
+  
+  2. `details 1`
+  
+        ![details of 1st member](images/details_1.png)
+
+* `find David` followed by `details 1` shows the details of the 1st member in the results of the `find` command.
+
+  ![details of 1st member in find results](images/details_2.png)
+
+
 ### Clearing all entries : `clear`
 
 Clears all entries from the address book.
@@ -231,5 +256,6 @@ Action     | Format, Examples
 **Edit**   | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [g/GENDER] [d/DATE_OF_BIRTH] [m/MEMBERSHIP_TYPE] [j/JOIN_DATE] [e/EMAIL] [ec/EMERGENCY_CONTACT] ​`<br> e.g.,`edit 2 n/James Lee m/monthly e/jameslee@example.com`
 **Find**   | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`
 **Filter**   | `filter [s/STATUS] [g/GENDER] [m/MEMBERSHIP_TYPE] [age>/AGE] [age</AGE] [age=/AGE] [j>/DATE] [j</DATE]`<br> e.g., `filter s/valid g/M`
+**Details**   | `details INDEX`<br> e.g., `details 1`
 **List**   | `list`
 **Help**   | `help`
