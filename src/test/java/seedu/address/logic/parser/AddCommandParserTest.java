@@ -24,10 +24,13 @@ import static seedu.address.logic.commands.CommandTestUtil.PREAMBLE_NON_EMPTY;
 import static seedu.address.logic.commands.CommandTestUtil.PREAMBLE_WHITESPACE;
 import static seedu.address.logic.commands.CommandTestUtil.TYPE_DESC_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.TYPE_DESC_BOB;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_DATEOFBIRTH_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_EMAIL_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_EMERGENCY_CONTACT_BOB;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_GENDER_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_BOB;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_TYPE_BOB;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_DATEOFBIRTH;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMERGENCY_CONTACT;
@@ -37,7 +40,6 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSuccess;
-import static seedu.address.testutil.TypicalPersons.AMY;
 import static seedu.address.testutil.TypicalPersons.BOB;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -176,32 +178,36 @@ public class AddCommandParserTest {
     }
 
     @Test
-    public void parse_optionalFieldsMissing_success() {
-        Person expectedPerson = new PersonBuilder(AMY).build();
-        assertParseSuccess(parser, NAME_DESC_AMY + PHONE_DESC_AMY + EMAIL_DESC_AMY + EMERGENCY_CONTACT_DESC_AMY
-                + GENDER_DESC_AMY + DATEOFBIRTH_DESC_AMY + TYPE_DESC_AMY,
-                new AddCommand(expectedPerson));
-    }
-
-    @Test
     public void parse_compulsoryFieldMissing_failure() {
         String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddCommand.MESSAGE_USAGE);
 
         // missing name prefix
-        assertParseFailure(parser, VALID_NAME_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB + EMERGENCY_CONTACT_DESC_BOB,
-                expectedMessage);
+        assertParseFailure(parser, VALID_NAME_BOB + PHONE_DESC_BOB + GENDER_DESC_BOB + DATEOFBIRTH_DESC_BOB
+                + TYPE_DESC_BOB + EMAIL_DESC_BOB + EMERGENCY_CONTACT_DESC_BOB, expectedMessage);
 
         // missing phone prefix
-        assertParseFailure(parser, NAME_DESC_BOB + VALID_PHONE_BOB + EMAIL_DESC_BOB + EMERGENCY_CONTACT_DESC_BOB,
-                expectedMessage);
+        assertParseFailure(parser, NAME_DESC_BOB + VALID_PHONE_BOB + GENDER_DESC_BOB + DATEOFBIRTH_DESC_BOB
+                + TYPE_DESC_BOB + EMAIL_DESC_BOB + EMERGENCY_CONTACT_DESC_BOB, expectedMessage);
+
+        // missing gender prefix
+        assertParseFailure(parser, NAME_DESC_BOB + PHONE_DESC_BOB + VALID_GENDER_BOB + DATEOFBIRTH_DESC_BOB
+                + TYPE_DESC_BOB + EMAIL_DESC_BOB + EMERGENCY_CONTACT_DESC_BOB, expectedMessage);
+
+        // missing date of birth prefix
+        assertParseFailure(parser, NAME_DESC_BOB + PHONE_DESC_BOB + GENDER_DESC_BOB + VALID_DATEOFBIRTH_BOB
+                + TYPE_DESC_BOB + EMAIL_DESC_BOB + EMERGENCY_CONTACT_DESC_BOB, expectedMessage);
+
+        // missing membership type prefix
+        assertParseFailure(parser, NAME_DESC_BOB + PHONE_DESC_BOB + GENDER_DESC_BOB + DATEOFBIRTH_DESC_BOB
+                + VALID_TYPE_BOB + EMAIL_DESC_BOB + EMERGENCY_CONTACT_DESC_BOB, expectedMessage);
 
         // missing email prefix
-        assertParseFailure(parser, NAME_DESC_BOB + PHONE_DESC_BOB + VALID_EMAIL_BOB + EMERGENCY_CONTACT_DESC_BOB,
-                expectedMessage);
+        assertParseFailure(parser, NAME_DESC_BOB + PHONE_DESC_BOB + GENDER_DESC_BOB + DATEOFBIRTH_DESC_BOB
+                + TYPE_DESC_BOB + VALID_EMAIL_BOB + EMERGENCY_CONTACT_DESC_BOB, expectedMessage);
 
-        // missing address prefix
-        assertParseFailure(parser, NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB + VALID_EMERGENCY_CONTACT_BOB,
-                expectedMessage);
+        // missing emergency contact prefix
+        assertParseFailure(parser, NAME_DESC_BOB + PHONE_DESC_BOB + GENDER_DESC_BOB + DATEOFBIRTH_DESC_BOB
+                + TYPE_DESC_BOB + EMAIL_DESC_BOB + VALID_EMERGENCY_CONTACT_BOB, expectedMessage);
 
         // all prefixes missing
         assertParseFailure(parser, VALID_NAME_BOB + VALID_PHONE_BOB + VALID_EMAIL_BOB + VALID_EMERGENCY_CONTACT_BOB,

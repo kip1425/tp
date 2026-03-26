@@ -5,6 +5,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_DATEOFBIRTH;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMERGENCY_CONTACT;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_GENDER;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_MEMBERSHIP_TYPE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 
@@ -30,13 +31,15 @@ public class AddCommand extends Command {
             + PREFIX_DATEOFBIRTH + "DATEOFBIRTH "
             + PREFIX_EMAIL + "EMAIL "
             + PREFIX_EMERGENCY_CONTACT + "EMERGENCY_CONTACT "
+            + PREFIX_MEMBERSHIP_TYPE + "MEMBERSHIP_TYPE "
             + "Example: " + COMMAND_WORD + " "
             + PREFIX_NAME + "John Doe "
             + PREFIX_PHONE + "98765432 "
             + PREFIX_GENDER + "M "
             + PREFIX_DATEOFBIRTH + "02-02-2002 "
             + PREFIX_EMAIL + "johnd@example.com "
-            + PREFIX_EMERGENCY_CONTACT + "93110225";
+            + PREFIX_EMERGENCY_CONTACT + "93110225 "
+            + PREFIX_MEMBERSHIP_TYPE + "monthly";
 
     public static final String MESSAGE_SUCCESS = "New person added: %1$s";
     public static final String MESSAGE_DUPLICATE_PERSON = "This person already exists in the address book";
