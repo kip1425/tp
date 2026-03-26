@@ -226,8 +226,4 @@ public class MainWindow extends UiPart<Stage> {
             throw e;
         }
     }
-
-    public void setPersonListPanelPlaceholder(StackPane personListPanelPlaceholder) {
-        this.personListPanelPlaceholder = personListPanelPlaceholder;
-    }
 }

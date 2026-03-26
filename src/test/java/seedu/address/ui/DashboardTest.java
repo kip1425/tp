@@ -2,19 +2,19 @@ package seedu.address.ui;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAdjusters;
 
 import org.junit.jupiter.api.Test;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import seedu.address.logic.Logic;
 import seedu.address.model.person.Person;
 import seedu.address.testutil.PersonBuilder;
 
-public class DashboardStatsTest {
-    private Logic logic;
+public class DashboardTest {
     private DashBoard dashBoard;
 
     @Test
@@ -35,6 +35,7 @@ public class DashboardStatsTest {
     @Test
     public void getNewMember_thisWeek_returnsCorrectCount() {
         ObservableList<Person> list = FXCollections.observableArrayList();
+        LocalDate nextMon = LocalDate.now().with(TemporalAdjusters.nextOrSame(DayOfWeek.MONDAY));
         String dayThisWeek = LocalDate.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
         list.add(new PersonBuilder().withJoinDate(dayThisWeek).build());
         assertEquals(1, DashboardStats.getNewMembers(list));
@@ -49,7 +50,7 @@ public class DashboardStatsTest {
     public void getNewMember_afterNextWeek_returnsZero() {
         ObservableList<Person> list = FXCollections.observableArrayList();
         String day = LocalDate.now().plusWeeks(2).format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
-        list.add(new PersonBuilder().withJoinDate("11-03-2026").build());
+        list.add(new PersonBuilder().withJoinDate(day).build());
         assertEquals(0, DashboardStats.getNewMembers(list));
     }
     @Test

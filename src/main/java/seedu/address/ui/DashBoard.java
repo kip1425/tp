@@ -34,6 +34,21 @@ public class DashBoard extends UiPart<Region> {
     }
 
     /**
+     *
+     */
+    public DashBoard(Logic logic, Label memberCount, Label annualMembers,
+                     Label monthlyMembers, Label expiringMemberships, Label newMembers) {
+        super(FXML);
+        this.logic = logic;
+        this.memberCount = memberCount;
+        this.annualMembers = annualMembers;
+        this.monthlyMembers = monthlyMembers;
+        this.expiringMemberships = expiringMemberships;
+        this.newMembers = newMembers;
+        update(); // run update to cover all lines
+    }
+
+    /**
      * Updates the dashboard with member statistics when counts of relevant data has changed
      */
     public void update() {
