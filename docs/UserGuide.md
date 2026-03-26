@@ -188,6 +188,21 @@ Format: `renew INDEX [m/MEMBERSHIP_TYPE]`
 Examples:
 * `renew 2` renews membership of the 2nd member in the list to `11-04-2026`
 * `renew 1 m/monthly` renews membership and updates membership type of the 1st member in the list to `11-04-2027` and `Monthly` respectively.
+### Adding a remark to a member : `remark`
+
+Adds or edits a remark for the specified member.
+
+Format: `remark INDEX r/[REMARK]`
+
+* Edits the remark of the member at the specified `INDEX`. The index refers to the index number shown in the displayed member list. The index **must be a positive integer** 1, 2, 3, …​
+* Existing remark will be overwritten by the input.
+* Providing an empty remark (i.e. `r/` with nothing after it) removes the remark from the member.
+
+Examples:
+* `remark 1 r/Likes to swim.` adds the remark `Likes to swim.` to the 1st member.
+  ![remark added](images/remark_1.png)
+* `remark 2 r/` removes the remark from the 2nd member.
+
 ### Viewing the details of a person : `details`
 
 Shows the details of the specified member from the list.
@@ -227,6 +242,19 @@ Format: `undo`
 
 Example:
 * `undo`
+
+  ![undo command](images/undo.png)
+
+### Navigating command history
+
+Allows you to quickly re-use previously entered commands using the arrow keys in the command box.
+
+* Press the `Up` arrow key to navigate to the previous command in history.
+* Press the `Down` arrow key to navigate to the next command in history.
+* The cursor will be placed at the end of the text after navigating.
+* Pressing `Down` past the most recent command clears the command box.
+
+![command history navigation](images/command_history.png)
 
 ### Exiting the program : `exit`
 
@@ -279,6 +307,7 @@ Action     | Format, Examples
 **Edit**   | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [g/GENDER] [d/DATE_OF_BIRTH] [m/MEMBERSHIP_TYPE] [j/JOIN_DATE] [e/EMAIL] [ec/EMERGENCY_CONTACT] ​`<br> e.g.,`edit 2 n/James Lee m/monthly e/jameslee@example.com`
 **Find**   | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`
 **Filter**   | `filter [s/STATUS] [g/GENDER] [m/MEMBERSHIP_TYPE] [age>/AGE] [age</AGE] [age=/AGE] [j>/DATE] [j</DATE] [exp>/DATE] [exp</DATE] [exp=/DATE]`<br> e.g., `filter s/valid g/M`
+**Remark**  | `remark INDEX r/[REMARK]`<br> e.g., `remark 1 r/Likes to swim.`
 **Renew**   | `renew INDEX [m/MEMBERSHIP_TYPE] ]`<br> e.g., `renew 2 m/monthly`
 **Details**   | `details INDEX`<br> e.g., `details 1`
 **List**   | `list`
