@@ -152,7 +152,7 @@ Examples:
 * `filter s/valid` returns list of members with valid memberships
   ![result for 'filter s/valid'](images/filterResult.png)
 
-### Deleting a person : `delete`
+### Deleting a member : `delete`
 
 Deletes the specified member from the list.
 
@@ -174,6 +174,20 @@ Examples:
   
 * `find Alex` followed by `delete 1` deletes the 1st person in the results of the `find` command.
 
+### Renewing a membership: `renew`
+
+Renews specified member's membership.
+
+Format: `renew INDEX [m/MEMBERSHIP_TYPE]`
+
+* Renews the member's membership at the specified `INDEX`. The index refers to the index number shown in the displayed member list. The index **must be a positive integer** 1, 2, 3, …​
+* `MEMBERSHIP_TYPE` is an optional field.
+* Expiry date will be updated.
+* Membership type will be updated if included in the command.
+
+Examples:
+* `renew 2` renews membership of the 2nd member in the list to `11-04-2026`
+* `renew 1 m/monthly` renews membership and updates membership type of the 1st member in the list to `11-04-2027` and `Monthly` respectively.
 ### Viewing the details of a person : `details`
 
 Shows the details of the specified member from the list.
@@ -256,6 +270,7 @@ Action     | Format, Examples
 **Edit**   | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [g/GENDER] [d/DATE_OF_BIRTH] [m/MEMBERSHIP_TYPE] [j/JOIN_DATE] [e/EMAIL] [ec/EMERGENCY_CONTACT] ​`<br> e.g.,`edit 2 n/James Lee m/monthly e/jameslee@example.com`
 **Find**   | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`
 **Filter**   | `filter [s/STATUS] [g/GENDER] [m/MEMBERSHIP_TYPE] [age>/AGE] [age</AGE] [age=/AGE] [j>/DATE] [j</DATE]`<br> e.g., `filter s/valid g/M`
+**Renew**   | `renew INDEX [m/MEMBERSHIP_TYPE] ]`<br> e.g., `renew 2 m/monthly`
 **Details**   | `details INDEX`<br> e.g., `details 1`
 **List**   | `list`
 **Help**   | `help`
