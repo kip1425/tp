@@ -42,7 +42,7 @@ public class AddCommand extends Command {
             + PREFIX_MEMBERSHIP_TYPE + "monthly";
 
     public static final String MESSAGE_SUCCESS = "New person added: %1$s";
-    public static final String MESSAGE_DUPLICATE_PERSON = "This person already exists in the address book";
+    public static final String MESSAGE_DUPLICATE_FIELDS = "%1$s already existed in the address book.";
 
     private final Person toAdd;
     private Person addedPerson;
@@ -59,9 +59,20 @@ public class AddCommand extends Command {
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
 
-        if (model.hasPerson(toAdd)) {
+        boolean isPhoneDuplicate = false;
+        boolean isEmailDuplicate = false;
+        boolean isNameDuplicate = false;
+
+        for (Person existingPerson : model.getAddressBook().getPersonList()) {
+            isPhoneDuplicate = isPhoneDuplicate || existingPerson.getPhone().equals(toAdd.getPhone());
+            isEmailDuplicate = isEmailDuplicate || existingPerson.getEmail().equals(toAdd.getEmail());
+            isNameDuplicate = isNameDuplicate || existingPerson.getName().equals(toAdd.getName());
+        }
+
+        if (isPhoneDuplicate || isEmailDuplicate || isNameDuplicate) {
             GenerateMemberIds.decrementMaxId();
-            throw new CommandException(MESSAGE_DUPLICATE_PERSON);
+            throw new CommandException(String.format(MESSAGE_DUPLICATE_FIELDS,
+                    formatDuplicateFields(isNameDuplicate, isPhoneDuplicate, isEmailDuplicate)));
         }
 
         model.addPerson(toAdd);
@@ -106,5 +117,41 @@ public class AddCommand extends Command {
         return new ToStringBuilder(this)
                 .add("toAdd", toAdd)
                 .toString();
+    }
+
+    private static String formatDuplicateFields(boolean isNameDuplicate, boolean isPhoneDuplicate,
+                                                    boolean isEmailDuplicate) {
+        int duplicateCount = 0;
+        if (isNameDuplicate) {
+            duplicateCount++;
+        }
+        if (isPhoneDuplicate) {
+            duplicateCount++;
+        }
+        if (isEmailDuplicate) {
+            duplicateCount++;
+        }
+
+        if (duplicateCount == 1) {
+            if (isNameDuplicate) {
+                return "name";
+            }
+            if (isPhoneDuplicate) {
+                return "phone";
+            }
+            return "email";
+        }
+
+        if (duplicateCount == 2) {
+            if (isNameDuplicate && isPhoneDuplicate) {
+                return "name and phone";
+            }
+            if (isNameDuplicate) {
+                return "name and email";
+            }
+            return "phone and email";
+        }
+
+        return "name, phone and email";
     }
 }

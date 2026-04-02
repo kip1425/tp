@@ -27,6 +27,7 @@ import seedu.address.model.AddressBook;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
+import seedu.address.model.person.MemberId;
 import seedu.address.model.person.Person;
 import seedu.address.testutil.EditPersonDescriptorBuilder;
 import seedu.address.testutil.PersonBuilder;
@@ -108,7 +109,8 @@ public class EditCommandTest {
         EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder(firstPerson).build();
         EditCommand editCommand = new EditCommand(INDEX_SECOND_PERSON, descriptor);
 
-        assertCommandFailure(editCommand, model, EditCommand.MESSAGE_DUPLICATE_PERSON);
+        assertCommandFailure(editCommand, model,
+                String.format(EditCommand.MESSAGE_DUPLICATE_FIELDS, "name, phone and email"));
     }
 
     @Test
@@ -120,7 +122,8 @@ public class EditCommandTest {
         EditCommand editCommand = new EditCommand(INDEX_FIRST_PERSON,
                 new EditPersonDescriptorBuilder(personInList).build());
 
-        assertCommandFailure(editCommand, model, EditCommand.MESSAGE_DUPLICATE_PERSON);
+        assertCommandFailure(editCommand, model,
+                String.format(EditCommand.MESSAGE_DUPLICATE_FIELDS, "name, phone and email"));
     }
 
     @Test
@@ -147,6 +150,212 @@ public class EditCommandTest {
                 new EditPersonDescriptorBuilder().withName(VALID_NAME_BOB).build());
 
         assertCommandFailure(editCommand, model, Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
+    }
+
+    @Test
+    public void execute_duplicateNameOnly_throwsCommandException() {
+        Person personA = new PersonBuilder()
+                .withId(new MemberId(1))
+                .withName("Alice A")
+                .withPhone("85355255")
+                .withEmail("alicea@gmail.com")
+                .build();
+        Person personB = new PersonBuilder()
+                .withId(new MemberId(2))
+                .withName("Bob B")
+                .withPhone("94351253")
+                .withEmail("bobb@gmail.com")
+                .build();
+
+        AddressBook addressBook = new AddressBook();
+        addressBook.addPerson(personA);
+        addressBook.addPerson(personB);
+
+        Model model = new ModelManager(addressBook, new UserPrefs());
+        EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder()
+                .withName(personA.getName().toString())
+                .build();
+        EditCommand editCommand = new EditCommand(Index.fromOneBased(2), descriptor);
+
+        assertCommandFailure(editCommand, model,
+                String.format(EditCommand.MESSAGE_DUPLICATE_FIELDS, "name"));
+    }
+
+    @Test
+    public void execute_duplicatePhoneOnly_throwsCommandException() {
+        Person personA = new PersonBuilder()
+                .withId(new MemberId(1))
+                .withName("Alice A")
+                .withPhone("85355255")
+                .withEmail("alicea@gmail.com")
+                .build();
+        Person personB = new PersonBuilder()
+                .withId(new MemberId(2))
+                .withName("Bob B")
+                .withPhone("94351253")
+                .withEmail("bobb@gmail.com")
+                .build();
+
+        AddressBook addressBook = new AddressBook();
+        addressBook.addPerson(personA);
+        addressBook.addPerson(personB);
+
+        Model model = new ModelManager(addressBook, new UserPrefs());
+        EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder()
+                .withPhone(personA.getPhone().toString())
+                .build();
+        EditCommand editCommand = new EditCommand(Index.fromOneBased(2), descriptor);
+
+        assertCommandFailure(editCommand, model,
+                String.format(EditCommand.MESSAGE_DUPLICATE_FIELDS, "phone"));
+    }
+
+    @Test
+    public void execute_duplicateEmailOnly_throwsCommandException() {
+        Person personA = new PersonBuilder()
+                .withId(new MemberId(1))
+                .withName("Alice A")
+                .withPhone("85355255")
+                .withEmail("alicea@gmail.com")
+                .build();
+        Person personB = new PersonBuilder()
+                .withId(new MemberId(2))
+                .withName("Bob B")
+                .withPhone("94351253")
+                .withEmail("bobb@gmail.com")
+                .build();
+
+        AddressBook addressBook = new AddressBook();
+        addressBook.addPerson(personA);
+        addressBook.addPerson(personB);
+
+        Model model = new ModelManager(addressBook, new UserPrefs());
+        EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder()
+                .withEmail(personA.getEmail().toString())
+                .build();
+        EditCommand editCommand = new EditCommand(Index.fromOneBased(2), descriptor);
+
+        assertCommandFailure(editCommand, model,
+                String.format(EditCommand.MESSAGE_DUPLICATE_FIELDS, "email"));
+    }
+
+    @Test
+    public void execute_duplicateNameAndPhone_throwsCommandException() {
+        Person personA = new PersonBuilder()
+                .withId(new MemberId(1))
+                .withName("Alice A")
+                .withPhone("85355255")
+                .withEmail("alicea@gmail.com")
+                .build();
+        Person personB = new PersonBuilder()
+                .withId(new MemberId(2))
+                .withName("Bob B")
+                .withPhone("94351253")
+                .withEmail("bobb@gmail.com")
+                .build();
+
+        AddressBook addressBook = new AddressBook();
+        addressBook.addPerson(personA);
+        addressBook.addPerson(personB);
+
+        Model model = new ModelManager(addressBook, new UserPrefs());
+        EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder()
+                .withName(personA.getName().toString())
+                .withPhone(personA.getPhone().toString())
+                .build();
+        EditCommand editCommand = new EditCommand(Index.fromOneBased(2), descriptor);
+
+        assertCommandFailure(editCommand, model,
+                String.format(EditCommand.MESSAGE_DUPLICATE_FIELDS, "name and phone"));
+    }
+
+    @Test
+    public void execute_duplicateNameAndEmail_throwsCommandException() {
+        Person personA = new PersonBuilder()
+                .withId(new MemberId(1))
+                .withName("Alice A")
+                .withPhone("85355255")
+                .withEmail("alicea@gmail.com")
+                .build();
+        Person personB = new PersonBuilder()
+                .withId(new MemberId(2))
+                .withName("Bob B")
+                .withPhone("94351253")
+                .withEmail("bobb@gmail.com")
+                .build();
+
+        AddressBook addressBook = new AddressBook();
+        addressBook.addPerson(personA);
+        addressBook.addPerson(personB);
+
+        Model model = new ModelManager(addressBook, new UserPrefs());
+        EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder()
+                .withName(personA.getName().toString())
+                .withEmail(personA.getEmail().toString())
+                .build();
+        EditCommand editCommand = new EditCommand(Index.fromOneBased(2), descriptor);
+
+        assertCommandFailure(editCommand, model,
+                String.format(EditCommand.MESSAGE_DUPLICATE_FIELDS, "name and email"));
+    }
+
+    @Test
+    public void execute_duplicatePhoneAndEmail_throwsCommandException() {
+        Person personA = new PersonBuilder()
+                .withId(new MemberId(1))
+                .withName("Alice A")
+                .withPhone("85355255")
+                .withEmail("alicea@gmail.com")
+                .build();
+        Person personB = new PersonBuilder()
+                .withId(new MemberId(2))
+                .withName("Bob B")
+                .withPhone("94351253")
+                .withEmail("bobb@gmail.com")
+                .build();
+
+        AddressBook addressBook = new AddressBook();
+        addressBook.addPerson(personA);
+        addressBook.addPerson(personB);
+
+        Model model = new ModelManager(addressBook, new UserPrefs());
+        EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder().withPhone(personA.getPhone().toString())
+                .withEmail(personA.getEmail().toString()).build();
+        EditCommand editCommand = new EditCommand(Index.fromOneBased(2), descriptor);
+
+        assertCommandFailure(editCommand, model,
+                String.format(EditCommand.MESSAGE_DUPLICATE_FIELDS, "phone and email"));
+    }
+
+    @Test
+    public void execute_duplicateNameViaModelCatch_throwsCommandException() {
+        // Use the same ID for both persons so the pre-check skips the conflicting record,
+        // forcing the model to throw DuplicatePersonException and exercising getDuplicateMessage().
+        Person personA = new PersonBuilder()
+                .withId(new MemberId(1))
+                .withName("Alice A")
+                .withPhone("85355255")
+                .withEmail("alicea@gmail.com")
+                .build();
+        Person personB = new PersonBuilder()
+                .withId(new MemberId(1))
+                .withName("Bob B")
+                .withPhone("94351253")
+                .withEmail("bobb@gmail.com")
+                .build();
+
+        AddressBook addressBook = new AddressBook();
+        addressBook.addPerson(personA);
+        addressBook.addPerson(personB);
+
+        Model model = new ModelManager(addressBook, new UserPrefs());
+        EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder()
+                .withName(personA.getName().toString())
+                .build();
+        EditCommand editCommand = new EditCommand(Index.fromOneBased(2), descriptor);
+
+        assertCommandFailure(editCommand, model,
+                String.format(EditCommand.MESSAGE_DUPLICATE_FIELDS, "name"));
     }
 
     @Test

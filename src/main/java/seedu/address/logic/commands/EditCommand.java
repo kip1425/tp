@@ -31,6 +31,7 @@ import seedu.address.model.person.MembershipType;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
+import seedu.address.model.person.exceptions.DuplicatePersonException;
 
 /**
  * Edits the details of an existing person in the address book.
@@ -56,7 +57,7 @@ public class EditCommand extends Command {
 
     public static final String MESSAGE_EDIT_PERSON_SUCCESS = "Edited Person: %1$s";
     public static final String MESSAGE_NOT_EDITED = "At least one field to edit must be provided.";
-    public static final String MESSAGE_DUPLICATE_PERSON = "This person already exists in the address book.";
+    public static final String MESSAGE_DUPLICATE_FIELDS = "%1$s already existed in the address book.";
 
     private final Index index;
     private final EditPersonDescriptor editPersonDescriptor;
@@ -87,15 +88,91 @@ public class EditCommand extends Command {
         Person personToEdit = lastShownList.get(index.getZeroBased());
         Person updatedPerson = createEditedPerson(personToEdit, editPersonDescriptor);
 
-        if (!personToEdit.isSamePerson(updatedPerson) && model.hasPerson(updatedPerson)) {
-            throw new CommandException(MESSAGE_DUPLICATE_PERSON);
+        boolean isPhoneDuplicate = false;
+        boolean isEmailDuplicate = false;
+        boolean isNameDuplicate = false;
+
+        for (Person existingPerson : model.getAddressBook().getPersonList()) {
+            // Skip checking duplicates against the person being edited.
+            if (existingPerson.getId().equals(personToEdit.getId())) {
+                continue;
+            }
+
+            isPhoneDuplicate = isPhoneDuplicate || existingPerson.getPhone().equals(updatedPerson.getPhone());
+            isEmailDuplicate = isEmailDuplicate || existingPerson.getEmail().equals(updatedPerson.getEmail());
+            isNameDuplicate = isNameDuplicate || existingPerson.getName().equals(updatedPerson.getName());
         }
 
-        model.setPerson(personToEdit, updatedPerson);
+        if (isPhoneDuplicate || isEmailDuplicate || isNameDuplicate) {
+            throw new CommandException(String.format(MESSAGE_DUPLICATE_FIELDS,
+                    formatDuplicateFields(isNameDuplicate, isPhoneDuplicate, isEmailDuplicate)));
+        }
+
+        try {
+            model.setPerson(personToEdit, updatedPerson);
+        } catch (DuplicatePersonException e) {
+            // Convert model-level duplicate errors into user-facing messages with clear priority.
+            throw new CommandException(getDuplicateMessage(personToEdit, updatedPerson, model));
+        }
         model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
         originalPerson = personToEdit;
         editedPerson = updatedPerson;
         return new CommandResult(String.format(MESSAGE_EDIT_PERSON_SUCCESS, Messages.format(updatedPerson)));
+    }
+
+    private static String getDuplicateMessage(Person personToEdit, Person updatedPerson, Model model) {
+        boolean isPhoneDuplicate = false;
+        boolean isEmailDuplicate = false;
+        boolean isNameDuplicate = false;
+
+        for (Person existingPerson : model.getAddressBook().getPersonList()) {
+            if (existingPerson == personToEdit) {
+                continue;
+            }
+
+            isPhoneDuplicate = isPhoneDuplicate || existingPerson.getPhone().equals(updatedPerson.getPhone());
+            isEmailDuplicate = isEmailDuplicate || existingPerson.getEmail().equals(updatedPerson.getEmail());
+            isNameDuplicate = isNameDuplicate || existingPerson.getName().equals(updatedPerson.getName());
+        }
+
+        return String.format(MESSAGE_DUPLICATE_FIELDS,
+                formatDuplicateFields(isNameDuplicate, isPhoneDuplicate, isEmailDuplicate));
+    }
+
+    private static String formatDuplicateFields(boolean isNameDuplicate, boolean isPhoneDuplicate,
+                                                    boolean isEmailDuplicate) {
+        int duplicateCount = 0;
+        if (isNameDuplicate) {
+            duplicateCount++;
+        }
+        if (isPhoneDuplicate) {
+            duplicateCount++;
+        }
+        if (isEmailDuplicate) {
+            duplicateCount++;
+        }
+
+        if (duplicateCount == 1) {
+            if (isNameDuplicate) {
+                return "name";
+            }
+            if (isPhoneDuplicate) {
+                return "phone";
+            }
+            return "email";
+        }
+
+        if (duplicateCount == 2) {
+            if (isNameDuplicate && isPhoneDuplicate) {
+                return "name and phone";
+            }
+            if (isNameDuplicate) {
+                return "name and email";
+            }
+            return "phone and email";
+        }
+
+        return "name, phone and email";
     }
 
     @Override

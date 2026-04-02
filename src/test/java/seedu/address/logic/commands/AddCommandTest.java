@@ -53,7 +53,87 @@ public class AddCommandTest {
         AddCommand addCommand = new AddCommand(validPerson);
         ModelStub modelStub = new ModelStubWithPerson(validPerson);
 
-        assertThrows(CommandException.class, AddCommand.MESSAGE_DUPLICATE_PERSON, () -> addCommand.execute(modelStub));
+        assertThrows(CommandException.class,
+                String.format(AddCommand.MESSAGE_DUPLICATE_FIELDS, "name, phone and email"), () ->
+                        addCommand.execute(modelStub));
+    }
+
+    @Test
+    public void execute_duplicateNameOnly_throwsCommandException() {
+        Person existingPerson = new PersonBuilder().build();
+        Person personToAdd = new PersonBuilder(existingPerson)
+                .withPhone("94351253")
+                .withEmail("amy2@gmail.com")
+                .build();
+        AddCommand addCommand = new AddCommand(personToAdd);
+        ModelStub modelStub = new ModelStubWithPerson(existingPerson);
+        String expectedMessage = String.format(AddCommand.MESSAGE_DUPLICATE_FIELDS, "name");
+        assertThrows(CommandException.class, expectedMessage, () -> addCommand.execute(modelStub));
+    }
+
+    @Test
+    public void execute_duplicatePhoneOnly_throwsCommandException() {
+        Person existingPerson = new PersonBuilder().build();
+        Person personToAdd = new PersonBuilder(existingPerson)
+                .withName("Different Name")
+                .withEmail("different@gmail.com")
+                .build();
+        AddCommand addCommand = new AddCommand(personToAdd);
+        ModelStub modelStub = new ModelStubWithPerson(existingPerson);
+        String expectedMessage = String.format(AddCommand.MESSAGE_DUPLICATE_FIELDS, "phone");
+        assertThrows(CommandException.class, expectedMessage, () -> addCommand.execute(modelStub));
+    }
+
+    @Test
+    public void execute_duplicateEmailOnly_throwsCommandException() {
+        Person existingPerson = new PersonBuilder().build();
+        Person personToAdd = new PersonBuilder(existingPerson)
+                .withName("Different Name")
+                .withPhone("98765432")
+                .build();
+        AddCommand addCommand = new AddCommand(personToAdd);
+        ModelStub modelStub = new ModelStubWithPerson(existingPerson);
+        String expectedMessage = String.format(AddCommand.MESSAGE_DUPLICATE_FIELDS, "email");
+        assertThrows(CommandException.class, expectedMessage, () -> addCommand.execute(modelStub));
+    }
+
+    @Test
+    public void execute_duplicateNameAndPhone_throwsCommandException() {
+        Person existingPerson = new PersonBuilder().build();
+        Person personToAdd = new PersonBuilder(existingPerson)
+                .withEmail("amy2@gmail.com")
+                .build();
+        AddCommand addCommand = new AddCommand(personToAdd);
+        ModelStub modelStub = new ModelStubWithPerson(existingPerson);
+        String expectedMessage =
+                String.format(AddCommand.MESSAGE_DUPLICATE_FIELDS, "name and phone");
+        assertThrows(CommandException.class, expectedMessage, () -> addCommand.execute(modelStub));
+    }
+
+    @Test
+    public void execute_duplicateNameAndEmail_throwsCommandException() {
+        Person existingPerson = new PersonBuilder().build();
+        Person personToAdd = new PersonBuilder(existingPerson)
+                .withPhone("98765432")
+                .build();
+        AddCommand addCommand = new AddCommand(personToAdd);
+        ModelStub modelStub = new ModelStubWithPerson(existingPerson);
+        String expectedMessage =
+                String.format(AddCommand.MESSAGE_DUPLICATE_FIELDS, "name and email");
+        assertThrows(CommandException.class, expectedMessage, () -> addCommand.execute(modelStub));
+    }
+
+    @Test
+    public void execute_duplicatePhoneAndEmail_throwsCommandException() {
+        Person existingPerson = new PersonBuilder().build();
+        Person personToAdd = new PersonBuilder(existingPerson)
+                .withName("Different Name")
+                .build();
+        AddCommand addCommand = new AddCommand(personToAdd);
+        ModelStub modelStub = new ModelStubWithPerson(existingPerson);
+        String expectedMessage =
+                String.format(AddCommand.MESSAGE_DUPLICATE_FIELDS, "phone and email");
+        assertThrows(CommandException.class, expectedMessage, () -> addCommand.execute(modelStub));
     }
 
     @Test
@@ -207,6 +287,13 @@ public class AddCommandTest {
         ModelStubWithPerson(Person person) {
             requireNonNull(person);
             this.person = person;
+        }
+
+        @Override
+        public ReadOnlyAddressBook getAddressBook() {
+            AddressBook addressBook = new AddressBook();
+            addressBook.addPerson(person);
+            return addressBook;
         }
 
         @Override
