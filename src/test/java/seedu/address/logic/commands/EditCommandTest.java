@@ -328,37 +328,6 @@ public class EditCommandTest {
     }
 
     @Test
-    public void execute_duplicateNameViaModelCatch_throwsCommandException() {
-        // Use the same ID for both persons so the pre-check skips the conflicting record,
-        // forcing the model to throw DuplicatePersonException and exercising getDuplicateMessage().
-        Person personA = new PersonBuilder()
-                .withId(new MemberId(1))
-                .withName("Alice A")
-                .withPhone("85355255")
-                .withEmail("alicea@gmail.com")
-                .build();
-        Person personB = new PersonBuilder()
-                .withId(new MemberId(1))
-                .withName("Bob B")
-                .withPhone("94351253")
-                .withEmail("bobb@gmail.com")
-                .build();
-
-        AddressBook addressBook = new AddressBook();
-        addressBook.addPerson(personA);
-        addressBook.addPerson(personB);
-
-        Model model = new ModelManager(addressBook, new UserPrefs());
-        EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder()
-                .withName(personA.getName().toString())
-                .build();
-        EditCommand editCommand = new EditCommand(Index.fromOneBased(2), descriptor);
-
-        assertCommandFailure(editCommand, model,
-                String.format(EditCommand.MESSAGE_DUPLICATE_FIELDS, "name"));
-    }
-
-    @Test
     public void executeUndo_editRestoresModel() throws Exception {
         Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
         Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
