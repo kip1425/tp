@@ -113,16 +113,33 @@ public class FilterCommandParser implements Parser<FilterCommand> {
 
         // Filter based on age
         if (argMultimap.getValue(PREFIX_AGE_GREATER).isPresent()) {
+
             int age = parseAge(argMultimap.getValue(PREFIX_AGE_GREATER).get());
+
+            if (argMultimap.getValue(PREFIX_AGE_EQUAL).isPresent()) {
+                int otherAge = parseAge(argMultimap.getValue(PREFIX_AGE_EQUAL).get());
+                if (otherAge != age) {
+                    throw new ParseException(
+                            String.format(MESSAGE_INVALID_COMMAND_FORMAT, FilterCommand.MESSAGE_USAGE));
+                }
+                age -= 1; // Adjust age for greater than or equal to
+            }
+
             predicates.add(new AgeGreaterThanPredicate(age));
-        }
-
-        if (argMultimap.getValue(PREFIX_AGE_LESS).isPresent()) {
+        } else if (argMultimap.getValue(PREFIX_AGE_LESS).isPresent()) {
             int age = parseAge(argMultimap.getValue(PREFIX_AGE_LESS).get());
-            predicates.add(new AgeLessThanPredicate(age));
-        }
 
-        if (argMultimap.getValue(PREFIX_AGE_EQUAL).isPresent()) {
+            if (argMultimap.getValue(PREFIX_AGE_EQUAL).isPresent()) {
+                int otherAge = parseAge(argMultimap.getValue(PREFIX_AGE_EQUAL).get());
+                if (otherAge != age) {
+                    throw new ParseException(
+                            String.format(MESSAGE_INVALID_COMMAND_FORMAT, FilterCommand.MESSAGE_USAGE));
+                }
+                age += 1; // Adjust age for less than or equal to
+            }
+
+            predicates.add(new AgeLessThanPredicate(age));
+        } else if (argMultimap.getValue(PREFIX_AGE_EQUAL).isPresent()) {
             int age = parseAge(argMultimap.getValue(PREFIX_AGE_EQUAL).get());
             predicates.add(new AgeEqualsPredicate(age));
         }
@@ -130,69 +147,80 @@ public class FilterCommandParser implements Parser<FilterCommand> {
         // Filter based on join date
         if (argMultimap.getValue(PREFIX_JOIN_DATE_AFTER).isPresent()) {
             String joinDate = argMultimap.getValue(PREFIX_JOIN_DATE_AFTER).get().trim();
-            if (joinDate.isEmpty()) {
-                throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, FilterCommand.MESSAGE_USAGE));
+            verifyJoinDate(joinDate);
+
+            if (argMultimap.getValue(PREFIX_JOIN_DATE_EQUALS).isPresent()) {
+                String otherJoinDate = argMultimap.getValue(PREFIX_JOIN_DATE_EQUALS).get().trim();
+                verifyJoinDate(otherJoinDate);
+                if (!joinDate.equals(otherJoinDate)) {
+                    throw new ParseException(
+                            String.format(MESSAGE_INVALID_COMMAND_FORMAT, FilterCommand.MESSAGE_USAGE));
+                }
+                predicates.add(new JoinDateAfterPredicate(ParserUtil.parseJoinDate(joinDate)
+                        .getDate().minusDays(1)));
+            } else {
+                predicates.add(new JoinDateAfterPredicate(ParserUtil.parseJoinDate(joinDate).getDate()));
             }
 
-            if (!MembershipJoinDate.isValidJoinDate(joinDate)) {
-                throw new ParseException(MembershipJoinDate.MESSAGE_CONSTRAINTS);
-            }
-            predicates.add(new JoinDateAfterPredicate(ParserUtil.parseJoinDate(joinDate).getDate()));
-        }
-
-        if (argMultimap.getValue(PREFIX_JOIN_DATE_BEFORE).isPresent()) {
+        } else if (argMultimap.getValue(PREFIX_JOIN_DATE_BEFORE).isPresent()) {
             String joinDate = argMultimap.getValue(PREFIX_JOIN_DATE_BEFORE).get().trim();
-            if (joinDate.isEmpty()) {
-                throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, FilterCommand.MESSAGE_USAGE));
+            verifyJoinDate(joinDate);
+
+            if (argMultimap.getValue(PREFIX_JOIN_DATE_EQUALS).isPresent()) {
+                String otherJoinDate = argMultimap.getValue(PREFIX_JOIN_DATE_EQUALS).get().trim();
+                verifyJoinDate(otherJoinDate);
+                if (!joinDate.equals(otherJoinDate)) {
+                    throw new ParseException(
+                            String.format(MESSAGE_INVALID_COMMAND_FORMAT, FilterCommand.MESSAGE_USAGE));
+                }
+                predicates.add(new JoinDateBeforePredicate(ParserUtil.parseJoinDate(joinDate)
+                        .getDate().plusDays(1)));
+            } else {
+                predicates.add(new JoinDateBeforePredicate(ParserUtil.parseJoinDate(joinDate).getDate()));
             }
 
-            if (!MembershipJoinDate.isValidJoinDate(joinDate)) {
-                throw new ParseException(MembershipJoinDate.MESSAGE_CONSTRAINTS);
-            }
-            predicates.add(new JoinDateBeforePredicate(ParserUtil.parseJoinDate(joinDate).getDate()));
-        }
-
-        if (argMultimap.getValue(PREFIX_JOIN_DATE_EQUALS).isPresent()) {
+        } else if (argMultimap.getValue(PREFIX_JOIN_DATE_EQUALS).isPresent()) {
             String joinDate = argMultimap.getValue(PREFIX_JOIN_DATE_EQUALS).get().trim();
-            if (joinDate.isEmpty()) {
-                throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, FilterCommand.MESSAGE_USAGE));
-            }
-
-            if (!MembershipJoinDate.isValidJoinDate(joinDate)) {
-                throw new ParseException(MembershipJoinDate.MESSAGE_CONSTRAINTS);
-            }
-
+            verifyJoinDate(joinDate);
             predicates.add(new JoinDateEqualsPredicate(ParserUtil.parseJoinDate(joinDate).getDate()));
         }
 
         // Filter based on expiry date
         if (argMultimap.getValue(PREFIX_EXPIRY_DATE_AFTER).isPresent()) {
             String expiryDate = argMultimap.getValue(PREFIX_EXPIRY_DATE_AFTER).get().trim();
-            if (expiryDate.isEmpty()) {
-                throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, FilterCommand.MESSAGE_USAGE));
+            verifyExpiryDate(expiryDate);
+
+            if (argMultimap.getValue(PREFIX_EXPIRY_DATE_EQUALS).isPresent()) {
+                String otherExpiryDate = argMultimap.getValue(PREFIX_EXPIRY_DATE_EQUALS).get().trim();
+                verifyExpiryDate(otherExpiryDate);
+                if (!expiryDate.equals(otherExpiryDate)) {
+                    throw new ParseException(
+                            String.format(MESSAGE_INVALID_COMMAND_FORMAT, FilterCommand.MESSAGE_USAGE));
+                }
+                predicates.add(new ExpiryDateAfterPredicate(ParserUtil.parseExpiryDate(expiryDate)
+                                                                .getExpiryDate().minusDays(1)));
+            } else {
+                predicates.add(new ExpiryDateAfterPredicate(ParserUtil.parseExpiryDate(expiryDate).getExpiryDate()));
             }
 
-            if (!MembershipExpiryDate.isValidExpiryDate(expiryDate)) {
-                throw new ParseException(MembershipExpiryDate.MESSAGE_CONSTRAINTS);
-            }
-
-            predicates.add(new ExpiryDateAfterPredicate(ParserUtil.parseExpiryDate(expiryDate).getExpiryDate()));
-        }
-
-        if (argMultimap.getValue(PREFIX_EXPIRY_DATE_BEFORE).isPresent()) {
+        } else if (argMultimap.getValue(PREFIX_EXPIRY_DATE_BEFORE).isPresent()) {
             String expiryDate = argMultimap.getValue(PREFIX_EXPIRY_DATE_BEFORE).get().trim();
-            if (expiryDate.isEmpty()) {
-                throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, FilterCommand.MESSAGE_USAGE));
+            verifyExpiryDate(expiryDate);
+
+            if (argMultimap.getValue(PREFIX_EXPIRY_DATE_EQUALS).isPresent()) {
+                String otherExpiryDate = argMultimap.getValue(PREFIX_EXPIRY_DATE_EQUALS).get().trim();
+                verifyExpiryDate(otherExpiryDate);
+                if (!expiryDate.equals(otherExpiryDate)) {
+                    throw new ParseException(
+                            String.format(MESSAGE_INVALID_COMMAND_FORMAT, FilterCommand.MESSAGE_USAGE));
+                }
+                predicates.add(new ExpiryDateBeforePredicate(ParserUtil.parseExpiryDate(expiryDate)
+                                                                .getExpiryDate().plusDays(1)));
+            } else {
+                predicates.add(new ExpiryDateBeforePredicate(ParserUtil.parseExpiryDate(expiryDate).getExpiryDate()));
             }
 
-            if (!MembershipExpiryDate.isValidExpiryDate(expiryDate)) {
-                throw new ParseException(MembershipExpiryDate.MESSAGE_CONSTRAINTS);
-            }
-
-            predicates.add(new ExpiryDateBeforePredicate(ParserUtil.parseExpiryDate(expiryDate).getExpiryDate()));
-        }
-
-        if (argMultimap.getValue(PREFIX_EXPIRY_DATE_EQUALS).isPresent()) {
+        } else if (argMultimap.getValue(PREFIX_EXPIRY_DATE_EQUALS).isPresent()) {
             String expiryDate = argMultimap.getValue(PREFIX_EXPIRY_DATE_EQUALS).get().trim();
             if (expiryDate.isEmpty()) {
                 throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, FilterCommand.MESSAGE_USAGE));
@@ -214,6 +242,36 @@ public class FilterCommandParser implements Parser<FilterCommand> {
         }
 
         return new FilterCommand(combinedPredicate);
+    }
+
+    /**
+     * Helper function to verify the validity of the join date string.
+     * @param joinDate
+     * @throws ParseException
+     */
+    public void verifyJoinDate(String joinDate) throws ParseException {
+        if (joinDate.isEmpty()) {
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, FilterCommand.MESSAGE_USAGE));
+        }
+
+        if (!MembershipJoinDate.isValidJoinDate(joinDate)) {
+            throw new ParseException(MembershipJoinDate.MESSAGE_CONSTRAINTS);
+        }
+    }
+
+    /**
+     * Helper function to verify the validity of the expiry date string.
+     * @param expiryDate
+     * @throws ParseException
+     */
+    public void verifyExpiryDate(String expiryDate) throws ParseException {
+        if (expiryDate.isEmpty()) {
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, FilterCommand.MESSAGE_USAGE));
+        }
+
+        if (!MembershipExpiryDate.isValidExpiryDate(expiryDate)) {
+            throw new ParseException(MembershipExpiryDate.MESSAGE_CONSTRAINTS);
+        }
     }
 
     /**
