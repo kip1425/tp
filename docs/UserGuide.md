@@ -87,6 +87,10 @@ Format: `add n/NAME p/PHONE_NUMBER g/GENDER d/DATE_OF_BIRTH m/MEMBERSHIP_TYPE e/
 **Tip:** Membership types only include "Monthly" or "Annual"
 </box>
 
+* Each **phone number** and **email** must be unique in the member list (no two members may share the same phone or the same email).
+* **Names** do not need to be unique; different members are allowed to have the same name as long as their phone and email differ.
+* If you try to add someone whose phone or email matches an existing member, the command is rejected and the error message indicates which field is duplicated.
+
 Examples:
 * `add n/John Doe p/98765432 g/M d/19-01-2004 m/annual e/johnd@example.com ec/98723347`
 
@@ -116,6 +120,7 @@ Format: `edit INDEX [n/NAME] [p/PHONE_NUMBER] [g/GENDER] [d/DATE_OF_BIRTH] [m/ME
 * Edits the member at the specified `INDEX`. The index refers to the index number shown in the displayed member list. The index **must be a positive integer** 1, 2, 3, …​
 * At least one of the optional fields must be provided.
 * Existing values will be updated to the input values.
+* After editing, the member’s **phone** and **email** must still be unique among all other members (same rules as `add`). **Names** may match another member’s name.
 
 Examples:
 *  `edit 1 p/91234567 e/johndoe@example.com` Edits the phone number and email address of the 1st member to be `91234567` and `johndoe@example.com` respectively.
