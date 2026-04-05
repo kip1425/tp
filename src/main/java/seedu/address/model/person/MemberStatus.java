@@ -15,6 +15,7 @@ public class MemberStatus {
     public static final String VALIDATION_REGEX = "(?i)^(Valid|Invalid)$";
     
     public final String memberStatus;
+
     /**
      * Constructs a {@code MemberStatus}.
      *
