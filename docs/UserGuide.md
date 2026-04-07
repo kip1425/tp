@@ -230,15 +230,20 @@ Renews specified member's membership.
 
 Format: `renew INDEX [m/MEMBERSHIP_TYPE]`
 
-* Renews the member's membership at the specified `INDEX`. The index refers to the index number shown in the displayed member list. The index **must be a positive integer** 1, 2, 3, …​
+* Renews the member's membership at the specified `INDEX`. The index refers to the index number shown in the displayed member list. The index **must be a positive integer** 1, 2, 3, …
 * `MEMBERSHIP_TYPE` is an optional field.
 * The new expiry extends from the **current** expiry date: **annual** adds one year, **monthly** adds one month (from that date, not from today).
 * If the membership has **already expired** (expiry date before today), `renew` is rejected; register the person again with `add`.
 * Membership type will be updated if included in the command.
 
 Examples:
-* `renew 2` renews membership of the 2nd member in the list to `11-04-2026`
-* `renew 1 m/monthly` renews membership and updates membership type of the 1st member in the list to `11-04-2027` and `Monthly` respectively.
+* `renew 2`
+![renewed member](images/screenshots/renew_1.png)
+The 2nd member's expiry date is changed to `11-04-2026`
+* `renew 1 m/monthly`
+![renewed member with different membership type](images/screenshots/renew_2.png)
+The 1st member's membership type is changed to `Monthly`, so the expiry date becomes `11-04-2027`
+
 
 ### Adding a remark to a member : `remark`
 
