@@ -251,14 +251,15 @@ Adds or edits a remark for the specified member.
 
 Format: `remark INDEX r/[REMARK]`
 
-* Edits the remark of the member at the specified `INDEX`. The index refers to the index number shown in the displayed member list. The index **must be a positive integer** 1, 2, 3, …​
+* Edits the remark of the member at the specified `INDEX`. The index refers to the index number shown in the displayed member list. The index **must be a positive integer** 1, 2, 3, …
 * Existing remark will be overwritten by the input.
 * Providing an empty remark (i.e. `r/` with nothing after it) removes the remark from the member.
 
 Examples:
-* `remark 1 r/Likes to swim.` adds the remark `Likes to swim.` to the 1st member.
-  ![remark added](images/screenshots/remark.png)
-* `remark 2 r/` removes the remark from the 2nd member.
+* `remark 1 r/Likes to swim`
+  ![remark added](images/screenshots/remark_1.png)
+  Remark `Likes to swim` is added to the 1st member.
+
 
 ### Viewing the details of a person : `details`
 
