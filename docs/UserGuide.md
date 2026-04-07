@@ -184,11 +184,11 @@ Format: `find QUERY`
   e.g. `find john doe` will only return members whose field contains `"john doe"`, not members with just `john` or just `doe`
 
 Examples:
-* `find John` returns members with `John` in any field
-* `find john doe` returns members whose name (or other field) contains `"john doe"`<br>
-  ![result for 'find john doe'](images/screenshots/findResult.png)
-* `find 9123` returns members whose phone number or other field contains `9123`
-* `find annual` returns members with `annual` membership type
+* `find john doe` returns members whose name (or other field) contains `john doe`<br>
+![result for 'find john doe'](images/screenshots/find_1.png)
+The two members' names contain `john doe`
+* `find 9123` returns members whose phone number or another field contains `9123`
+
 
 ### Filtering members by fields: `filter`
 
