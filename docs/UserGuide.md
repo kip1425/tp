@@ -217,7 +217,7 @@ Format: `delete INDEX`
 * The index **must be a positive integer** 1, 2, 3, …
 
 Example:
-* `list` followed by `delete 2` deletes the 2nd person in the address book.
+* `list` followed by `delete 2`
   1. `list`
   ![list](images/screenshots/delete_1.png)
   2. `delete 2` 
@@ -275,16 +275,18 @@ Format: `details INDEX`
 
 * Shows the details of the person at the specified `INDEX`.
 * The index refers to the index number shown in the displayed person list.
-* The index **must be a positive integer** 1, 2, 3, …​
+* The index **must be a positive integer** 1, 2, 3, …
 
 Examples:
-* `list` followed by `details 1` shows the details of the 1st member in the address book.
+* `list` followed by `details 1`
   1. `list`
-  ![list of members](images/screenshots/details_list1.png)
+  ![list](images/screenshots/details_1.png)
   2. `details 1`
-  ![details of 1st member](images/screenshots/details_1.png)
-* `find David` followed by `details 1` shows the details of the 1st member in the results of the `find` command.
-![details of 1st member in find results](images/screenshots/details_2.png)
+  ![details in list](images/screenshots/details_2.png)
+  The 1st member's details are shown in the list
+* `find David` followed by `details 1`
+![details in find result](images/screenshots/details_3.png)
+The 1st member's details are shown in the `find` command result.
 
 
 ### Clearing all entries : `clear`
