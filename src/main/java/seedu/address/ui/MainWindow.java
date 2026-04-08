@@ -11,6 +11,7 @@ import javafx.scene.control.TextInputControl;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import seedu.address.commons.core.GuiSettings;
@@ -40,6 +41,9 @@ public class MainWindow extends UiPart<Stage> {
     private HelpWindow helpWindow;
     private DashBoard dashBoard;
     private CommandBox commandBox;
+
+    @FXML
+    private HBox headerBar;
 
     @FXML
     private MenuBar menuBar;
@@ -125,6 +129,8 @@ public class MainWindow extends UiPart<Stage> {
         personListPanel = new PersonListPanel(logic.getFilteredPersonList());
         personListPanelPlaceholder.getChildren().add(personListPanel.getRoot());
 
+        headerBar.setOnMouseClicked(event -> handleHome());
+
         dashBoard = new DashBoard(logic);
         memberDetailsPlaceholder.getChildren().add(dashBoard.getRoot());
 
@@ -172,7 +178,8 @@ public class MainWindow extends UiPart<Stage> {
                     || isDescendantOf(target, memberDetailsPlaceholder)
                     || isDescendantOf(target, commandBoxPlaceholder)
                     || isDescendantOf(target, resultDisplayPlaceholder)
-                    || isDescendantOf(target, menuBar)) {
+                    || isDescendantOf(target, menuBar)
+                    || isDescendantOf(target, headerBar)) {
                 return;
             }
             personListPanel.getListView().getSelectionModel().clearSelection();
@@ -214,6 +221,17 @@ public class MainWindow extends UiPart<Stage> {
             helpWindow.show();
         } else {
             helpWindow.focus();
+        }
+    }
+
+    /**
+     * Resets the view to show all members and the dashboard.
+     */
+    private void handleHome() {
+        try {
+            executeCommand("list");
+        } catch (CommandException | ParseException e) {
+            logger.info("Home action failed: " + e.getMessage());
         }
     }
 
