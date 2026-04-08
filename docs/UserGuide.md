@@ -65,6 +65,7 @@ A GUI similar to the below should appear in a few seconds. Note how the app cont
    > 💡 **Tip:** 
    > 
     >- Use the **Up** and **Down** arrow keys to cycle through previously entered commands.
+    >- Press **Tab** in the command box to auto-complete command words, field prefixes, and values.
 ---
 **Try these example commands:**
 
@@ -91,6 +92,8 @@ Refer to the [**Features**](#features) section below for full details of each co
 ## Commands
 
 FitDesk supports the following commands. Click on a command to learn more.
+
+> 💡 **Tip:** See the [**Keyboard Features**](#keyboard-features) section for shortcuts like tab completion, command history, and member list navigation.
 
 <box type="info" seamless>
 
@@ -325,22 +328,6 @@ Example:
 The deleted member is restored after `undo`
 
 
-### Navigating command history
-
-Allows you to quickly re-use previously entered commands using the arrow keys in the command box.
-
-* Press the `Up` arrow key to navigate to the previous command in history.
-* Press the `Down` arrow key to navigate to the next command in history.
-* The cursor will be placed at the end of the text after navigating.
-* Pressing `Down` past the most recent command clears the command box.
-
-Example:
-* `find alex` followed by `Up` arrow key
-![before command history up](images/screenshots/command_history_1.png)
-![after command history up](images/screenshots/command_history_2.png)
-The previous command `find alex` is shown in the command box
-
-
 ### Exiting the program : `exit`
 
 Exits the program.
@@ -365,6 +352,61 @@ Furthermore, certain edits can cause FitDesk to behave in unexpected ways (e.g.,
 ### Archiving data files `[coming in v2.0]`
 
 _Details coming soon ..._
+
+--------------------------------------------------------------------------------------------------------------------
+
+## Keyboard Features
+
+### Navigating command history
+
+Allows you to quickly re-use previously entered commands using the arrow keys in the command box.
+
+* Press the `Up` arrow key to navigate to the previous command in history.
+* Press the `Down` arrow key to navigate to the next command in history.
+* The cursor will be placed at the end of the text after navigating.
+* Pressing `Down` past the most recent command clears the command box.
+
+Example:
+* `find alex` followed by `Up` arrow key
+![before command history up](images/screenshots/command_history_1.png)
+![after command history up](images/screenshots/command_history_2.png)
+The previous command `find alex` is shown in the command box
+
+
+### Navigating the member list
+
+Scroll through the member list using the keyboard when the list is focused.
+
+* Press `Up` or `Left` to move to the previous member.
+* Press `Down` or `Right` to move to the next member.
+
+
+### Using the home button
+
+Clicking the **FitDesk** header bar resets the view by running `list`, showing all members and restoring the dashboard panel.
+
+
+### Tab completion
+
+Pressing `Tab` in the command box provides context-sensitive completions to help you enter commands faster. Press `Tab` repeatedly to cycle through available options.
+
+**Command word completion**
+* Type a partial command word and press `Tab` to complete it.
+* e.g. `fi` + `Tab` → `filter`, press `Tab` again → `find`
+
+**Field prefix completion**
+* After entering a command (and index where required), press `Tab` to cycle through available field prefixes.
+* e.g. `filter ` + `Tab` → `filter s/` → `Tab` → `filter g/` → ...
+* For `add`, press `Tab` after typing the member's name to get field prefix suggestions.
+
+**Field value completion**
+* For fields with a fixed set of values (`g/`, `m/`, `s/`), type the first letter of the value and press `Tab` to complete it.
+* e.g. `filter s/v` + `Tab` → `filter s/valid`
+* After completing a value, type a space then press `Tab` to continue with the next field prefix.
+
+**Index completion**
+* For `edit`, `remark`, `renew`, `delete`, and `details`, press `Tab` after the command to cycle through valid member indices.
+* e.g. `delete ` + `Tab` → `delete 1` → `Tab` → `delete 2` → ...
 
 --------------------------------------------------------------------------------------------------------------------
 
