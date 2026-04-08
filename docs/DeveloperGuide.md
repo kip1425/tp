@@ -251,6 +251,48 @@ The following activity diagram summarizes what happens when a user executes a ne
 
 _{more aspects and alternatives to be added}_
 
+### Tab completion feature
+
+#### Implementation
+
+Tab completion is implemented across three classes:
+
+* `TabCompleter` (`logic/`) — pure logic class that computes completion candidates from the current input string
+* `CommandBox` (`ui/`) — handles the `Tab` key press and cycles through candidates
+* `MainWindow` (`ui/`) — provides the current filtered list size to `TabCompleter` via an `IntSupplier`
+
+**`TabCompleter`** determines completions based on context, checked in this order:
+
+1. **Value completion** — if the cursor is immediately after a known prefix (`g/`, `m/`, `s/`) with no space after it, suggests valid values (e.g. `filter s/v` → `filter s/valid`)
+2. **Command word completion** — if no space has been typed yet, matches partial command words against all known commands
+3. **Index-only commands** (`delete`, `details`) — suggests indices 1 to the current filtered list size; no further completion after the index
+4. **Index-then-prefix commands** (`edit`, `remark`, `renew`) — suggests indices first, then field prefixes once the index and a space are present
+5. **`add`** — suppresses completion until a space follows the first word (the name), then suggests unused field prefixes
+6. **`filter`** — suggests field prefixes immediately after the command word
+
+**`CommandBox`** uses `addEventFilter` on the `TextField` to intercept `Tab` before JavaFX's focus traversal system. On each `Tab` press:
+* If no candidates exist, computes a fresh candidate list via `TabCompleter`, filtering out any candidate identical to the current text, and selects the first
+* Otherwise, advances the index and applies the next candidate (cycling back to the first after the last)
+* Any non-`Tab` key press resets the candidate list
+
+<box type="info" seamless>
+
+**Why `addEventFilter` instead of `setOnKeyPressed`?** JavaFX handles `Tab` focus traversal via an event *filter* registered on the scene, which fires before event handlers. Using `addEventFilter` on the `TextField` intercepts `Tab` earlier in the dispatch chain, preventing focus from leaving the field.
+
+</box>
+
+**`MainWindow`** passes `() -> logic.getFilteredPersonList().size()` as an `IntSupplier` to `CommandBox`, which forwards it to `TabCompleter`. This allows index completions to dynamically reflect the current filtered list size without coupling `TabCompleter` directly to the `Logic` or `Model` layers.
+
+The following sequence diagram illustrates a `Tab` press when the user has typed `filter `:
+
+<puml src="diagrams/TabCompletionSequenceDiagram.puml" alt="Tab completion sequence diagram" />
+
+<box type="info" seamless>
+
+**Note:** The sequence diagram is a placeholder — the `.puml` file is to be added.
+
+</box>
+
 ### \[Proposed\] Data archiving
 
 _{Explain here how the data archiving feature will be implemented}_
