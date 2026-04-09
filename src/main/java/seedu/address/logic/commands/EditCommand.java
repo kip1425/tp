@@ -5,7 +5,6 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_DATEOFBIRTH;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMERGENCY_CONTACT;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_GENDER;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_MEMBERSHIP_TYPE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PERSONS;
@@ -27,7 +26,6 @@ import seedu.address.model.person.Gender;
 import seedu.address.model.person.MemberId;
 import seedu.address.model.person.MembershipExpiryDate;
 import seedu.address.model.person.MembershipJoinDate;
-import seedu.address.model.person.MembershipType;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
@@ -50,7 +48,6 @@ public class EditCommand extends Command {
             + "[" + PREFIX_EMAIL + "EMAIL] "
             + "[" + PREFIX_GENDER + "GENDER] "
             + "[" + PREFIX_DATEOFBIRTH + "DATEOFBIRTH] "
-            + "[" + PREFIX_MEMBERSHIP_TYPE + "MEMBERSHIP_TYPE] "
             + "[" + PREFIX_EMERGENCY_CONTACT + "EMERGENCY_CONTACT] "
             + "Example: " + COMMAND_WORD + " 1 "
             + PREFIX_PHONE + "91234567 "
@@ -183,13 +180,12 @@ public class EditCommand extends Command {
         Email updatedEmail = editPersonDescriptor.getEmail().orElse(personToEdit.getEmail());
         EmergencyContact updatedEmergencyContact = editPersonDescriptor.getEmergencyContact()
                                                                         .orElse(personToEdit.getEmergencyContact());
-        MembershipType updatedType = editPersonDescriptor.getType().orElse(personToEdit.getMembershipType());
         MembershipJoinDate joinDate = personToEdit.getJoinDate();
         MembershipExpiryDate expiryDate = personToEdit.getExpiryDate();
         Remark remark = personToEdit.getRemark();
 
         return new Person(memberId, updatedName, updatedPhone, updatedGender, updatedDateOfBirth, updatedEmail,
-                updatedEmergencyContact, updatedType, joinDate, expiryDate, remark);
+                updatedEmergencyContact, personToEdit.getMembershipType(), joinDate, expiryDate, remark);
     }
 
     @Override
@@ -227,7 +223,6 @@ public class EditCommand extends Command {
         private Gender gender;
         private DateOfBirth dateOfBirth;
         private EmergencyContact emergencyContact;
-        private MembershipType type;
 
         public EditPersonDescriptor() {}
 
@@ -242,7 +237,6 @@ public class EditCommand extends Command {
             setDateOfBirth(toCopy.dateOfBirth);
             setEmail(toCopy.email);
             setEmergencyContact(toCopy.emergencyContact);
-            setMembershipType(toCopy.type);
         }
 
         /**
@@ -250,7 +244,7 @@ public class EditCommand extends Command {
          */
         public boolean isAnyFieldEdited() {
             return CollectionUtil.isAnyNonNull(
-                    name, phone, gender, dateOfBirth, email, emergencyContact, type);
+                    name, phone, gender, dateOfBirth, email, emergencyContact);
         }
 
         public void setName(Name name) {
@@ -301,14 +295,6 @@ public class EditCommand extends Command {
             return Optional.ofNullable(emergencyContact);
         }
 
-        public void setMembershipType(MembershipType type) {
-            this.type = type;
-        }
-
-        public Optional<MembershipType> getType() {
-            return Optional.ofNullable(type);
-        }
-
         @Override
         public boolean equals(Object other) {
             if (other == this) {
@@ -326,8 +312,7 @@ public class EditCommand extends Command {
                     && Objects.equals(gender, otherEditPersonDescriptor.gender)
                     && Objects.equals(dateOfBirth, otherEditPersonDescriptor.dateOfBirth)
                     && Objects.equals(email, otherEditPersonDescriptor.email)
-                    && Objects.equals(emergencyContact, otherEditPersonDescriptor.emergencyContact)
-                    && Objects.equals(type, otherEditPersonDescriptor.type);
+                    && Objects.equals(emergencyContact, otherEditPersonDescriptor.emergencyContact);
         }
 
         @Override
@@ -337,7 +322,6 @@ public class EditCommand extends Command {
                     .add("phone", phone)
                     .add("gender", gender)
                     .add("date of birth", dateOfBirth)
-                    .add("type", type)
                     .add("email", email)
                     .add("emergency contact", emergencyContact)
                     .toString();

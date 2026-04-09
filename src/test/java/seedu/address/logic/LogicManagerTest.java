@@ -9,7 +9,6 @@ import static seedu.address.logic.commands.CommandTestUtil.EMERGENCY_CONTACT_DES
 import static seedu.address.logic.commands.CommandTestUtil.GENDER_DESC_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.NAME_DESC_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.PHONE_DESC_AMY;
-import static seedu.address.logic.commands.CommandTestUtil.TYPE_DESC_AMY;
 import static seedu.address.testutil.Assert.assertThrows;
 import static seedu.address.testutil.TypicalPersons.AMY;
 
@@ -174,7 +173,8 @@ public class LogicManagerTest {
 
         // Triggers the saveAddressBook method by executing an add command
         String addCommand = AddCommand.COMMAND_WORD + NAME_DESC_AMY + PHONE_DESC_AMY
-                + EMAIL_DESC_AMY + EMERGENCY_CONTACT_DESC_AMY + GENDER_DESC_AMY + TYPE_DESC_AMY + DATEOFBIRTH_DESC_AMY;
+                + EMAIL_DESC_AMY + EMERGENCY_CONTACT_DESC_AMY + GENDER_DESC_AMY
+                + " m/" + AMY.getMembershipType() + DATEOFBIRTH_DESC_AMY;
         MembershipJoinDate joinDate = new MembershipJoinDate();
         MembershipExpiryDate expiryDate = new MembershipExpiryDate(joinDate.getDate(), AMY.getMembershipType());
         Person expectedPerson = new Person(new MemberId(1), AMY.getName(), AMY.getPhone(), AMY.getGender(),

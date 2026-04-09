@@ -52,8 +52,6 @@ public class PersonUtil {
         descriptor.getEmail().ifPresent(email -> sb.append(PREFIX_EMAIL).append(email.value).append(" "));
         descriptor.getEmergencyContact().ifPresent(
                 contact -> sb.append(PREFIX_EMERGENCY_CONTACT).append(contact.value).append(" "));
-        descriptor.getType().ifPresent(
-                membershipType -> sb.append(PREFIX_MEMBERSHIP_TYPE).append(membershipType.value).append(" "));
         return sb.toString();
     }
 }

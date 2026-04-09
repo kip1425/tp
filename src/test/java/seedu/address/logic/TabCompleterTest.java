@@ -129,9 +129,10 @@ public class TabCompleterTest {
     @Test
     public void getCompletions_editAfterIndex_suggestsFieldPrefixes() {
         List<String> results = tabCompleter.getCompletions("edit 1 ");
-        assertEquals(8, results.size());
+        assertEquals(7, results.size());
         assertTrue(results.contains("edit 1 n/"));
         assertTrue(results.contains("edit 1 g/"));
+        assertNoneMatch(results, "edit 1 m/");
     }
 
     @Test

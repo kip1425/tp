@@ -79,7 +79,7 @@ public class TabCompleter {
         // Commands where INDEX comes first, then optional field prefixes.
         Map<String, List<String>> indexThenPrefixMap = new HashMap<>();
         indexThenPrefixMap.put(EditCommand.COMMAND_WORD,
-                Arrays.asList("n/", "p/", "g/", "d/", "e/", "m/", "ec/", "r/"));
+                Arrays.asList("n/", "p/", "g/", "d/", "e/", "ec/", "r/"));
         indexThenPrefixMap.put(RemarkCommand.COMMAND_WORD,
                 Arrays.asList("r/"));
         indexThenPrefixMap.put(RenewCommand.COMMAND_WORD,

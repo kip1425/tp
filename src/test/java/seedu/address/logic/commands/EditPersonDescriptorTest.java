@@ -9,7 +9,6 @@ import static seedu.address.logic.commands.CommandTestUtil.VALID_EMAIL_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_EMERGENCY_CONTACT_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_BOB;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_TYPE_BOB;
 
 import org.junit.jupiter.api.Test;
 
@@ -52,10 +51,6 @@ public class EditPersonDescriptorTest {
         editedAmy = new EditPersonDescriptorBuilder(DESC_AMY).withEmergencyContact(VALID_EMERGENCY_CONTACT_BOB).build();
         assertFalse(DESC_AMY.equals(editedAmy));
 
-        // different type -> returns false
-        editedAmy = new EditPersonDescriptorBuilder(DESC_AMY).withType(VALID_TYPE_BOB).build();
-        assertFalse(DESC_AMY.equals(editedAmy));
-
     }
 
     @Test
@@ -65,8 +60,7 @@ public class EditPersonDescriptorTest {
                 + editPersonDescriptor.getName().orElse(null) + ", phone="
                 + editPersonDescriptor.getPhone().orElse(null) + ", gender="
                 + editPersonDescriptor.getGender().orElse(null) + ", date of birth="
-                + editPersonDescriptor.getDateOfBirth().orElse(null) + ", type="
-                + editPersonDescriptor.getType().orElse(null) + ", email="
+                + editPersonDescriptor.getDateOfBirth().orElse(null) + ", email="
                 + editPersonDescriptor.getEmail().orElse(null) + ", emergency contact="
                 + editPersonDescriptor.getEmergencyContact().orElse(null) + "}";
         assertEquals(expected, editPersonDescriptor.toString());

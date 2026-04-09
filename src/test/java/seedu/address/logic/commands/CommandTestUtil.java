@@ -88,12 +88,10 @@ public class CommandTestUtil {
         DESC_AMY = new EditPersonDescriptorBuilder().withName(VALID_NAME_AMY)
                 .withGender(VALID_GENDER_AMY).withDateOfBirth(VALID_DATEOFBIRTH_AMY)
                 .withEmail(VALID_EMAIL_AMY).withEmergencyContact(VALID_EMERGENCY_CONTACT_AMY)
-                .withType(VALID_TYPE_AMY)
                 .build();
         DESC_BOB = new EditPersonDescriptorBuilder().withName(VALID_NAME_BOB)
                 .withGender(VALID_GENDER_BOB).withDateOfBirth(VALID_DATEOFBIRTH_BOB)
                 .withEmail(VALID_EMAIL_BOB).withEmergencyContact(VALID_EMERGENCY_CONTACT_BOB)
-                .withType(VALID_TYPE_BOB)
                 .build();
         RENEW_DESC_AMY = new RenewPersonDescriptorBuilder().withType(VALID_TYPE_AMY).build();
         RENEW_DESC_BOB = new RenewPersonDescriptorBuilder().withType(VALID_TYPE_BOB).build();
