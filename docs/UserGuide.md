@@ -62,7 +62,7 @@ A GUI similar to the below should appear in a few seconds. Note how the app cont
     ```bash
        help
     ```
-   This opens the help window.
+   This will open the user guide in the default browser, if your does not support it a help window will open.
    > 💡 **Tip:** 
    > 
     >- Use the **Up** and **Down** arrow keys to cycle through previously entered commands.
