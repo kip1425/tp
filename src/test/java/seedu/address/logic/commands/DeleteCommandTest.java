@@ -135,6 +135,34 @@ public class DeleteCommandTest {
     }
 
     @Test
+    public void redo_afterExecute_redeletesCorrectPerson() throws Exception {
+        Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+        Model expectedModel = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+
+        DeleteCommand deleteCommand = new DeleteCommand(INDEX_FIRST_PERSON);
+        deleteCommand.execute(model);
+
+        // Undo to restore original state
+        deleteCommand.undo(model);
+        assertEquals(expectedModel, model);
+
+        // Redo should delete the same person again
+        deleteCommand.redo(model);
+        expectedModel.deletePerson(expectedModel.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased()));
+        assertEquals(expectedModel, model);
+    }
+
+    @Test
+    public void redo_withoutExecute_throwsCommandException() {
+        Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+        DeleteCommand deleteCommand = new DeleteCommand(INDEX_FIRST_PERSON);
+
+        assertThrows(CommandException.class,
+                "Unable to redo delete: missing person data.", () ->
+                        deleteCommand.redo(model));
+    }
+
+    @Test
     public void equals() {
         DeleteCommand deleteFirstCommand = new DeleteCommand(INDEX_FIRST_PERSON);
         DeleteCommand deleteSecondCommand = new DeleteCommand(INDEX_SECOND_PERSON);

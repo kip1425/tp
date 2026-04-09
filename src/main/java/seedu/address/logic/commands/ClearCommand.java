@@ -39,4 +39,10 @@ public class ClearCommand extends Command {
 
         model.setAddressBook(new AddressBook(previousAddressBook));
     }
+
+    @Override
+    public void redo(Model model) throws CommandException {
+        requireNonNull(model);
+        model.setAddressBook(new AddressBook());
+    }
 }

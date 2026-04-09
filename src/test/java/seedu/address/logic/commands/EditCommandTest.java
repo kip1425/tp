@@ -330,4 +330,34 @@ public class EditCommandTest {
         assertEquals(expected, editCommand.toString());
     }
 
+    @Test
+    public void redo_afterExecute_reeditsCorrectPerson() throws Exception {
+        Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+        Model expectedModel = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+
+        EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder().withName("Redo Edit").build();
+        EditCommand editCommand = new EditCommand(INDEX_FIRST_PERSON, descriptor);
+
+        editCommand.execute(expectedModel);
+        editCommand.execute(model);
+
+        // Undo restores original
+        editCommand.undo(model);
+
+        // Redo re-applies the edit
+        editCommand.redo(model);
+        assertEquals(expectedModel, model);
+    }
+
+    @Test
+    public void redo_withoutExecute_throwsCommandException() {
+        Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+        EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder().withName("Redo Edit").build();
+        EditCommand editCommand = new EditCommand(INDEX_FIRST_PERSON, descriptor);
+
+        assertThrows(CommandException.class,
+                "Unable to redo edit: missing data.", () ->
+                        editCommand.redo(model));
+    }
+
 }

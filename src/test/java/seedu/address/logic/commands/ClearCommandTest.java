@@ -55,4 +55,20 @@ public class ClearCommandTest {
                 "Cannot undo clear: no previous state was saved.", () -> clearCommand.undo(model));
     }
 
+    @Test
+    public void redo_afterUndoClear_clearsAgain() throws Exception {
+        Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+        Model expectedModel = new ModelManager();
+
+        ClearCommand clearCommand = new ClearCommand();
+        clearCommand.execute(model);
+
+        // Undo to restore original
+        clearCommand.undo(model);
+
+        // Redo should clear again
+        clearCommand.redo(model);
+        assertEquals(expectedModel, model);
+    }
+
 }

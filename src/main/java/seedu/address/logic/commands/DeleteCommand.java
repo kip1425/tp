@@ -71,6 +71,17 @@ public class DeleteCommand extends Command {
     }
 
     @Override
+    public void redo(Model model) throws CommandException {
+        requireNonNull(model);
+
+        if (deletedPerson == null) {
+            throw new CommandException("Unable to redo delete: missing person data.");
+        }
+
+        model.deletePerson(deletedPerson);
+    }
+
+    @Override
     public boolean equals(Object other) {
         if (other == this) {
             return true;

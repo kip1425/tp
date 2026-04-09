@@ -99,6 +99,18 @@ public class AddCommand extends Command {
     }
 
     @Override
+    public void redo(Model model) throws CommandException {
+        requireNonNull(model);
+
+        if (addedPerson == null) {
+            throw new CommandException("Unable to redo add: missing person data.");
+        }
+
+        model.addPerson(addedPerson);
+        GenerateMemberIds.initialize(addedPerson.getId().getId());
+    }
+
+    @Override
     public boolean equals(Object other) {
         if (other == this) {
             return true;

@@ -149,6 +149,34 @@ public class RemarkCommandTest {
     }
 
     @Test
+    public void redo_afterExecute_reremarksCorrectPerson() throws Exception {
+        Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+        Model expectedModel = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+
+        RemarkCommand remarkCommand = new RemarkCommand(INDEX_FIRST_PERSON, new Remark(REMARK_STUB));
+
+        remarkCommand.execute(expectedModel);
+        remarkCommand.execute(model);
+
+        // Undo restores original
+        remarkCommand.undo(model);
+
+        // Redo re-applies the remark
+        remarkCommand.redo(model);
+        assertEquals(expectedModel, model);
+    }
+
+    @Test
+    public void redo_withoutExecute_throwsCommandException() {
+        Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+        RemarkCommand remarkCommand = new RemarkCommand(INDEX_FIRST_PERSON, new Remark(REMARK_STUB));
+
+        assertThrows(CommandException.class,
+                "Unable to redo remark: missing data.", () ->
+                        remarkCommand.redo(model));
+    }
+
+    @Test
     public void toStringMethod() {
         RemarkCommand remarkCommand = new RemarkCommand(INDEX_FIRST_PERSON, new Remark(REMARK_STUB));
         assertEquals("seedu.address.logic.commands.RemarkCommand", remarkCommand.getClass().getName());

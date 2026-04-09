@@ -164,6 +164,18 @@ public class EditCommand extends Command {
         model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
     }
 
+    @Override
+    public void redo(Model model) throws CommandException {
+        requireNonNull(model);
+
+        if (originalPerson == null || editedPerson == null) {
+            throw new CommandException("Unable to redo edit: missing data.");
+        }
+
+        model.setPerson(originalPerson, editedPerson);
+        model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
+    }
+
     /**
      * Creates and returns a {@code Person} with the details of {@code personToEdit}
      * edited with {@code editPersonDescriptor}.

@@ -22,4 +22,16 @@ public class CommandDefaultTest {
         assertFalse(command.isUndoable());
         assertThrows(CommandException.class, "This command cannot be undone.", () -> command.undo(new ModelManager()));
     }
+
+    @Test
+    public void defaultRedo_throwsCommandException() {
+        Command command = new Command() {
+            @Override
+            public CommandResult execute(seedu.address.model.Model model) {
+                return new CommandResult("ok");
+            }
+        };
+
+        assertThrows(CommandException.class, "This command cannot be redone.", () -> command.redo(new ModelManager()));
+    }
 }

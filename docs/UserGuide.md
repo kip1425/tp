@@ -358,7 +358,7 @@ Example:
 
 ### Undoing the last command : `undo`
 
-Undoes the most recent undoable command (add, edit, delete, clear).
+Undoes the most recent undoable command (add, edit, delete, clear, renew, remark).
 
 Format: `undo`
 
@@ -370,6 +370,24 @@ Example:
     ![after undo](images/screenshots/undo_2.png)
 
     The deleted member is restored after `undo`
+
+
+### Redoing the last undone command : `redo`
+
+Reverses the most recent `undo`, restoring the state before it was undone.
+
+Format: `redo`
+
+<box type="info" seamless>
+
+**Note:**
+* `redo` is only available immediately after `undo`. Executing any new command (e.g. `add`, `edit`) after an `undo` clears the redo history.
+* The redo history can hold up to 20 commands.
+
+</box>
+
+Example:
+* `delete 4` → `undo` → `redo` restores the deletion.
 
 
 ### Exiting the program : `exit`
@@ -482,4 +500,5 @@ Action     | Format, Examples
 **Details**   | `details INDEX`<br> e.g., `details 1`
 **List**   | `list`
 **Undo**   | `undo`
+**Redo**   | `redo`
 **Help**   | `help`

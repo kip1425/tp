@@ -104,6 +104,18 @@ public class RemarkCommand extends Command {
     }
 
     @Override
+    public void redo(Model model) throws CommandException {
+        requireNonNull(model);
+
+        if (originalPerson == null || editedPerson == null) {
+            throw new CommandException("Unable to redo remark: missing data.");
+        }
+
+        model.setPerson(originalPerson, editedPerson);
+        model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
+    }
+
+    @Override
     public boolean equals(Object other) {
         if (other == this) {
             return true;

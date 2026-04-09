@@ -112,6 +112,23 @@ public class UndoCommandTest {
     }
 
     @Test
+    public void execute_undoPushesCommandToRedoStack() throws Exception {
+        Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+        CommandHistory history = new CommandHistory();
+
+        DeleteCommand deleteCommand = new DeleteCommand(INDEX_FIRST_PERSON);
+        deleteCommand.execute(model);
+        history.push(deleteCommand);
+
+        assertFalse(history.canRedo());
+
+        new UndoCommand(history).execute(model);
+
+        assertTrue(history.canRedo());
+        assertTrue(history.isEmpty());
+    }
+
+    @Test
     public void commandDefaultUndo_throwsCommandException() {
         Command command = new Command() {
             @Override

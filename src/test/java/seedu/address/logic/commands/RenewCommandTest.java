@@ -209,4 +209,34 @@ public class RenewCommandTest {
         assertEquals(expected, renewCommand.toString());
     }
 
+    @Test
+    public void redo_afterExecute_renenewsCorrectPerson() throws Exception {
+        Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+        Model expectedModel = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+
+        RenewPersonDescriptor descriptor = new RenewPersonDescriptorBuilder().withType(VALID_TYPE_BOB).build();
+        RenewCommand renewCommand = new RenewCommand(INDEX_FIRST_PERSON, descriptor);
+
+        renewCommand.execute(expectedModel);
+        renewCommand.execute(model);
+
+        // Undo restores original
+        renewCommand.undo(model);
+
+        // Redo re-applies the renew
+        renewCommand.redo(model);
+        assertEquals(expectedModel, model);
+    }
+
+    @Test
+    public void redo_withoutExecute_throwsCommandException() {
+        Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+        RenewPersonDescriptor descriptor = new RenewPersonDescriptorBuilder().withType(VALID_TYPE_BOB).build();
+        RenewCommand renewCommand = new RenewCommand(INDEX_FIRST_PERSON, descriptor);
+
+        assertThrows(CommandException.class,
+                "Unable to redo renew: missing data.", () ->
+                        renewCommand.redo(model));
+    }
+
 }

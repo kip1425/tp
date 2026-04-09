@@ -14,6 +14,7 @@ public class CommandHistory {
     private static final int DEFAULT_CAPACITY = 20;
 
     private final Deque<Command> history;
+    private final Deque<Command> redoStack;
     private final int capacity;
 
     /**
@@ -21,11 +22,13 @@ public class CommandHistory {
      */
     public CommandHistory() {
         this.history = new ArrayDeque<>();
+        this.redoStack = new ArrayDeque<>();
         this.capacity = DEFAULT_CAPACITY;
     }
 
     /**
      * Adds a command to history, evicting the oldest command when full.
+     * Clears the redo stack since a new undoable command invalidates any redoable state.
      *
      * @param command command to store.
      */
@@ -37,6 +40,50 @@ public class CommandHistory {
         }
 
         history.addLast(command);
+        redoStack.clear();
+    }
+
+    /**
+     * Adds a command back to the undo history after a redo, without clearing the redo stack.
+     *
+     * @param command command to restore to undo history.
+     */
+    public void pushToUndo(Command command) {
+        requireNonNull(command);
+
+        if (history.size() == capacity) {
+            history.removeFirst();
+        }
+
+        history.addLast(command);
+    }
+
+    /**
+     * Adds a command to the redo stack after it has been undone.
+     *
+     * @param command command to store for potential redo.
+     */
+    public void pushRedo(Command command) {
+        requireNonNull(command);
+        redoStack.addLast(command);
+    }
+
+    /**
+     * Returns whether there are commands available to redo.
+     *
+     * @return {@code true} if there is at least one command to redo.
+     */
+    public boolean canRedo() {
+        return !redoStack.isEmpty();
+    }
+
+    /**
+     * Removes and returns the most recently undone command for redoing.
+     *
+     * @return last command in redo stack.
+     */
+    public Command popRedo() {
+        return redoStack.removeLast();
     }
 
     /**

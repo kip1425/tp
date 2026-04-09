@@ -33,4 +33,14 @@ public abstract class Command {
     public void undo(Model model) throws CommandException {
         throw new CommandException("This command cannot be undone.");
     }
+
+    /**
+     * Redoes the command.
+     *
+     * @param model {@code Model} which the command should operate on.
+     * @throws CommandException If an error occurs during redo.
+     */
+    public void redo(Model model) throws CommandException {
+        throw new CommandException("This command cannot be redone.");
+    }
 }

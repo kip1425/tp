@@ -137,6 +137,34 @@ public class AddCommandTest {
     }
 
     @Test
+    public void redo_afterUndoAdd_readdsCorrectPerson() throws Exception {
+        Model model = new ModelManager(TypicalPersons.getTypicalAddressBook(), new UserPrefs());
+        Person newPerson = new PersonBuilder().withName("Redo Add").withEmail("redoadd@example.com").build();
+        AddCommand addCommand = new AddCommand(newPerson);
+
+        addCommand.execute(model);
+
+        // Undo removes the person
+        addCommand.undo(model);
+        assertFalse(model.hasPerson(newPerson));
+
+        // Redo re-adds the person
+        addCommand.redo(model);
+        assertTrue(model.hasPerson(newPerson));
+    }
+
+    @Test
+    public void redo_withoutExecute_throwsCommandException() {
+        Model model = new ModelManager(TypicalPersons.getTypicalAddressBook(), new UserPrefs());
+        Person newPerson = new PersonBuilder().withName("Redo Add").withEmail("redoadd@example.com").build();
+        AddCommand addCommand = new AddCommand(newPerson);
+
+        assertThrows(CommandException.class,
+                "Unable to redo add: missing person data.", () ->
+                        addCommand.redo(model));
+    }
+
+    @Test
     public void equals() {
         Person alice = new PersonBuilder().withName("Alice").build();
         Person bob = new PersonBuilder().withName("Bob").build();
