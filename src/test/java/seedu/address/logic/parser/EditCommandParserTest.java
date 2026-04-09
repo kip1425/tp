@@ -15,13 +15,10 @@ import static seedu.address.logic.commands.CommandTestUtil.INVALID_EMERGENCY_CON
 import static seedu.address.logic.commands.CommandTestUtil.INVALID_GENDER_DESC;
 import static seedu.address.logic.commands.CommandTestUtil.INVALID_NAME_DESC;
 import static seedu.address.logic.commands.CommandTestUtil.INVALID_PHONE_DESC;
-import static seedu.address.logic.commands.CommandTestUtil.INVALID_TYPE_DESC;
 import static seedu.address.logic.commands.CommandTestUtil.NAME_DESC_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.NAME_DESC_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.PHONE_DESC_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.PHONE_DESC_BOB;
-import static seedu.address.logic.commands.CommandTestUtil.TYPE_DESC_AMY;
-import static seedu.address.logic.commands.CommandTestUtil.TYPE_DESC_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_DATEOFBIRTH_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_EMAIL_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_EMERGENCY_CONTACT_AMY;
@@ -29,12 +26,10 @@ import static seedu.address.logic.commands.CommandTestUtil.VALID_GENDER_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_BOB;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_TYPE_AMY;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_DATEOFBIRTH;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMERGENCY_CONTACT;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_GENDER;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_MEMBERSHIP_TYPE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailure;
@@ -53,7 +48,6 @@ import seedu.address.model.person.DateOfBirth;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.EmergencyContact;
 import seedu.address.model.person.Gender;
-import seedu.address.model.person.MembershipType;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Phone;
 import seedu.address.testutil.EditPersonDescriptorBuilder;
@@ -98,7 +92,6 @@ public class EditCommandParserTest {
         assertParseFailure(parser, "1" + INVALID_PHONE_DESC, Phone.MESSAGE_CONSTRAINTS);
         assertParseFailure(parser, "1" + INVALID_GENDER_DESC, Gender.MESSAGE_CONSTRAINTS);
         assertParseFailure(parser, "1" + INVALID_DATEOFBIRTH_DESC, DateOfBirth.MESSAGE_CONSTRAINTS);
-        assertParseFailure(parser, "1" + INVALID_TYPE_DESC, MembershipType.MESSAGE_CONSTRAINTS);
         assertParseFailure(parser, "1" + INVALID_EMAIL_DESC, Email.MESSAGE_CONSTRAINTS);
         assertParseFailure(parser, "1" + INVALID_EMERGENCY_CONTACT_DESC, EmergencyContact.MESSAGE_CONSTRAINTS);
 
@@ -110,11 +103,11 @@ public class EditCommandParserTest {
     public void parse_allFieldsSpecified_success() {
         Index targetIndex = INDEX_SECOND_PERSON;
         String userInput = targetIndex.getOneBased() + PHONE_DESC_BOB + GENDER_DESC_AMY + DATEOFBIRTH_DESC_AMY
-                + TYPE_DESC_AMY + EMAIL_DESC_AMY + EMERGENCY_CONTACT_DESC_AMY + NAME_DESC_AMY;
+                + EMAIL_DESC_AMY + EMERGENCY_CONTACT_DESC_AMY + NAME_DESC_AMY;
 
         EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder()
                 .withName(VALID_NAME_AMY).withPhone(VALID_PHONE_BOB).withGender(VALID_GENDER_AMY)
-                .withDateOfBirth(VALID_DATEOFBIRTH_AMY).withType(VALID_TYPE_AMY)
+                .withDateOfBirth(VALID_DATEOFBIRTH_AMY)
                 .withEmail(VALID_EMAIL_AMY).withEmergencyContact(VALID_EMERGENCY_CONTACT_AMY).build();
         EditCommand expectedCommand = new EditCommand(targetIndex, descriptor);
 
@@ -154,10 +147,6 @@ public class EditCommandParserTest {
                 new EditCommand(targetIndex,
                         new EditPersonDescriptorBuilder().withDateOfBirth(VALID_DATEOFBIRTH_AMY).build()));
 
-        // membership type
-        assertParseSuccess(parser, targetIndex.getOneBased() + TYPE_DESC_AMY,
-                new EditCommand(targetIndex, new EditPersonDescriptorBuilder().withType(VALID_TYPE_AMY).build()));
-
         // email
         assertParseSuccess(parser, targetIndex.getOneBased() + EMAIL_DESC_AMY,
                 new EditCommand(targetIndex, new EditPersonDescriptorBuilder().withEmail(VALID_EMAIL_AMY).build()));
@@ -182,10 +171,6 @@ public class EditCommandParserTest {
 
         userInput = "1" + DATEOFBIRTH_DESC_AMY + DATEOFBIRTH_DESC_BOB;
         assertParseFailure(parser, userInput, Messages.getErrorMessageForDuplicatePrefixes(PREFIX_DATEOFBIRTH));
-
-        userInput = "1" + TYPE_DESC_AMY + TYPE_DESC_BOB;
-        assertParseFailure(parser, userInput, Messages.getErrorMessageForDuplicatePrefixes(PREFIX_MEMBERSHIP_TYPE));
-
         userInput = "1" + EMAIL_DESC_AMY + EMAIL_DESC_BOB;
         assertParseFailure(parser, userInput, Messages.getErrorMessageForDuplicatePrefixes(PREFIX_EMAIL));
 

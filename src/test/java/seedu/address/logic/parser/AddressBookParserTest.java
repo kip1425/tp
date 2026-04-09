@@ -9,6 +9,7 @@ import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 
 import java.util.Arrays;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import seedu.address.logic.commands.AddCommand;
@@ -27,6 +28,9 @@ import seedu.address.logic.commands.RemarkCommand;
 import seedu.address.logic.commands.RenewCommand;
 import seedu.address.logic.commands.UndoCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
+import seedu.address.model.GenerateMemberIds;
+import seedu.address.model.person.MembershipExpiryDate;
+import seedu.address.model.person.MembershipJoinDate;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.PersonContainsKeywordsPredicate;
 import seedu.address.testutil.EditPersonDescriptorBuilder;
@@ -37,11 +41,22 @@ public class AddressBookParserTest {
 
     private final AddressBookParser parser = new AddressBookParser(new CommandHistory());
 
+    @BeforeEach
+    public void setUp() {
+        GenerateMemberIds.initialize(0);
+    }
+
     @Test
     public void parseCommand_add() throws Exception {
         Person person = new PersonBuilder().build();
+        MembershipJoinDate joinDate = new MembershipJoinDate();
+        MembershipExpiryDate expiryDate =
+                new MembershipExpiryDate(joinDate.getDate(), person.getMembershipType());
+        Person expectedPerson = new Person(person.getId(), person.getName(), person.getPhone(), person.getGender(),
+                person.getDateOfBirth(), person.getEmail(), person.getEmergencyContact(), person.getMembershipType(),
+                joinDate, expiryDate, person.getRemark());
         AddCommand command = (AddCommand) parser.parseCommand(PersonUtil.getAddCommand(person));
-        assertEquals(new AddCommand(person), command);
+        assertEquals(new AddCommand(expectedPerson), command);
     }
 
     @Test

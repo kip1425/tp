@@ -5,7 +5,6 @@ import seedu.address.model.person.DateOfBirth;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.EmergencyContact;
 import seedu.address.model.person.Gender;
-import seedu.address.model.person.MembershipType;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
@@ -36,7 +35,6 @@ public class EditPersonDescriptorBuilder {
         descriptor.setDateOfBirth(person.getDateOfBirth());
         descriptor.setEmail(person.getEmail());
         descriptor.setEmergencyContact(person.getEmergencyContact());
-        descriptor.setMembershipType(person.getMembershipType());
     }
 
     /**
@@ -84,14 +82,6 @@ public class EditPersonDescriptorBuilder {
      */
     public EditPersonDescriptorBuilder withEmergencyContact(String emergencyContact) {
         descriptor.setEmergencyContact(new EmergencyContact(emergencyContact));
-        return this;
-    }
-
-    /**
-     * Sets the {@code Address} of the {@code EditPersonDescriptor} that we are building.
-     */
-    public EditPersonDescriptorBuilder withType(String type) {
-        descriptor.setMembershipType(new MembershipType(type));
         return this;
     }
 

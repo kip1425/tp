@@ -9,7 +9,10 @@
     "memberStatus": "valid",
     "email" : "alice@example.com",
     "emergency contact" : "81236811",
-    "type" : "Annual"
+    "type" : "Annual",
+    "join date" : "11-03-2026",
+    "expiry date" : "11-03-2027",
+    "remark" : ""
   }, {
     "member id" : "M001",
     "name" : "Benson Meier",
@@ -19,7 +22,10 @@
     "memberStatus": "valid",
     "email" : "johnd@example.com",
     "emergency contact" : "83110225",
-    "type" : "Annual"
+    "type" : "Annual",
+    "join date" : "11-03-2026",
+    "expiry date" : "11-03-2027",
+    "remark" : ""
   }, {
     "member id" : "M001",
     "name" : "Carl Kurz",
@@ -29,7 +35,10 @@
     "memberStatus": "valid",
     "email" : "heinz@example.com",
     "emergency contact" : "98556704",
-    "type" : "Annual"
+    "type" : "Annual",
+    "join date" : "11-03-2026",
+    "expiry date" : "11-03-2027",
+    "remark" : ""
   }, {
     "member id" : "M001",
     "name" : "Daniel Meier",
@@ -39,7 +48,10 @@
     "memberStatus": "valid",
     "email" : "cornelia@example.com",
     "emergency contact" : "88431033",
-    "type" : "Annual"
+    "type" : "Annual",
+    "join date" : "11-03-2026",
+    "expiry date" : "11-03-2027",
+    "remark" : ""
   }, {
     "member id" : "M001",
     "name" : "Elle Meyer",
@@ -49,7 +61,10 @@
     "memberStatus": "valid",
     "email" : "werner@example.com",
     "emergency contact" : "98540329",
-    "type" : "Annual"
+    "type" : "Annual",
+    "join date" : "11-03-2026",
+    "expiry date" : "11-03-2027",
+    "remark" : ""
   }, {
     "member id" : "M001",
     "name" : "Fiona Kunz",
@@ -59,7 +74,10 @@
     "memberStatus": "valid",
     "email" : "lydia@example.com",
     "emergency contact" : "90112275",
-    "type" : "Annual"
+    "type" : "Annual",
+    "join date" : "11-03-2026",
+    "expiry date" : "11-03-2027",
+    "remark" : ""
   }, {
     "member id" : "M001",
     "name" : "George Best",
@@ -69,6 +87,9 @@
     "memberStatus": "valid",
     "email" : "anna@example.com",
     "emergency contact" : "94118693",
-    "type" : "Annual"
+    "type" : "Annual",
+    "join date" : "11-03-2026",
+    "expiry date" : "11-03-2027",
+    "remark" : ""
   } ]
 }

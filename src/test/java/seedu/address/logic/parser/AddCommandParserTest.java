@@ -53,11 +53,12 @@ import seedu.address.model.person.Email;
 import seedu.address.model.person.EmergencyContact;
 import seedu.address.model.person.Gender;
 import seedu.address.model.person.MemberId;
+import seedu.address.model.person.MembershipExpiryDate;
+import seedu.address.model.person.MembershipJoinDate;
 import seedu.address.model.person.MembershipType;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
-import seedu.address.testutil.PersonBuilder;
 
 public class AddCommandParserTest {
     private AddCommandParser parser = new AddCommandParser();
@@ -70,9 +71,12 @@ public class AddCommandParserTest {
     @Test
     public void parse_allFieldsPresent_success() {
         MemberId testId1 = new MemberId(1);
-        Person expectedPerson = new PersonBuilder(BOB)
-                .withId(testId1)
-                .build();
+        MembershipJoinDate joinDate = new MembershipJoinDate();
+        MembershipExpiryDate expiryDate =
+                new MembershipExpiryDate(joinDate.getDate(), new MembershipType(VALID_TYPE_BOB));
+        Person expectedPerson = new Person(testId1, BOB.getName(), BOB.getPhone(), BOB.getGender(),
+                BOB.getDateOfBirth(), BOB.getEmail(), BOB.getEmergencyContact(), BOB.getMembershipType(),
+                joinDate, expiryDate, BOB.getRemark());
 
         // whitespace only preamble
         assertParseSuccess(parser, PREAMBLE_WHITESPACE + NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB

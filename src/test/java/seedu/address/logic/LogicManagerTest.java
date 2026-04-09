@@ -9,7 +9,6 @@ import static seedu.address.logic.commands.CommandTestUtil.EMERGENCY_CONTACT_DES
 import static seedu.address.logic.commands.CommandTestUtil.GENDER_DESC_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.NAME_DESC_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.PHONE_DESC_AMY;
-import static seedu.address.logic.commands.CommandTestUtil.TYPE_DESC_AMY;
 import static seedu.address.testutil.Assert.assertThrows;
 import static seedu.address.testutil.TypicalPersons.AMY;
 
@@ -26,15 +25,18 @@ import seedu.address.logic.commands.CommandResult;
 import seedu.address.logic.commands.ListCommand;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.logic.parser.exceptions.ParseException;
+import seedu.address.model.GenerateMemberIds;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.UserPrefs;
+import seedu.address.model.person.MemberId;
+import seedu.address.model.person.MembershipExpiryDate;
+import seedu.address.model.person.MembershipJoinDate;
 import seedu.address.model.person.Person;
 import seedu.address.storage.JsonAddressBookStorage;
 import seedu.address.storage.JsonUserPrefsStorage;
 import seedu.address.storage.StorageManager;
-import seedu.address.testutil.PersonBuilder;
 
 public class LogicManagerTest {
     private static final IOException DUMMY_IO_EXCEPTION = new IOException("dummy IO exception");
@@ -48,6 +50,8 @@ public class LogicManagerTest {
 
     @BeforeEach
     public void setUp() {
+        GenerateMemberIds.initialize(0);
+        model = new ModelManager();
         JsonAddressBookStorage addressBookStorage =
                 new JsonAddressBookStorage(temporaryFolder.resolve("fitdesk.json"));
         JsonUserPrefsStorage userPrefsStorage = new JsonUserPrefsStorage(temporaryFolder.resolve("userPrefs.json"));
@@ -169,8 +173,13 @@ public class LogicManagerTest {
 
         // Triggers the saveAddressBook method by executing an add command
         String addCommand = AddCommand.COMMAND_WORD + NAME_DESC_AMY + PHONE_DESC_AMY
-                + EMAIL_DESC_AMY + EMERGENCY_CONTACT_DESC_AMY + GENDER_DESC_AMY + TYPE_DESC_AMY + DATEOFBIRTH_DESC_AMY;
-        Person expectedPerson = new PersonBuilder(AMY).build();
+                + EMAIL_DESC_AMY + EMERGENCY_CONTACT_DESC_AMY + GENDER_DESC_AMY
+                + " m/" + AMY.getMembershipType() + DATEOFBIRTH_DESC_AMY;
+        MembershipJoinDate joinDate = new MembershipJoinDate();
+        MembershipExpiryDate expiryDate = new MembershipExpiryDate(joinDate.getDate(), AMY.getMembershipType());
+        Person expectedPerson = new Person(new MemberId(1), AMY.getName(), AMY.getPhone(), AMY.getGender(),
+                AMY.getDateOfBirth(), AMY.getEmail(), AMY.getEmergencyContact(), AMY.getMembershipType(),
+                joinDate, expiryDate, AMY.getRemark());
         ModelManager expectedModel = new ModelManager();
         expectedModel.addPerson(expectedPerson);
         assertCommandFailure(addCommand, CommandException.class, expectedMessage, expectedModel);

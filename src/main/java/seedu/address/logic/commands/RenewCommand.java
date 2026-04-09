@@ -25,6 +25,7 @@ import seedu.address.model.person.MembershipType;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
+import seedu.address.model.person.Remark;
 
 /**
  * Edits the details of an existing person in the address book.
@@ -123,6 +124,7 @@ public class RenewCommand extends Command {
         EmergencyContact emergencyContact = personToRenew.getEmergencyContact();
         MembershipType updatedType = renewPersonDescriptor.getType().orElse(personToRenew.getMembershipType());
         MembershipJoinDate joinDate = personToRenew.getJoinDate();
+        Remark remark = personToRenew.getRemark();
         // Extend membership from current expiry date (execute() rejects if already expired).
         LocalDate currentExpiry = personToRenew.getExpiryDate().getExpiryDate();
         LocalDate newExpiry;
@@ -134,7 +136,7 @@ public class RenewCommand extends Command {
         MembershipExpiryDate expiryDate = new MembershipExpiryDate(newExpiry);
 
         return new Person(memberId, name, phone, gender, dateOfBirth, email,
-                emergencyContact, updatedType, joinDate, expiryDate);
+                emergencyContact, updatedType, joinDate, expiryDate, remark);
     }
 
     @Override
