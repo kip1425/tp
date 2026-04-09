@@ -13,7 +13,12 @@
 
 ## **Acknowledgements**
 
-_{ list here sources of all reused/adapted ideas, code, documentation, and third-party libraries -- include links to the original source as well }_
+* This project is based on the [AddressBook Level 3 (AB3)](https://github.com/se-edu/addressbook-level3) project created by the [SE-EDU initiative](https://se-education.org/).
+* Architecture design, component structure, and documentation templates are adapted from AB3.
+* [JavaFX 17.0.7](https://openjfx.io/) — UI framework
+* [Jackson Databind 2.7.0](https://github.com/FasterXML/jackson-databind) — JSON serialization/deserialization
+* [Jackson Datatype JSR310 2.7.4](https://github.com/FasterXML/jackson-modules-java8) — Java 8 date/time support for Jackson
+* [JUnit Jupiter 5.4.0](https://junit.org/junit5/) — unit and integration testing
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -158,9 +163,9 @@ Classes used by multiple components are in the `seedu.address.commons` package.
 
 This section describes some noteworthy details on how certain features are implemented.
 
-### \[Proposed\] Undo/redo feature
+### Undo/redo feature
 
-#### Proposed Implementation
+#### Implementation
 
 The proposed undo/redo mechanism is facilitated by `VersionedAddressBook`. It extends `AddressBook` with an undo/redo history, stored internally as an `addressBookStateList` and `currentStatePointer`. Additionally, it implements the following operations:
 
@@ -249,7 +254,16 @@ The following activity diagram summarizes what happens when a user executes a ne
   * Pros: Will use less memory (e.g. for `delete`, just save the person being deleted).
   * Cons: We must ensure that the implementation of each individual command are correct.
 
-_{more aspects and alternatives to be added}_
+**Aspect: Granularity of undo history:**
+
+* **Alternative 1 (current choice):** Every state-modifying command is individually undoable.
+  * Pros: Fine-grained control; users can undo exactly one step at a time.
+  * Cons: Requires many undo steps to reverse a sequence of bulk changes.
+
+* **Alternative 2:** Group related commands into a single undoable transaction (e.g. a bulk-import).
+  * Pros: More intuitive for batch operations.
+  * Cons: More complex to implement; requires defining transaction boundaries.
+
 
 ### Tab completion feature
 
@@ -286,10 +300,6 @@ Tab completion is implemented across three classes:
 The following sequence diagram illustrates a `Tab` press when the user has typed `filter `:
 
 <puml src="diagrams/TabCompletionSequenceDiagram.puml" alt="Tab completion sequence diagram" />
-
-### \[Proposed\] Data archiving
-
-_{Explain here how the data archiving feature will be implemented}_
 
 
 --------------------------------------------------------------------------------------------------------------------
@@ -633,7 +643,11 @@ testers are expected to do more *exploratory* testing.
    1. Re-launch the app by double-clicking the jar file.<br>
        Expected: The most recent window size and location is retained.
 
-1. _{ more test cases …​ }_
+1. Shutting down via the `exit` command
+
+   1. Type `exit` in the command box and press Enter.
+
+      Expected: The application closes. Window size and position are saved and will be restored on next launch.
 
 ### Deleting a person
 
@@ -650,13 +664,36 @@ testers are expected to do more *exploratory* testing.
    1. Other incorrect delete commands to try: `delete`, `delete x`, `...` (where x is larger than the list size)<br>
       Expected: Similar to previous.
 
-1. _{ more test cases …​ }_
+1. Deleting a person after filtering the list
+
+   1. Prerequisites: Use the `filter` command (e.g. `filter s/active`) to show a subset of members. At least one member in the filtered list.
+
+   1. Test case: `delete 1`<br>
+      Expected: First member in the *filtered* list is deleted. The filtered view is refreshed. Details of the deleted member shown in the status message.
+
+   1. Test case: `list` followed by `delete 1`<br>
+      Expected: Deletes the first member in the full unfiltered list.
 
 ### Saving data
 
-1. Dealing with missing/corrupted data files
+1. Dealing with a missing data file
 
-   1. _{explain how to simulate a missing/corrupted file, and the expected behavior}_
+   1. Delete the `data/fitdesk.json` file (or move it elsewhere).
 
-1. _{ more test cases …​ }_
+   1. Launch the application.<br>
+      Expected: FitDesk starts with a fresh set of sample members. A new `data/fitdesk.json` file is created automatically on the next data-modifying command.
+
+1. Dealing with a corrupted data file
+
+   1. Open `data/fitdesk.json` in a text editor and introduce invalid JSON (e.g. delete a closing brace `}` or set a field to an invalid value such as `"gender": "X"`).
+
+   1. Launch the application.<br>
+      Expected: FitDesk starts with an empty member list (no sample data). A warning may be logged. The corrupted file is not overwritten until a data-modifying command is executed.
+
+1. Dealing with missing/incorrect preference file
+
+   1. Delete or corrupt the `preferences.json` file.
+
+   1. Launch the application.<br>
+      Expected: FitDesk starts with default window size and position. A new `preferences.json` is created with default values.
 
