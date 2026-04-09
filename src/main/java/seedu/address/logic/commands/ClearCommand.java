@@ -12,7 +12,7 @@ import seedu.address.model.Model;
 public class ClearCommand extends Command {
 
     public static final String COMMAND_WORD = "clear";
-    public static final String MESSAGE_SUCCESS = "Member list has been cleared!";
+    public static final String MESSAGE_SUCCESS = "Cleared the member list.";
 
     private AddressBook previousAddressBook;
 
@@ -34,7 +34,7 @@ public class ClearCommand extends Command {
         requireNonNull(model);
 
         if (previousAddressBook == null) {
-            throw new CommandException("Unable to undo clear: no previous state stored.");
+            throw new CommandException("Cannot undo clear: no previous state was saved.");
         }
 
         model.setAddressBook(new AddressBook(previousAddressBook));

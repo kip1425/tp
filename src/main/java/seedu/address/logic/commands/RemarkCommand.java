@@ -29,8 +29,8 @@ public class RemarkCommand extends Command {
             + "Example: " + COMMAND_WORD + " 1 "
             + PREFIX_REMARK + "Likes to swim.";
 
-    public static final String MESSAGE_ADD_REMARK_SUCCESS = "Added remark to Person: %1$s";
-    public static final String MESSAGE_DELETE_REMARK_SUCCESS = "Removed remark from Person: %1$s";
+    public static final String MESSAGE_ADD_REMARK_SUCCESS = "Added remark to person: %1$s";
+    public static final String MESSAGE_DELETE_REMARK_SUCCESS = "Removed remark from person: %1$s";
 
     private final Index index;
     private final Remark remark;
@@ -92,11 +92,11 @@ public class RemarkCommand extends Command {
         requireNonNull(model);
 
         if (originalPerson == null || editedPerson == null) {
-            throw new CommandException("Unable to undo remark: missing original data.");
+            throw new CommandException("Cannot undo remark: original data is missing.");
         }
 
         if (!model.hasPerson(editedPerson)) {
-            throw new CommandException("Unable to undo remark: edited person not found.");
+            throw new CommandException("Cannot undo remark: the updated person is no longer in the address book.");
         }
 
         model.setPerson(editedPerson, originalPerson);

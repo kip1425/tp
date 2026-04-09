@@ -52,7 +52,7 @@ public class ClearCommandTest {
         ClearCommand clearCommand = new ClearCommand();
 
         assertThrows(CommandException.class,
-                "Unable to undo clear: no previous state stored.", () -> clearCommand.undo(model));
+                "Cannot undo clear: no previous state was saved.", () -> clearCommand.undo(model));
     }
 
 }

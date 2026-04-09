@@ -54,7 +54,7 @@ public class AddCommandTest {
         ModelStub modelStub = new ModelStubWithPerson(validPerson);
 
         assertThrows(CommandException.class,
-                String.format(AddCommand.MESSAGE_DUPLICATE_FIELDS, "phone and email"), () ->
+                AddCommand.MESSAGE_DUPLICATE_FIELDS + "phone and email", () ->
                         addCommand.execute(modelStub));
     }
 
@@ -67,7 +67,7 @@ public class AddCommandTest {
                 .build();
         AddCommand addCommand = new AddCommand(personToAdd);
         ModelStub modelStub = new ModelStubWithPerson(existingPerson);
-        String expectedMessage = String.format(AddCommand.MESSAGE_DUPLICATE_FIELDS, "phone");
+        String expectedMessage = AddCommand.MESSAGE_DUPLICATE_FIELDS + "phone";
         assertThrows(CommandException.class, expectedMessage, () -> addCommand.execute(modelStub));
     }
 
@@ -80,7 +80,7 @@ public class AddCommandTest {
                 .build();
         AddCommand addCommand = new AddCommand(personToAdd);
         ModelStub modelStub = new ModelStubWithPerson(existingPerson);
-        String expectedMessage = String.format(AddCommand.MESSAGE_DUPLICATE_FIELDS, "email");
+        String expectedMessage = AddCommand.MESSAGE_DUPLICATE_FIELDS + "email";
         assertThrows(CommandException.class, expectedMessage, () -> addCommand.execute(modelStub));
     }
 
@@ -92,8 +92,7 @@ public class AddCommandTest {
                 .build();
         AddCommand addCommand = new AddCommand(personToAdd);
         ModelStub modelStub = new ModelStubWithPerson(existingPerson);
-        String expectedMessage =
-                String.format(AddCommand.MESSAGE_DUPLICATE_FIELDS, "phone and email");
+        String expectedMessage = AddCommand.MESSAGE_DUPLICATE_FIELDS + "phone and email";
         assertThrows(CommandException.class, expectedMessage, () -> addCommand.execute(modelStub));
     }
 
@@ -118,7 +117,9 @@ public class AddCommandTest {
         Person newPerson = new PersonBuilder().withName("Undo Add").withEmail("undoadd@example.com").build();
         AddCommand addCommand = new AddCommand(newPerson);
 
-        assertThrows(CommandException.class, "Unable to undo add: person not found.", () -> addCommand.undo(model));
+        assertThrows(CommandException.class,
+                "Cannot undo add: the added person is no longer in the address book.",
+                () -> addCommand.undo(model));
     }
 
     @Test
@@ -130,7 +131,9 @@ public class AddCommandTest {
         addCommand.execute(model);
         model.deletePerson(newPerson);
 
-        assertThrows(CommandException.class, "Unable to undo add: person not found.", () -> addCommand.undo(model));
+        assertThrows(CommandException.class,
+                "Cannot undo add: the added person is no longer in the address book.",
+                () -> addCommand.undo(model));
     }
 
     @Test

@@ -103,7 +103,7 @@ public class DeleteCommandTest {
         DeleteCommand deleteCommand = new DeleteCommand(INDEX_FIRST_PERSON);
 
         assertThrows(CommandException.class,
-                "Unable to undo delete: person already exists.", () -> deleteCommand.undo(model));
+                "Cannot undo delete: the person was already restored.", () -> deleteCommand.undo(model));
     }
 
     @Test
@@ -116,7 +116,7 @@ public class DeleteCommandTest {
         model.addPerson(personToDelete);
 
         assertThrows(CommandException.class,
-                "Unable to undo delete: person already exists.", () -> deleteCommand.undo(model));
+                "Cannot undo delete: the person was already restored.", () -> deleteCommand.undo(model));
     }
 
     @Test
@@ -131,7 +131,7 @@ public class DeleteCommandTest {
         previousAddressBookField.set(deleteCommand, null);
 
         assertThrows(CommandException.class,
-                "Unable to undo delete: no previous state stored.", () -> deleteCommand.undo(model));
+                "Cannot undo delete: no previous state was saved.", () -> deleteCommand.undo(model));
     }
 
     @Test

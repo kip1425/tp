@@ -24,7 +24,7 @@ public class DeleteCommand extends Command {
             + "Parameters: INDEX (must be a positive integer)\n"
             + "Example: " + COMMAND_WORD + " 1";
 
-    public static final String MESSAGE_DELETE_PERSON_SUCCESS = "Deleted Person: %1$s";
+    public static final String MESSAGE_DELETE_PERSON_SUCCESS = "Deleted person: %1$s";
 
     private final Index targetIndex;
     private Person deletedPerson;
@@ -60,11 +60,11 @@ public class DeleteCommand extends Command {
         requireNonNull(model);
 
         if (deletedPerson == null || model.hasPerson(deletedPerson)) {
-            throw new CommandException("Unable to undo delete: person already exists.");
+            throw new CommandException("Cannot undo delete: the person was already restored.");
         }
 
         if (previousAddressBook == null) {
-            throw new CommandException("Unable to undo delete: no previous state stored.");
+            throw new CommandException("Cannot undo delete: no previous state was saved.");
         }
 
         model.setAddressBook(new AddressBook(previousAddressBook));

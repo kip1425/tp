@@ -22,7 +22,7 @@ public class DetailsCommand extends Command {
             + "Parameters: INDEX (must be a positive integer)\n"
             + "Example: " + COMMAND_WORD + " 1";
 
-    public static final String MESSAGE_SUCCESS = "Details displayed";
+    public static final String MESSAGE_SUCCESS = "Showing details for: %1$s";
 
     private final Index index;
     /**
@@ -43,7 +43,7 @@ public class DetailsCommand extends Command {
         }
 
         Person person = lastShownList.get(index.getZeroBased());
-        return new CommandResult(MESSAGE_SUCCESS, person);
+        return new CommandResult(String.format(MESSAGE_SUCCESS, Messages.format(person)), person);
     }
 
     @Override

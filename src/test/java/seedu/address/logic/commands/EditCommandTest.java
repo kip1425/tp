@@ -110,7 +110,7 @@ public class EditCommandTest {
         EditCommand editCommand = new EditCommand(INDEX_SECOND_PERSON, descriptor);
 
         assertCommandFailure(editCommand, model,
-                String.format(EditCommand.MESSAGE_DUPLICATE_FIELDS, "phone and email"));
+                EditCommand.MESSAGE_DUPLICATE_FIELDS + "phone and email");
     }
 
     @Test
@@ -123,7 +123,7 @@ public class EditCommandTest {
                 new EditPersonDescriptorBuilder(personInList).build());
 
         assertCommandFailure(editCommand, model,
-                String.format(EditCommand.MESSAGE_DUPLICATE_FIELDS, "phone and email"));
+                EditCommand.MESSAGE_DUPLICATE_FIELDS + "phone and email");
     }
 
     @Test
@@ -178,7 +178,7 @@ public class EditCommandTest {
         EditCommand editCommand = new EditCommand(Index.fromOneBased(2), descriptor);
 
         assertCommandFailure(editCommand, model,
-                String.format(EditCommand.MESSAGE_DUPLICATE_FIELDS, "phone"));
+                EditCommand.MESSAGE_DUPLICATE_FIELDS + "phone");
     }
 
     @Test
@@ -207,7 +207,7 @@ public class EditCommandTest {
         EditCommand editCommand = new EditCommand(Index.fromOneBased(2), descriptor);
 
         assertCommandFailure(editCommand, model,
-                String.format(EditCommand.MESSAGE_DUPLICATE_FIELDS, "email"));
+                EditCommand.MESSAGE_DUPLICATE_FIELDS + "email");
     }
 
     @Test
@@ -235,7 +235,7 @@ public class EditCommandTest {
         EditCommand editCommand = new EditCommand(Index.fromOneBased(2), descriptor);
 
         assertCommandFailure(editCommand, model,
-                String.format(EditCommand.MESSAGE_DUPLICATE_FIELDS, "phone and email"));
+                EditCommand.MESSAGE_DUPLICATE_FIELDS + "phone and email");
     }
 
     @Test
@@ -260,7 +260,7 @@ public class EditCommandTest {
         EditCommand editCommand = new EditCommand(INDEX_FIRST_PERSON, descriptor);
 
         assertThrows(CommandException.class,
-                "Unable to undo edit: missing original data.", () -> editCommand.undo(model));
+                "Cannot undo edit: original data is missing.", () -> editCommand.undo(model));
     }
 
     @Test
@@ -274,7 +274,8 @@ public class EditCommandTest {
         model.deletePerson(editedPerson);
 
         assertThrows(CommandException.class,
-                "Unable to undo edit: edited person not found.", () -> editCommand.undo(model));
+                "Cannot undo edit: the updated person is no longer in the address book.",
+                () -> editCommand.undo(model));
     }
 
     @Test
@@ -290,7 +291,7 @@ public class EditCommandTest {
         editedPersonField.set(editCommand, null);
 
         assertThrows(CommandException.class,
-                "Unable to undo edit: missing original data.", () -> editCommand.undo(model));
+                "Cannot undo edit: original data is missing.", () -> editCommand.undo(model));
     }
 
     @Test

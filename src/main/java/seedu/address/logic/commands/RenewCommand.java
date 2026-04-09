@@ -40,7 +40,7 @@ public class RenewCommand extends Command {
             + "[" + PREFIX_MEMBERSHIP_TYPE + "MEMBERSHIP_TYPE]\n"
             + "Example: " + COMMAND_WORD + " 1 ";
 
-    public static final String MESSAGE_RENEW_PERSON_SUCCESS = "Renewed Member: %1$s";
+    public static final String MESSAGE_RENEW_PERSON_SUCCESS = "Renewed membership for: %1$s";
 
     public static final String MESSAGE_MEMBERSHIP_EXPIRED =
             "This membership has already expired. Renewal is not allowed."
@@ -98,11 +98,11 @@ public class RenewCommand extends Command {
         requireNonNull(model);
 
         if (originalPerson == null || renewedPerson == null) {
-            throw new CommandException("Unable to undo renew: missing original data.");
+            throw new CommandException("Cannot undo renew: original data is missing.");
         }
 
         if (!model.hasPerson(renewedPerson)) {
-            throw new CommandException("Unable to undo renew: renewed member not found.");
+            throw new CommandException("Cannot undo renew: the renewed member is no longer in the address book.");
         }
 
         model.setPerson(renewedPerson, originalPerson);

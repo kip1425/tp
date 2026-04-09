@@ -53,9 +53,9 @@ public class EditCommand extends Command {
             + PREFIX_PHONE + "91234567 "
             + PREFIX_EMAIL + "johndoe@example.com";
 
-    public static final String MESSAGE_EDIT_PERSON_SUCCESS = "Edited Person: %1$s";
-    public static final String MESSAGE_NOT_EDITED = "At least one field to edit must be provided.";
-    public static final String MESSAGE_DUPLICATE_FIELDS = "%1$s already existed in the address book.";
+    public static final String MESSAGE_EDIT_PERSON_SUCCESS = "Updated person: %1$s";
+    public static final String MESSAGE_NOT_EDITED = "Specify at least one field to update.";
+    public static final String MESSAGE_DUPLICATE_FIELDS = Messages.MESSAGE_DUPLICATE_FIELDS;
 
     private final Index index;
     private final EditPersonDescriptor editPersonDescriptor;
@@ -100,8 +100,8 @@ public class EditCommand extends Command {
         }
 
         if (isPhoneDuplicate || isEmailDuplicate) {
-            throw new CommandException(String.format(MESSAGE_DUPLICATE_FIELDS,
-                    formatDuplicateFields(isPhoneDuplicate, isEmailDuplicate)));
+            throw new CommandException(MESSAGE_DUPLICATE_FIELDS
+                    + formatDuplicateFields(isPhoneDuplicate, isEmailDuplicate));
         }
 
         try {
@@ -130,8 +130,7 @@ public class EditCommand extends Command {
             isEmailDuplicate = isEmailDuplicate || existingPerson.getEmail().equals(updatedPerson.getEmail());
         }
 
-        return String.format(MESSAGE_DUPLICATE_FIELDS,
-                formatDuplicateFields(isPhoneDuplicate, isEmailDuplicate));
+        return MESSAGE_DUPLICATE_FIELDS + formatDuplicateFields(isPhoneDuplicate, isEmailDuplicate);
     }
 
     private static String formatDuplicateFields(boolean isPhoneDuplicate, boolean isEmailDuplicate) {
@@ -154,11 +153,11 @@ public class EditCommand extends Command {
         requireNonNull(model);
 
         if (originalPerson == null || editedPerson == null) {
-            throw new CommandException("Unable to undo edit: missing original data.");
+            throw new CommandException("Cannot undo edit: original data is missing.");
         }
 
         if (!model.hasPerson(editedPerson)) {
-            throw new CommandException("Unable to undo edit: edited person not found.");
+            throw new CommandException("Cannot undo edit: the updated person is no longer in the address book.");
         }
 
         model.setPerson(editedPerson, originalPerson);

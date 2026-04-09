@@ -44,8 +44,8 @@ public class AddCommand extends Command {
             + PREFIX_JOIN_DATE + "01-01-2024 "
             + PREFIX_MEMBERSHIP_TYPE + "monthly";
 
-    public static final String MESSAGE_SUCCESS = "New person added: %1$s";
-    public static final String MESSAGE_DUPLICATE_FIELDS = "%1$s already existed in the address book.";
+    public static final String MESSAGE_SUCCESS = "Added person: %1$s";
+    public static final String MESSAGE_DUPLICATE_FIELDS = Messages.MESSAGE_DUPLICATE_FIELDS;
 
     private final Person toAdd;
     private Person addedPerson;
@@ -72,8 +72,8 @@ public class AddCommand extends Command {
 
         if (isPhoneDuplicate || isEmailDuplicate) {
             GenerateMemberIds.decrementMaxId();
-            throw new CommandException(String.format(MESSAGE_DUPLICATE_FIELDS,
-                    formatDuplicateFields(isPhoneDuplicate, isEmailDuplicate)));
+            throw new CommandException(MESSAGE_DUPLICATE_FIELDS
+                    + formatDuplicateFields(isPhoneDuplicate, isEmailDuplicate));
         }
 
         model.addPerson(toAdd);
@@ -91,7 +91,7 @@ public class AddCommand extends Command {
         requireNonNull(model);
 
         if (addedPerson == null || !model.hasPerson(addedPerson)) {
-            throw new CommandException("Unable to undo add: person not found.");
+            throw new CommandException("Cannot undo add: the added person is no longer in the address book.");
         }
 
         model.deletePerson(addedPerson);
