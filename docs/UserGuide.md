@@ -249,7 +249,11 @@ Filters member list and displays members who have fields matching the given attr
 Format: `filter [s/STATUS] [g/GENDER] [m/MEMBERSHIP_TYPE] [age>/AGE] [age</AGE] [age=/AGE] [j>/DATE] [j</DATE] [exp>/DATE] [exp</DATE] [exp=/DATE]`
 
 * Each prefix may only be specified once. Specifying the same prefix more than once is an error.
-* For each date/age field, only **one** comparison operator may be used at a time — `age>/`, `age</`, and `age=/` are mutually exclusive, as are the `j>/`/`j</`/`j=/` and `exp>/`/`exp</`/`exp=/` groups.
+* For each date/age field, operators may be combined as follows:
+  * `>/` + `</` — range, e.g. `age>/20 age</30` finds members aged strictly between 20 and 30
+  * `>/` + `=/` (same value) — greater than or equal, e.g. `age>/20 age=/20` finds members aged 20 or older
+  * `</` + `=/` (same value) — less than or equal, e.g. `age</30 age=/30` finds members aged 30 or younger
+  * All three operators together are not allowed.
 
 Example:
 * `filter s/valid`

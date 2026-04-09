@@ -74,22 +74,35 @@ public class FilterCommandParserTest {
     }
 
     @Test
-    public void parse_ageLessAndGreater_conflictingPrefixes() {
-        assertParseFailure(parser, " age</30 age>/20",
-                Messages.getErrorMessageForConflictingPrefixes(
-                        CliSyntax.PREFIX_AGE_GREATER, CliSyntax.PREFIX_AGE_LESS, CliSyntax.PREFIX_AGE_EQUAL));
+    public void parse_ageRange_success() {
+        assertDoesNotThrow(() -> parser.parse(" age>/20 age</30"));
     }
 
     @Test
-    public void parse_ageLessAndEqual_conflictingPrefixes() {
-        assertParseFailure(parser, " age</30 age=/30",
-                Messages.getErrorMessageForConflictingPrefixes(
-                        CliSyntax.PREFIX_AGE_GREATER, CliSyntax.PREFIX_AGE_LESS, CliSyntax.PREFIX_AGE_EQUAL));
+    public void parse_ageLessEquals_success() {
+        assertDoesNotThrow(() -> parser.parse(" age</30 age=/30"));
     }
 
     @Test
-    public void parse_ageGreaterAndEqual_conflictingPrefixes() {
-        assertParseFailure(parser, " age>/20 age=/20",
+    public void parse_ageGreaterEquals_success() {
+        assertDoesNotThrow(() -> parser.parse(" age>/20 age=/20"));
+    }
+
+    @Test
+    public void parse_ageLessEquals_mismatchFailure() {
+        assertParseFailure(parser, " age</30 age=/31",
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, FilterCommand.MESSAGE_USAGE));
+    }
+
+    @Test
+    public void parse_ageGreaterEquals_mismatchFailure() {
+        assertParseFailure(parser, " age>/20 age=/21",
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, FilterCommand.MESSAGE_USAGE));
+    }
+
+    @Test
+    public void parse_ageAllThree_conflictingPrefixes() {
+        assertParseFailure(parser, " age>/20 age</30 age=/25",
                 Messages.getErrorMessageForConflictingPrefixes(
                         CliSyntax.PREFIX_AGE_GREATER, CliSyntax.PREFIX_AGE_LESS, CliSyntax.PREFIX_AGE_EQUAL));
     }
@@ -111,24 +124,35 @@ public class FilterCommandParserTest {
     }
 
     @Test
-    public void parse_joinDateBeforeAndEquals_conflictingPrefixes() {
-        assertParseFailure(parser, " j</01-01-2024 j=/01-01-2024",
-                Messages.getErrorMessageForConflictingPrefixes(
-                        CliSyntax.PREFIX_JOIN_DATE_AFTER, CliSyntax.PREFIX_JOIN_DATE_BEFORE,
-                        CliSyntax.PREFIX_JOIN_DATE_EQUALS));
+    public void parse_joinDateRange_success() {
+        assertDoesNotThrow(() -> parser.parse(" j>/01-01-2024 j</01-01-2025"));
     }
 
     @Test
-    public void parse_joinDateAfterAndEquals_conflictingPrefixes() {
-        assertParseFailure(parser, " j>/01-01-2024 j=/01-01-2024",
-                Messages.getErrorMessageForConflictingPrefixes(
-                        CliSyntax.PREFIX_JOIN_DATE_AFTER, CliSyntax.PREFIX_JOIN_DATE_BEFORE,
-                        CliSyntax.PREFIX_JOIN_DATE_EQUALS));
+    public void parse_joinDateBeforeEquals_success() {
+        assertDoesNotThrow(() -> parser.parse(" j</01-01-2024 j=/01-01-2024"));
     }
 
     @Test
-    public void parse_joinDateAfterAndBefore_conflictingPrefixes() {
-        assertParseFailure(parser, " j>/01-01-2024 j</01-01-2025",
+    public void parse_joinDateAfterEquals_success() {
+        assertDoesNotThrow(() -> parser.parse(" j>/01-01-2024 j=/01-01-2024"));
+    }
+
+    @Test
+    public void parse_joinDateBeforeEquals_mismatchFailure() {
+        assertParseFailure(parser, " j</01-01-2024 j=/01-01-2025",
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, FilterCommand.MESSAGE_USAGE));
+    }
+
+    @Test
+    public void parse_joinDateAfterEquals_mismatchFailure() {
+        assertParseFailure(parser, " j>/01-01-2024 j=/01-01-2025",
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, FilterCommand.MESSAGE_USAGE));
+    }
+
+    @Test
+    public void parse_joinDateAllThree_conflictingPrefixes() {
+        assertParseFailure(parser, " j>/01-01-2024 j</01-01-2025 j=/01-01-2024",
                 Messages.getErrorMessageForConflictingPrefixes(
                         CliSyntax.PREFIX_JOIN_DATE_AFTER, CliSyntax.PREFIX_JOIN_DATE_BEFORE,
                         CliSyntax.PREFIX_JOIN_DATE_EQUALS));
@@ -159,24 +183,35 @@ public class FilterCommandParserTest {
     }
 
     @Test
-    public void parse_expiryDateBeforeAndEquals_conflictingPrefixes() {
-        assertParseFailure(parser, " exp</01-01-2026 exp=/01-01-2026",
-                Messages.getErrorMessageForConflictingPrefixes(
-                        CliSyntax.PREFIX_EXPIRY_DATE_AFTER, CliSyntax.PREFIX_EXPIRY_DATE_BEFORE,
-                        CliSyntax.PREFIX_EXPIRY_DATE_EQUALS));
+    public void parse_expiryDateRange_success() {
+        assertDoesNotThrow(() -> parser.parse(" exp>/01-01-2026 exp</01-01-2027"));
     }
 
     @Test
-    public void parse_expiryDateAfterAndEquals_conflictingPrefixes() {
-        assertParseFailure(parser, " exp>/01-01-2026 exp=/01-01-2026",
-                Messages.getErrorMessageForConflictingPrefixes(
-                        CliSyntax.PREFIX_EXPIRY_DATE_AFTER, CliSyntax.PREFIX_EXPIRY_DATE_BEFORE,
-                        CliSyntax.PREFIX_EXPIRY_DATE_EQUALS));
+    public void parse_expiryDateBeforeEquals_success() {
+        assertDoesNotThrow(() -> parser.parse(" exp</01-01-2026 exp=/01-01-2026"));
     }
 
     @Test
-    public void parse_expiryDateAfterAndBefore_conflictingPrefixes() {
-        assertParseFailure(parser, " exp>/01-01-2026 exp</01-01-2027",
+    public void parse_expiryDateAfterEquals_success() {
+        assertDoesNotThrow(() -> parser.parse(" exp>/01-01-2026 exp=/01-01-2026"));
+    }
+
+    @Test
+    public void parse_expiryDateBeforeEquals_mismatchFailure() {
+        assertParseFailure(parser, " exp</01-01-2026 exp=/01-01-2027",
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, FilterCommand.MESSAGE_USAGE));
+    }
+
+    @Test
+    public void parse_expiryDateAfterEquals_mismatchFailure() {
+        assertParseFailure(parser, " exp>/01-01-2026 exp=/01-01-2027",
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, FilterCommand.MESSAGE_USAGE));
+    }
+
+    @Test
+    public void parse_expiryDateAllThree_conflictingPrefixes() {
+        assertParseFailure(parser, " exp>/01-01-2026 exp</01-01-2027 exp=/01-01-2026",
                 Messages.getErrorMessageForConflictingPrefixes(
                         CliSyntax.PREFIX_EXPIRY_DATE_AFTER, CliSyntax.PREFIX_EXPIRY_DATE_BEFORE,
                         CliSyntax.PREFIX_EXPIRY_DATE_EQUALS));
