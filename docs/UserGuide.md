@@ -26,7 +26,7 @@ FitDesk is a **desktop app for front-desk receptionists** at small-to-medium pri
 2. **Platform-specific installation guides:**
    - **Mac:** [Installation guide](https://se-education.org/guides/tutorials/javaInstallationMac.html)
    - **Windows:** [Installation guide](https://se-education.org/guides/tutorials/javaInstallationWindows.html)
-   - **Linux:** [Installation guide](https://se-education.org/guides/tutorials/javaInstallationLinux.html)
+   - **Linux:** [Installation guide](https://se-education.org/guides/tutorials/javaInstallationLinux.html) <br>
 
 1. **Download the latest `.jar` file** from [here](https://github.com/AY2526S2-CS2103T-W08-3/tp/releases).
 
@@ -38,6 +38,7 @@ FitDesk is a **desktop app for front-desk receptionists** at small-to-medium pri
    1. Open a **command terminal**:
       - **Windows**: Press `Windows key + R`, type `cmd`, and press Enter
       - **Mac/Linux**: Open the **Terminal** app
+   
    2. Navigate to the folder where the `.jar` file was saved
       ```bash
       cd path/to/your/folder
@@ -85,7 +86,7 @@ A GUI similar to the below should appear in a few seconds. Note how the app cont
 
 **Learn More**
 
-Refer to the [**Features**](#features) section below for full details of each command.
+Refer to the [**Commands**](#features) section below for full details of each command.
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -128,8 +129,10 @@ Format: `help`
 
 Example:
 * `help`
-![help message](images/screenshots/help_1.png)
-Help message is shown 
+
+    ![help message](images/screenshots/help_1.png)
+
+    Help message is shown 
 
 
 ### Adding a member: `add`
@@ -149,8 +152,10 @@ Format: `add n/NAME p/PHONE_NUMBER g/GENDER d/DATE_OF_BIRTH m/MEMBERSHIP_TYPE e/
 
 Example:
 * `add n/John Doe p/98765432 g/M d/19-01-2004 m/annual e/johnd@example.com ec/98723347`
-![added member](images/screenshots/add_1.png)
-A new member `John Doe` is added to the member list
+
+    ![added member](images/screenshots/add_1.png)
+
+    A new member `John Doe` is added to the member list
 
 
 ### Listing all members : `list`
@@ -161,8 +166,10 @@ Format: `list`
 
 Example:
 * `list`
-![members listed](images/screenshots/list_1.png)
-All members are listed
+
+    ![members listed](images/screenshots/list_1.png)
+
+    All members are listed
 
 
 ### Editing a person : `edit`
@@ -178,8 +185,10 @@ Format: `edit INDEX [n/NAME] [p/PHONE_NUMBER] [g/GENDER] [d/DATE_OF_BIRTH] [m/ME
 
 Example:
 *  `edit 7 p/91234567 e/johndoe@example.com`
-![result for 'edit 1 p/91234567 e/johndoe@example.com'](images/screenshots/edit_1.png)
-The phone number and email address of the 7th member are edited to be `91234567` and `johndoe@example.com` respectively
+
+    ![result for 'edit 1 p/91234567 e/johndoe@example.com'](images/screenshots/edit_1.png)
+    
+    The phone number and email address of the 7th member are edited to be `91234567` and `johndoe@example.com` respectively
 
 
 ### Deleting a member : `delete`
@@ -195,10 +204,14 @@ Format: `delete INDEX`
 Example:
 * `list` followed by `delete 2`
   1. `list`
-  ![list](images/screenshots/delete_1.png)
+  
+        ![list](images/screenshots/delete_1.png)
+  
   2. `delete 2`
-  ![deleted member](images/screenshots/delete_2.png)
-  The 2nd member is deleted from the list
+  
+        ![deleted member](images/screenshots/delete_2.png)
+  
+        The 2nd member is deleted from the list
 
 
 ## Search & Filter
@@ -217,8 +230,11 @@ Format: `find QUERY`
 
 Examples:
 * `find john doe`
-![result for 'find john doe'](images/screenshots/find_1.png)
-Members whose name (or other field) contains `john doe` are listed
+
+    ![result for 'find john doe'](images/screenshots/find_1.png)
+
+    Members whose name (or other field) contains `john doe` are listed
+
 * `find 9123` returns members whose phone number or another field contains `9123`
 
 
@@ -230,8 +246,10 @@ Format: `filter [s/STATUS] [g/GENDER] [m/MEMBERSHIP_TYPE] [age>/AGE] [age</AGE] 
 
 Example:
 * `filter s/valid`
-![result for 'filter s/valid'](images/screenshots/filter_1.png)
-Members with valid memberships are listed
+
+    ![result for 'filter s/valid'](images/screenshots/filter_1.png)
+
+    Members with valid memberships are listed
 
 
 ## Member Management
@@ -249,13 +267,20 @@ Format: `details INDEX`
 Examples:
 * `list` followed by `details 1`
   1. `list`
-  ![list](images/screenshots/details_1.png)
+  
+        ![list](images/screenshots/details_1.png)
+  
   2. `details 1`
-  ![details in list](images/screenshots/details_2.png)
-  The 1st member's details are shown in the list
+  
+        ![details in list](images/screenshots/details_2.png)
+  
+        The 1st member's details are shown in the list
+  
 * `find David` followed by `details 1`
-![details in find result](images/screenshots/details_3.png)
-The 1st member's details are shown in the `find` command result.
+
+    ![details in find result](images/screenshots/details_3.png)
+
+    The 1st member's details are shown in the `find` command result.
 
 
 ### Adding a remark to a member : `remark`
@@ -270,8 +295,10 @@ Format: `remark INDEX r/[REMARK]`
 
 Examples:
 * `remark 1 r/likes swimming`
-  ![remark added](images/screenshots/remark_1.png)
-  Remark `likes swimming` is added to the 1st member.
+
+    ![remark added](images/screenshots/remark_1.png)
+
+    Remark `likes swimming` is added to the 1st member.
 
 
 ### Renewing a membership: `renew`
@@ -288,16 +315,26 @@ Format: `renew INDEX [m/MEMBERSHIP_TYPE]`
 
 Examples:
 * `renew 2`
-![before renew](images/screenshots/renew_1.png)
-![after renew](images/screenshots/renew_2.png)
-The 2nd member's expiry date is changed from `11-09-26` to `11-10-2026`
+
+    ![before renew](images/screenshots/renew_1.png)
+
+    ![after renew](images/screenshots/renew_2.png)
+
+    The 2nd member's expiry date is changed from `11-09-26` to `11-10-2026`
+
 * `renew 4 m/monthly`
-![before renew monthly](images/screenshots/renew_3.png)
-![after renew monthly](images/screenshots/renew_4.png)
-The 4th member's membership type is changed from `Annual` to `Monthly`, so the expiry date is changed from `21-01-2027` to `21-02-2027`
+
+    ![before renew monthly](images/screenshots/renew_3.png)
+
+    ![after renew monthly](images/screenshots/renew_4.png)
+
+    The 4th member's membership type is changed from `Annual` to `Monthly`, so the expiry date is changed from `21-01-2027` to `21-02-2027`
+
 * `renew 1`
-![renew failed](images/screenshots/renew_5.png)
-The 1st member is failed to be renewed since its membership has expired
+
+    ![renew failed](images/screenshots/renew_5.png)
+
+    The 1st member is failed to be renewed since its membership has expired
 
 
 ## Utility
@@ -310,9 +347,12 @@ Format: `clear`
 
 Example:
 * `clear`
-![before clear](images/screenshots/clear_1.png)
-![after clear](images/screenshots/clear_2.png)
-The member list is empty after `clear`
+
+    ![before clear](images/screenshots/clear_1.png)
+
+    ![after clear](images/screenshots/clear_2.png)
+
+    The member list is empty after `clear`
 
 
 ### Undoing the last command : `undo`
@@ -323,9 +363,12 @@ Format: `undo`
 
 Example:
 * `delete 4` followed by `undo`
-![before undo](images/screenshots/undo_1.png)
-![after undo](images/screenshots/undo_2.png)
-The deleted member is restored after `undo`
+
+    ![before undo](images/screenshots/undo_1.png)
+
+    ![after undo](images/screenshots/undo_2.png)
+
+    The deleted member is restored after `undo`
 
 
 ### Exiting the program : `exit`
@@ -340,7 +383,7 @@ FitDesk data are saved in the hard disk automatically after any command that cha
 
 ### Editing the data file
 
-FitDesk data are saved automatically as a JSON file `[JAR file location]/data/addressbook.json`. Advanced users are welcome to update data directly by editing that data file.
+FitDesk data are saved automatically as a JSON file `[JAR file location]/data/fitdesk.json`. Advanced users are welcome to update data directly by editing that data file.
 
 <box type="warning" seamless>
 
@@ -348,10 +391,6 @@ FitDesk data are saved automatically as a JSON file `[JAR file location]/data/ad
 If your changes to the data file makes its format invalid, FitDesk will discard all data and start with an empty data file at the next run.  Hence, it is recommended to take a backup of the file before editing it.<br>
 Furthermore, certain edits can cause FitDesk to behave in unexpected ways (e.g., if a value entered is outside the acceptable range). Therefore, edit the data file only if you are confident that you can update it correctly.
 </box>
-
-### Archiving data files `[coming in v2.0]`
-
-_Details coming soon ..._
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -368,9 +407,12 @@ Allows you to quickly re-use previously entered commands using the arrow keys in
 
 Example:
 * `find alex` followed by `Up` arrow key
-![before command history up](images/screenshots/command_history_1.png)
-![after command history up](images/screenshots/command_history_2.png)
-The previous command `find alex` is shown in the command box
+
+    ![before command history up](images/screenshots/command_history_1.png)
+
+    ![after command history up](images/screenshots/command_history_2.png)
+
+    The previous command `find alex` is shown in the command box
 
 
 ### Navigating the member list
@@ -413,7 +455,7 @@ Pressing `Tab` in the command box provides context-sensitive completions to help
 ## FAQ
 
 **Q**: How do I transfer my data to another Computer?<br>
-**A**: Install the app in the other computer and overwrite the empty data file it creates with the file that contains the data of your previous AddressBook home folder.
+**A**: Install the app in the other computer and overwrite the empty data file it creates with the file that contains the data of your previous FitDesk home folder.
 
 --------------------------------------------------------------------------------------------------------------------
 
