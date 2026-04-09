@@ -2,6 +2,7 @@ package seedu.address.model.person;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_DATEOFBIRTH_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_EMAIL_BOB;
@@ -107,6 +108,11 @@ public class PersonTest {
         // different remark -> returns false
         editedAlice = new PersonBuilder(ALICE).withRemark("Prefers morning classes").build();
         assertFalse(ALICE.equals(editedAlice));
+    }
+
+    @Test
+    public void constructor_joinDateBeforeDateOfBirth_throwsIllegalArgumentException() {
+        assertThrows(IllegalArgumentException.class, () -> new PersonBuilder(ALICE).withJoinDate("01-01-1989").build());
     }
 
     @Test

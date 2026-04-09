@@ -173,8 +173,12 @@ class JsonAdaptedPerson {
         }
         final Remark modelRemark = new Remark(remark != null ? remark : "");
 
-        return new Person(modelId, modelName, modelPhone, modelGender, modelDateOfBirth,
-                          modelEmail, modelEmergencyContact, modelType, modelJoinDate, modelExpiryDate, modelRemark);
+        try {
+            return new Person(modelId, modelName, modelPhone, modelGender, modelDateOfBirth,
+                    modelEmail, modelEmergencyContact, modelType, modelJoinDate, modelExpiryDate, modelRemark);
+        } catch (IllegalArgumentException e) {
+            throw new IllegalValueException(e.getMessage(), e);
+        }
     }
 
 }

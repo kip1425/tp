@@ -280,6 +280,11 @@ public class AddCommandParserTest {
                 + DATEOFBIRTH_DESC_BOB + TYPE_DESC_BOB + EMAIL_DESC_BOB + EMERGENCY_CONTACT_DESC_BOB
                 + INVALID_JOIN_DATE_DESC, MembershipJoinDate.MESSAGE_CONSTRAINTS);
 
+        // join date before date of birth
+        assertParseFailure(parser, NAME_DESC_BOB + PHONE_DESC_BOB + GENDER_DESC_BOB
+                + DATEOFBIRTH_DESC_BOB + TYPE_DESC_BOB + EMAIL_DESC_BOB + EMERGENCY_CONTACT_DESC_BOB
+                + " " + PREFIX_JOIN_DATE + "02-03-2002", Person.MESSAGE_CONSTRAINTS);
+
         // invalid email
         assertParseFailure(parser, NAME_DESC_BOB + PHONE_DESC_BOB + GENDER_DESC_BOB
                 + DATEOFBIRTH_DESC_BOB + TYPE_DESC_BOB + INVALID_EMAIL_DESC + EMERGENCY_CONTACT_DESC_BOB,

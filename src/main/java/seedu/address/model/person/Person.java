@@ -1,5 +1,6 @@
 package seedu.address.model.person;
 
+import static seedu.address.commons.util.AppUtil.checkArgument;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.util.Objects;
@@ -11,6 +12,8 @@ import seedu.address.commons.util.ToStringBuilder;
  * Guarantees: details are present and not null, field values are validated, immutable.
  */
 public class Person {
+    public static final String MESSAGE_CONSTRAINTS =
+            "Membership join date cannot be before date of birth.";
 
     // Identity fields
     private final MemberId id;
@@ -44,7 +47,9 @@ public class Person {
     public Person(MemberId id, Name name, Phone phone, Gender gender,
                   DateOfBirth dateOfBirth, Email email, EmergencyContact emergencyContact,
                   MembershipType type, MembershipJoinDate joinDate, MembershipExpiryDate expiryDate, Remark remark) {
-        requireAllNonNull(id, name, phone, email, emergencyContact, type, joinDate, remark);
+        requireAllNonNull(id, name, phone, gender, dateOfBirth, email, emergencyContact, type, joinDate, expiryDate,
+                remark);
+        checkArgument(!joinDate.getDate().isBefore(dateOfBirth.getDate()), MESSAGE_CONSTRAINTS);
         this.id = id;
         this.name = name;
         this.phone = phone;

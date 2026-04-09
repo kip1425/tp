@@ -1,6 +1,7 @@
 package seedu.address.storage;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static seedu.address.model.person.Person.MESSAGE_CONSTRAINTS;
 import static seedu.address.testutil.Assert.assertThrows;
 
 import java.nio.file.Path;
@@ -42,6 +43,24 @@ public class JsonSerializableAddressBookTest {
                 JsonSerializableAddressBook.class).get();
         assertThrows(IllegalValueException.class, JsonSerializableAddressBook.MESSAGE_DUPLICATE_PERSON,
                 dataFromFile::toModelType);
+    }
+
+    @Test
+    public void toModelType_joinDateBeforeDateOfBirth_throwsIllegalValueException() throws Exception {
+        JsonAdaptedPerson adaptedPerson = new JsonAdaptedPerson(
+                "M001",
+                "Alice Pauline",
+                "94351253",
+                "F",
+                "02-02-2000",
+                "alice@example.com",
+                "81236811",
+                "Annual",
+                "01-01-1990",
+                "01-01-1991",
+                "");
+
+        assertThrows(IllegalValueException.class, MESSAGE_CONSTRAINTS, adaptedPerson::toModelType);
     }
 
 }
