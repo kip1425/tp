@@ -22,8 +22,10 @@ public class Messages {
                 "The following field(s) are already used by another person: ";
     public static final String MESSAGE_DUPLICATE_PREFIX_FIELDS =
                 "Each field may only be specified once. Duplicate field(s): ";
+    public static final String MESSAGE_INVALID_FILTER_RANGE =
+                "Invalid range: the lower bound must be less than the upper bound.";
     public static final String MESSAGE_CONFLICTING_PREFIXES =
-                "Only one filter operator may be used per field. Conflicting field(s): ";
+                "The >, <, and = operators for the same field cannot all be used at once. Conflicting field(s): ";
 
     /**
      * Returns an error message indicating the duplicate prefixes.

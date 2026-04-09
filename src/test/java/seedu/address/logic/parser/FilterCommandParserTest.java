@@ -2,6 +2,7 @@ package seedu.address.logic.parser;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static seedu.address.logic.Messages.MESSAGE_INVALID_FILTER_RANGE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_AGE_EQUAL;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSuccess;
@@ -336,5 +337,35 @@ public class FilterCommandParserTest {
     @Test
     public void parse_invalidGender_throwsParseException() {
         assertParseFailure(parser, " g/k", Gender.MESSAGE_CONSTRAINTS);
+    }
+
+    @Test
+    public void parse_ageRangeInvalid_failure() {
+        assertParseFailure(parser, " age>/25 age</20", MESSAGE_INVALID_FILTER_RANGE);
+    }
+
+    @Test
+    public void parse_ageRangeEqual_failure() {
+        assertParseFailure(parser, " age>/25 age</25", MESSAGE_INVALID_FILTER_RANGE);
+    }
+
+    @Test
+    public void parse_joinDateRangeInvalid_failure() {
+        assertParseFailure(parser, " j>/01-01-2025 j</01-01-2024", MESSAGE_INVALID_FILTER_RANGE);
+    }
+
+    @Test
+    public void parse_joinDateRangeEqual_failure() {
+        assertParseFailure(parser, " j>/01-01-2025 j</01-01-2025", MESSAGE_INVALID_FILTER_RANGE);
+    }
+
+    @Test
+    public void parse_expiryDateRangeInvalid_failure() {
+        assertParseFailure(parser, " exp>/01-01-2026 exp</01-01-2025", MESSAGE_INVALID_FILTER_RANGE);
+    }
+
+    @Test
+    public void parse_expiryDateRangeEqual_failure() {
+        assertParseFailure(parser, " exp>/01-01-2026 exp</01-01-2026", MESSAGE_INVALID_FILTER_RANGE);
     }
 }

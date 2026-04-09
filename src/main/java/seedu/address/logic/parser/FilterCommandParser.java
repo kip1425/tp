@@ -2,6 +2,7 @@ package seedu.address.logic.parser;
 
 import static java.util.Objects.requireNonNull;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static seedu.address.logic.Messages.MESSAGE_INVALID_FILTER_RANGE;
 import static seedu.address.logic.Messages.getErrorMessageForConflictingPrefixes;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_AGE_EQUAL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_AGE_GREATER;
@@ -144,8 +145,13 @@ public class FilterCommandParser implements Parser<FilterCommand> {
             predicates.add(new AgeLessThanPredicate(age + 1));
         } else if (hasAgeGreater && hasAgeLess) {
             // range: strict bounds on both ends
-            predicates.add(new AgeGreaterThanPredicate(parseAge(argMultimap.getValue(PREFIX_AGE_GREATER).get())));
-            predicates.add(new AgeLessThanPredicate(parseAge(argMultimap.getValue(PREFIX_AGE_LESS).get())));
+            int ageGreater = parseAge(argMultimap.getValue(PREFIX_AGE_GREATER).get());
+            int ageLess = parseAge(argMultimap.getValue(PREFIX_AGE_LESS).get());
+            if (ageGreater >= ageLess) {
+                throw new ParseException(MESSAGE_INVALID_FILTER_RANGE);
+            }
+            predicates.add(new AgeGreaterThanPredicate(ageGreater));
+            predicates.add(new AgeLessThanPredicate(ageLess));
         } else if (hasAgeGreater) {
             predicates.add(new AgeGreaterThanPredicate(parseAge(argMultimap.getValue(PREFIX_AGE_GREATER).get())));
         } else if (hasAgeLess) {
@@ -187,6 +193,10 @@ public class FilterCommandParser implements Parser<FilterCommand> {
             String joinBefore = argMultimap.getValue(PREFIX_JOIN_DATE_BEFORE).get().trim();
             verifyJoinDate(joinAfter);
             verifyJoinDate(joinBefore);
+            if (!ParserUtil.parseJoinDate(joinAfter).getDate()
+                    .isBefore(ParserUtil.parseJoinDate(joinBefore).getDate())) {
+                throw new ParseException(MESSAGE_INVALID_FILTER_RANGE);
+            }
             predicates.add(new JoinDateAfterPredicate(ParserUtil.parseJoinDate(joinAfter).getDate()));
             predicates.add(new JoinDateBeforePredicate(ParserUtil.parseJoinDate(joinBefore).getDate()));
         } else if (hasJoinAfter) {
@@ -238,6 +248,10 @@ public class FilterCommandParser implements Parser<FilterCommand> {
             String expiryBefore = argMultimap.getValue(PREFIX_EXPIRY_DATE_BEFORE).get().trim();
             verifyExpiryDate(expiryAfter);
             verifyExpiryDate(expiryBefore);
+            if (!ParserUtil.parseExpiryDate(expiryAfter).getExpiryDate()
+                    .isBefore(ParserUtil.parseExpiryDate(expiryBefore).getExpiryDate())) {
+                throw new ParseException(MESSAGE_INVALID_FILTER_RANGE);
+            }
             predicates.add(new ExpiryDateAfterPredicate(
                     ParserUtil.parseExpiryDate(expiryAfter).getExpiryDate()));
             predicates.add(new ExpiryDateBeforePredicate(
