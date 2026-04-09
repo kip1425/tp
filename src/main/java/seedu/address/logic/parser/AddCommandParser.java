@@ -60,10 +60,18 @@ public class AddCommandParser implements Parser<AddCommand> {
         MembershipJoinDate joinDate = argMultimap.getValue(PREFIX_JOIN_DATE).isPresent()
                 ? ParserUtil.parseJoinDate(argMultimap.getValue(PREFIX_JOIN_DATE).get())
                 : new MembershipJoinDate();
+        if (joinDate.getDate().isBefore(dateOfBirth.getDate())) {
+            throw new ParseException(Person.MESSAGE_CONSTRAINTS);
+        }
         MemberId memberId = GenerateMemberIds.generateNextId();
         MembershipExpiryDate expiryDate = new MembershipExpiryDate(joinDate.getDate(), membershipType);
-        Person person = new Person(memberId, name, phone, gender, dateOfBirth, email, emergencyContact,
-                membershipType, joinDate, expiryDate);
+        Person person;
+        try {
+            person = new Person(memberId, name, phone, gender, dateOfBirth, email, emergencyContact,
+                    membershipType, joinDate, expiryDate);
+        } catch (IllegalArgumentException e) {
+            throw new ParseException(e.getMessage(), e);
+        }
 
         return new AddCommand(person);
     }

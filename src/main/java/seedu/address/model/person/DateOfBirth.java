@@ -32,6 +32,10 @@ public class DateOfBirth {
         this.dateOfBirth = LocalDate.parse(dateOfBirth, FORMATTER);
     }
 
+    public LocalDate getDate() {
+        return dateOfBirth;
+    }
+
     /**
      * Returns true if a given string is a valid date of birth.
      */

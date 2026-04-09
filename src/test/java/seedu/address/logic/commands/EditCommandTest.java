@@ -153,6 +153,14 @@ public class EditCommandTest {
     }
 
     @Test
+    public void execute_joinDateBeforeDateOfBirth_failure() {
+        EditCommand editCommand = new EditCommand(INDEX_FIRST_PERSON,
+                new EditPersonDescriptorBuilder().withDateOfBirth("01-01-2027").build());
+
+        assertCommandFailure(editCommand, model, Person.MESSAGE_CONSTRAINTS);
+    }
+
+    @Test
     public void execute_duplicatePhoneOnly_throwsCommandException() {
         Person personA = new PersonBuilder()
                 .withId(new MemberId(1))
