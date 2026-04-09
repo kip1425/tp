@@ -139,11 +139,12 @@ public class Person {
                 && email.equals(otherPerson.email)
                 && gender.equals(otherPerson.gender)
                 && dateOfBirth.equals(otherPerson.dateOfBirth)
-                //&& memberStatus.equals(otherPerson.memberStatus)
+                && memberStatus.equals(otherPerson.memberStatus)
                 && emergencyContact.equals(otherPerson.emergencyContact)
                 && membershipType.equals(otherPerson.membershipType)
-                //&& joinDate.equals(otherPerson.joinDate)
-                //&& expiryDate.equals(otherPerson.expiryDate)
+                && joinDate.equals(otherPerson.joinDate)
+                && expiryDate.equals(otherPerson.expiryDate)
+                && remark.equals(otherPerson.remark)
                 && id.equals(otherPerson.id);
     }
 
@@ -151,7 +152,7 @@ public class Person {
     public int hashCode() {
         // use this method for custom fields hashing instead of implementing your own
         return Objects.hash(id, name, phone, email, gender, dateOfBirth,
-                memberStatus, emergencyContact, membershipType, joinDate, expiryDate);
+                memberStatus, emergencyContact, membershipType, joinDate, expiryDate, remark);
     }
 
     @Override
