@@ -7,7 +7,7 @@ Participant ":AddressBookParser" as abp LOGIC_COLOR
 Participant ":EditCommandParser" as ecp LOGIC_COLOR
 Participant "command:EditCommand" as ec LOGIC_COLOR
 
-[-> logic : execute
+[-> logic : execute("edit 1 n/NAME")
 activate logic
 logic -> abp ++: parseCommand(commandText)
 create ecp
