@@ -400,6 +400,7 @@ Furthermore, certain edits can cause FitDesk to behave in unexpected ways (e.g.,
 ### Navigating command history
 
 Allows you to quickly re-use previously entered commands using the arrow keys in the command box.
+**Incorrect commands are not saved in the command history**
 
 * Press the `Up` arrow key to navigate to the previous command in history.
 * Press the `Down` arrow key to navigate to the next command in history.
