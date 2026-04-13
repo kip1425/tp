@@ -10,8 +10,8 @@ import java.time.LocalDate;
 public class MemberStatus {
 
     public static final String MESSAGE_CONSTRAINTS =
-            "Membership status should only be 'Valid' or 'Invalid'";
-    public static final String VALIDATION_REGEX = "(?i)^(Valid|Invalid)$";
+            "Membership status should only be 'Valid', 'Invalid' or 'Pending'";
+    public static final String VALIDATION_REGEX = "(?i)^(Valid|Invalid|Pending)$";
     public final String memberStatus;
 
     /**
