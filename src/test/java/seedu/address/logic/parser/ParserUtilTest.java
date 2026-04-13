@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.EmergencyContact;
+import seedu.address.model.person.MembershipJoinDate;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Phone;
 
@@ -18,11 +19,13 @@ public class ParserUtilTest {
     private static final String INVALID_PHONE = "+651234";
     private static final String INVALID_ADDRESS = " ";
     private static final String INVALID_EMAIL = "example.com";
+    private static final String INVALID_JOIN_DATE = "31-02-2025";
 
     private static final String VALID_NAME = "Rachel Walker";
     private static final String VALID_PHONE = "91234567";
     private static final String VALID_ADDRESS = "91230505";
     private static final String VALID_EMAIL = "rachel@example.com";
+    private static final String VALID_JOIN_DATE = "29-02-2024";
 
     private static final String WHITESPACE = " \t\r\n";
 
@@ -136,6 +139,18 @@ public class ParserUtilTest {
         String emailWithWhitespace = WHITESPACE + VALID_EMAIL + WHITESPACE;
         Email expectedEmail = new Email(VALID_EMAIL);
         assertEquals(expectedEmail, ParserUtil.parseEmail(emailWithWhitespace));
+    }
+
+    @Test
+    public void parseJoinDate_invalidValue_throwsParseException() {
+        assertThrows(ParseException.class, () -> ParserUtil.parseJoinDate(INVALID_JOIN_DATE));
+    }
+
+    @Test
+    public void parseJoinDate_validValueWithWhitespace_returnsTrimmedJoinDate() throws Exception {
+        String joinDateWithWhitespace = WHITESPACE + VALID_JOIN_DATE + WHITESPACE;
+        MembershipJoinDate expectedJoinDate = new MembershipJoinDate(VALID_JOIN_DATE);
+        assertEquals(expectedJoinDate, ParserUtil.parseJoinDate(joinDateWithWhitespace));
     }
 
 }

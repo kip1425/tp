@@ -25,8 +25,12 @@ public class MembershipJoinDateTest {
     public void isValidJoinDate() {
         assertFalse(MembershipJoinDate.isValidJoinDate(""));
         assertFalse(MembershipJoinDate.isValidJoinDate("2024-01-01"));
+        assertFalse(MembershipJoinDate.isValidJoinDate("31-02-2025"));
+        assertFalse(MembershipJoinDate.isValidJoinDate("31-04-2025"));
+        assertFalse(MembershipJoinDate.isValidJoinDate("29-02-2025"));
 
         assertTrue(MembershipJoinDate.isValidJoinDate("01-01-2024"));
+        assertTrue(MembershipJoinDate.isValidJoinDate("29-02-2024"));
     }
 
     @Test

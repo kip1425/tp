@@ -2,6 +2,8 @@ package seedu.address.model.person;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.time.format.ResolverStyle;
 
 
 /**
@@ -40,7 +42,15 @@ public class MembershipJoinDate {
      * Returns true if a given string is a valid membership join date.
      */
     public static boolean isValidJoinDate(String test) {
-        return test.matches(VALIDATION_REGEX);
+        try {
+            DateTimeFormatter formatter = DateTimeFormatter
+                    .ofPattern("dd-MM-uuuu")
+                    .withResolverStyle(ResolverStyle.STRICT);
+            LocalDate.parse(test, formatter);
+            return true;
+        } catch (DateTimeParseException e) {
+            return false;
+        }
     }
 
     @Override
