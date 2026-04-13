@@ -62,7 +62,10 @@ A GUI similar to the below should appear in a few seconds. Note how the app cont
     ```bash
        help
     ```
-   This will open the user guide in the default browser, if your OS does not support it a help window will open.
+   This will open the user guide in the default browser, if your OS does not support it a help window will open. 
+   Alternatively, you can copy the URL from the command box and open it in your browser.
+   * Note: For some Linux distributions, the app may freeze when entering an invalid command e.g. `help 123`. 
+
    > 💡 **Tip:** 
    > 
     >- Use the **Up** and **Down** arrow keys to cycle through previously entered commands.
@@ -124,7 +127,8 @@ FitDesk supports the following commands. Click on a command to learn more.
 
 ### Viewing help: `help`
 
-Shows a message explaining how to access the help page through a pop-up window.
+Opens the user guide in the default browser. If the OS does not support opening the browser, a help window will open to copy the URL.
+Alternatively the user can copy the URL from the command box.
 
 Format: `help`
 
