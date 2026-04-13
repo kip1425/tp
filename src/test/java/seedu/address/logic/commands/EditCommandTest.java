@@ -155,7 +155,7 @@ public class EditCommandTest {
     @Test
     public void execute_joinDateBeforeDateOfBirth_failure() {
         EditCommand editCommand = new EditCommand(INDEX_FIRST_PERSON,
-                new EditPersonDescriptorBuilder().withDateOfBirth("01-01-2027").build());
+                new EditPersonDescriptorBuilder().withDateOfBirth("01-04-2026").build());
 
         assertCommandFailure(editCommand, model, Person.MESSAGE_CONSTRAINTS);
     }
