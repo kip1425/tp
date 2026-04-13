@@ -6,6 +6,7 @@ import static seedu.address.testutil.Assert.assertThrows;
 import org.junit.jupiter.api.Test;
 
 import seedu.address.commons.exceptions.IllegalValueException;
+import seedu.address.model.person.Gender;
 import seedu.address.model.person.MembershipExpiryDate;
 import seedu.address.model.person.MembershipJoinDate;
 import seedu.address.model.person.MembershipType;
@@ -91,5 +92,12 @@ public class JsonAdaptedPersonTest {
     public void toModelType_invalidExpiryFormat_throwsIllegalValueException() {
         JsonAdaptedPerson json = personWith("Annual", "11-03-2026", "not-a-date");
         assertThrows(IllegalValueException.class, MembershipExpiryDate.MESSAGE_CONSTRAINTS, json::toModelType);
+    }
+
+    @Test
+    public void toModelType_invalidGender_throwsGenderConstraintsMessage() {
+        JsonAdaptedPerson json = new JsonAdaptedPerson(VALID_ID, VALID_NAME, VALID_PHONE, "Y", VALID_DOB,
+                VALID_EMAIL, VALID_EC, "Annual", "11-03-2026", "11-03-2027", "");
+        assertThrows(IllegalValueException.class, Gender.MESSAGE_CONSTRAINTS, json::toModelType);
     }
 }
