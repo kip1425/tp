@@ -2,6 +2,8 @@ package seedu.address.storage;
 
 
 
+import java.time.LocalDate;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -166,10 +168,22 @@ class JsonAdaptedPerson {
         }
 
         final MembershipExpiryDate modelExpiryDate;
-        if (expiryDate != null) {
-            modelExpiryDate = new MembershipExpiryDate(expiryDate);
+        MembershipExpiryDate derivedExpiry = new MembershipExpiryDate(modelJoinDate.getDate(), modelType);
+        if (expiryDate != null && !expiryDate.trim().isEmpty()) {
+            String trimmedExpiry = expiryDate.trim();
+            if (!MembershipExpiryDate.isValidExpiryDate(trimmedExpiry)) {
+                throw new IllegalValueException(MembershipExpiryDate.MESSAGE_CONSTRAINTS);
+            }
+            MembershipExpiryDate parsedStored = new MembershipExpiryDate(trimmedExpiry);
+            LocalDate anchor = derivedExpiry.getExpiryDate();
+            LocalDate storedDate = parsedStored.getExpiryDate();
+            if (isRenewalExtensionOf(anchor, storedDate, modelType)) {
+                modelExpiryDate = parsedStored;
+            } else {
+                modelExpiryDate = derivedExpiry;
+            }
         } else {
-            modelExpiryDate = new MembershipExpiryDate(modelJoinDate.getDate(), modelType);
+            modelExpiryDate = derivedExpiry;
         }
         final Remark modelRemark = new Remark(remark != null ? remark : "");
 
@@ -179,6 +193,34 @@ class JsonAdaptedPerson {
         } catch (IllegalArgumentException e) {
             throw new IllegalValueException(e.getMessage(), e);
         }
+    }
+
+    /**
+     * True if {@code stored} is {@code anchor} or a date reached by repeatedly extending
+     * the membership by one period (matching the renew command), for the given type.
+     */
+    private static boolean isRenewalExtensionOf(LocalDate anchor, LocalDate stored, MembershipType type) {
+        if (stored.isBefore(anchor)) {
+            return false;
+        }
+        LocalDate cursor = anchor;
+        for (int i = 0; i < 1000; i++) {
+            if (cursor.equals(stored)) {
+                return true;
+            }
+            if (cursor.isAfter(stored)) {
+                return false;
+            }
+            cursor = stepRenewal(cursor, type);
+        }
+        return false;
+    }
+
+    private static LocalDate stepRenewal(LocalDate currentExpiry, MembershipType type) {
+        if (type.toString().equalsIgnoreCase("annual")) {
+            return currentExpiry.plusYears(1);
+        }
+        return currentExpiry.plusMonths(1);
     }
 
 }
