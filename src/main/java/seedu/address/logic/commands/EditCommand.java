@@ -58,7 +58,8 @@ public class EditCommand extends Command {
     public static final String MESSAGE_EDIT_PERSON_SUCCESS = "Updated person: %1$s";
     public static final String MESSAGE_NOT_EDITED = "Specify at least one field to update.";
     public static final String MESSAGE_DUPLICATE_FIELDS = Messages.MESSAGE_DUPLICATE_FIELDS;
-    public static final String MESSAGE_PHONE_EQUALS_EMERGENCY_CONTACT = "Member phone number cannot be the same as the emergency contact number.";
+    public static final String MESSAGE_PHONE_EQUALS_EMERGENCY_CONTACT =
+            "Member phone number cannot be the same as the emergency contact number.";
 
     private final Index index;
     private final EditPersonDescriptor editPersonDescriptor;
