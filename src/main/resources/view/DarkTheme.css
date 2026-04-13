@@ -396,6 +396,15 @@
     -fx-font-size: 16px;
     -fx-text-fill: #010504;
 }
+.details-remark-area {
+    -fx-font-family: "Metro";
+    -fx-font-size: 16px;
+    -fx-text-fill: #010504;
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-background-insets: 0;
+    -fx-padding: 0;
+}
 
 #memberStatus.valid-status {
     -fx-text-fill: #20813a;

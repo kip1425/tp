@@ -2,6 +2,7 @@ package seedu.address.ui;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import seedu.address.model.person.Person;
@@ -48,7 +49,7 @@ public class MemberDetails extends UiPart<Region> {
     @FXML
     private Label expiryDate;
     @FXML
-    private Label remarks;
+    private TextArea remarks;
 
     /**
      * Creates a {@code PersonCode} with the given {@code Person} and index to display.
@@ -71,7 +72,7 @@ public class MemberDetails extends UiPart<Region> {
         emergencyContact.setText("Emergency Contact: " + person.getEmergencyContact().value);
         email.setText(person.getEmail().value);
         type.setText(person.getMembershipType().toString());
-        remarks.setText("Remarks: " + person.getRemark().value);
+        remarks.setText(person.getRemark().value);
         if (person.getMembershipType().value.equalsIgnoreCase("monthly")) {
             type.getStyleClass().add("type-month");
         } else {
