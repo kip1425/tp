@@ -26,6 +26,8 @@ public class PersonCard extends UiPart<Region> {
     @FXML
     private HBox cardPane;
     @FXML
+    private HBox nameBox;
+    @FXML
     private Label memberId;
     @FXML
     private Label name;
@@ -46,6 +48,7 @@ public class PersonCard extends UiPart<Region> {
         memberId.setText(person.getId().toString());
         expiryDate.setText(person.getExpiryDate().toString());
         name.setText(person.getName().fullName);
+        name.maxWidthProperty().bind(nameBox.widthProperty());
         memberStatus.setText(person.getMemberStatus().memberStatus);
         if (person.getMemberStatus().memberStatus.equalsIgnoreCase("valid")) {
             memberStatus.getStyleClass().add("valid-status");

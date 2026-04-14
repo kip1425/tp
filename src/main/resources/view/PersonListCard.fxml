@@ -21,8 +21,8 @@
     <HBox alignment="CENTER" maxWidth="Infinity" minHeight="50.0" prefHeight="70.0" GridPane.columnIndex="0">
       <Label fx:id="id" alignment="CENTER" styleClass="cell_small_label" text="\$index" />
     </HBox>
-    <HBox alignment="CENTER" maxWidth="Infinity" minHeight="50.0" prefHeight="60.0" GridPane.columnIndex="1">
-      <Label fx:id="name" alignment="CENTER" styleClass="cell_small_label" text="\$name" maxWidth="Infinity"/>
+    <HBox fx:id="nameBox" alignment="CENTER" maxWidth="Infinity" minWidth="0" minHeight="50.0" prefHeight="60.0" GridPane.columnIndex="1">
+      <Label fx:id="name" alignment="CENTER" styleClass="cell_small_label" text="\$name" minWidth="0" HBox.hgrow="ALWAYS"/>
     </HBox>
     <HBox alignment="CENTER" maxWidth="Infinity" GridPane.columnIndex="2">
       <Label fx:id="memberId" alignment="CENTER" styleClass="cell_small_label" text="\$memberId" maxWidth="Infinity"/>
