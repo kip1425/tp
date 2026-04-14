@@ -76,11 +76,11 @@
               </padding>
               <GridPane fx:id="attributeBar" styleClass="attribute-bar">
                 <columnConstraints>
-                  <ColumnConstraints prefWidth="60.0" />
-                  <ColumnConstraints prefWidth="180.0" />
-                  <ColumnConstraints prefWidth="180.0" />
-                  <ColumnConstraints prefWidth="180.0" />
-                  <ColumnConstraints prefWidth="180.0" />
+                  <ColumnConstraints percentWidth="8" />
+                  <ColumnConstraints percentWidth="23" />
+                  <ColumnConstraints percentWidth="23" />
+                  <ColumnConstraints percentWidth="23" />
+                  <ColumnConstraints percentWidth="23" />
                 </columnConstraints>
                 <Label alignment="CENTER" prefHeight="30.0" prefWidth="185.0" styleClass="attribute-bar" text="Name" textAlignment="CENTER" GridPane.columnIndex="1" />
                 <Label alignment="CENTER" prefHeight="30.0" prefWidth="185.0" styleClass="attribute-bar" text="Member ID" textAlignment="CENTER" GridPane.columnIndex="2" />

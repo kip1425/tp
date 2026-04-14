@@ -12,26 +12,26 @@
 <HBox id="cardPane" fx:id="cardPane" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
   <GridPane HBox.hgrow="ALWAYS">
     <columnConstraints>
-      <ColumnConstraints hgrow="ALWAYS" prefWidth="60" />
-      <ColumnConstraints hgrow="ALWAYS" prefWidth="170" />
-      <ColumnConstraints hgrow="ALWAYS" prefWidth="170" />
-      <ColumnConstraints hgrow="ALWAYS" prefWidth="170" />
-      <ColumnConstraints hgrow="ALWAYS" prefWidth="170" />
+      <ColumnConstraints percentWidth="10" />
+      <ColumnConstraints percentWidth="22.5" />
+      <ColumnConstraints percentWidth="22.5" />
+      <ColumnConstraints percentWidth="22.5" />
+      <ColumnConstraints percentWidth="22.5" />
     </columnConstraints>
-    <HBox alignment="CENTER" minHeight="50.0" prefHeight="70.0" prefWidth="60.0" GridPane.columnIndex="0">
+    <HBox alignment="CENTER" maxWidth="Infinity" minHeight="50.0" prefHeight="70.0" GridPane.columnIndex="0">
       <Label fx:id="id" alignment="CENTER" styleClass="cell_small_label" text="\$index" />
     </HBox>
-    <HBox alignment="CENTER" minHeight="50.0" prefHeight="60.0" prefWidth="170.0" GridPane.columnIndex="1">
-      <Label fx:id="name" alignment="CENTER" styleClass="cell_small_label" text="\$name" />
+    <HBox alignment="CENTER" maxWidth="Infinity" minHeight="50.0" prefHeight="60.0" GridPane.columnIndex="1">
+      <Label fx:id="name" alignment="CENTER" styleClass="cell_small_label" text="\$name" maxWidth="Infinity"/>
     </HBox>
-    <HBox alignment="CENTER" prefWidth="170.0" GridPane.columnIndex="2">
-      <Label fx:id="memberId" alignment="CENTER" styleClass="cell_small_label" text="\$memberId" />
+    <HBox alignment="CENTER" maxWidth="Infinity" GridPane.columnIndex="2">
+      <Label fx:id="memberId" alignment="CENTER" styleClass="cell_small_label" text="\$memberId" maxWidth="Infinity"/>
     </HBox>
-    <HBox alignment="CENTER" prefWidth="170.0" GridPane.columnIndex="3">
-      <Label fx:id="memberStatus" styleClass="cell_small_label" text="\$memberStatus" />
+    <HBox alignment="CENTER" maxWidth="Infinity" GridPane.columnIndex="3">
+      <Label fx:id="memberStatus" styleClass="cell_small_label" text="\$memberStatus" maxWidth="Infinity"/>
     </HBox>
-    <VBox alignment="CENTER" prefWidth="170.0" GridPane.columnIndex="4">
-      <Label fx:id="expiryDate" styleClass="cell_small_label" text="\$expiryDate" />
+    <VBox alignment="CENTER" maxWidth="Infinity" GridPane.columnIndex="4">
+      <Label fx:id="expiryDate" alignment="CENTER" styleClass="cell_small_label" text="\$expiryDate" maxWidth="Infinity" />
     </VBox>
   </GridPane>
 </HBox>
