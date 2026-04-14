@@ -63,9 +63,9 @@ public class MainApp extends Application {
 
         model = initModelManager(storage, userPrefs);
 
-        logic = new LogicManager(model, storage);
+        logic = createLogic(model, storage);
 
-        ui = new UiManager(logic, addressBookLoadFailureMessage);
+        ui = createUi(logic, addressBookLoadFailureMessage);
     }
 
     /**
@@ -115,6 +115,14 @@ public class MainApp extends Application {
 
     protected String getAddressBookLoadFailureMessage() {
         return addressBookLoadFailureMessage;
+    }
+
+    protected Logic createLogic(Model model, Storage storage) {
+        return new LogicManager(model, storage);
+    }
+
+    protected Ui createUi(Logic logic, String startupWarningMessage) {
+        return new UiManager(logic, startupWarningMessage);
     }
 
     /**

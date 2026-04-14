@@ -1,20 +1,32 @@
 package seedu.address;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.io.IOException;
+import java.lang.reflect.Field;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Map;
+import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
+import seedu.address.commons.exceptions.DataLoadingException;
+import seedu.address.logic.Logic;
+import seedu.address.logic.LogicManager;
 import seedu.address.model.Model;
+import seedu.address.model.ReadOnlyAddressBook;
+import seedu.address.model.ReadOnlyUserPrefs;
 import seedu.address.model.UserPrefs;
 import seedu.address.storage.JsonAddressBookStorage;
 import seedu.address.storage.JsonUserPrefsStorage;
+import seedu.address.storage.Storage;
 import seedu.address.storage.StorageManager;
+import seedu.address.ui.Ui;
+import seedu.address.ui.UiManager;
 
 public class MainAppTest {
 
@@ -214,6 +226,75 @@ public class MainAppTest {
         assertTrue(mainApp.getAddressBookLoadFailureMessage().contains("invalid"));
     }
 
+    @Test
+    public void initModelManager_afterPreviousFailure_successfulReadClearsLoadFailureMessage() throws Exception {
+        MainApp mainApp = new MainApp();
+        Storage failingStorage = new StorageStub(
+                Path.of("failing.json"),
+                Optional.empty(),
+                new DataLoadingException(new IOException("broken")),
+                false);
+        mainApp.initModelManager(failingStorage, new UserPrefs());
+
+        Path addressBookFile = testFolder.resolve("valid-addressbook.json");
+        Path userPrefsFile = testFolder.resolve("valid-userPrefs.json");
+        Files.writeString(addressBookFile, VALID_PERSON_JSON);
+        StorageManager validStorage = new StorageManager(
+                new JsonAddressBookStorage(addressBookFile),
+                new JsonUserPrefsStorage(userPrefsFile));
+
+        Model model = mainApp.initModelManager(validStorage, new UserPrefs());
+
+        assertEquals(1, model.getAddressBook().getPersonList().size());
+        assertNull(mainApp.getAddressBookLoadFailureMessage());
+    }
+
+    @Test
+    public void initModelManager_loadFailureAndSaveFailure_returnsEmptyAddressBookAndSetsWarningMessage() {
+        MainApp mainApp = new MainApp();
+        Storage failingStorage = new StorageStub(
+                Path.of("failing.json"),
+                Optional.empty(),
+                new DataLoadingException(new IOException("broken")),
+                true);
+
+        Model model = mainApp.initModelManager(failingStorage, new UserPrefs());
+
+        assertTrue(model.getAddressBook().getPersonList().isEmpty());
+        assertEquals("The data file at failing.json is invalid. FitDesk started with an empty data file instead.",
+                mainApp.getAddressBookLoadFailureMessage());
+    }
+
+    @Test
+    public void createLogic_returnsLogicManager() {
+        MainApp mainApp = new MainApp();
+        Storage storage = new StorageStub(Path.of("logic.json"), Optional.empty(), null, false);
+        Model model = mainApp.initModelManager(storage, new UserPrefs());
+
+        Logic logic = mainApp.createLogic(model, storage);
+
+        assertTrue(logic instanceof LogicManager);
+    }
+
+    @Test
+    public void createUi_propagatesStartupWarningMessage() throws Exception {
+        MainApp mainApp = new MainApp();
+        Storage failingStorage = new StorageStub(
+                Path.of("warning.json"),
+                Optional.empty(),
+                new DataLoadingException(new IOException("broken")),
+                false);
+        Model model = mainApp.initModelManager(failingStorage, new UserPrefs());
+        Logic logic = mainApp.createLogic(model, failingStorage);
+
+        Ui ui = mainApp.createUi(logic, mainApp.getAddressBookLoadFailureMessage());
+
+        assertTrue(ui instanceof UiManager);
+        Field field = UiManager.class.getDeclaredField("startupWarningMessage");
+        field.setAccessible(true);
+        assertEquals(mainApp.getAddressBookLoadFailureMessage(), field.get(ui));
+    }
+
     private static Map<String, String> invalidFieldValues() {
         return Map.ofEntries(
                 Map.entry("name", "\"\""),
@@ -242,5 +323,63 @@ public class MainAppTest {
         case "expiryDate" -> "\"expiryDate\" : \"01-04-2026\"";
         default -> throw new IllegalArgumentException("Unknown field: " + fieldName);
         };
+    }
+
+    private static class StorageStub implements Storage {
+        private final Path addressBookFilePath;
+        private final Optional<ReadOnlyAddressBook> addressBook;
+        private final DataLoadingException readAddressBookException;
+        private final boolean saveAddressBookThrows;
+
+        StorageStub(Path addressBookFilePath, Optional<ReadOnlyAddressBook> addressBook,
+                    DataLoadingException readAddressBookException, boolean saveAddressBookThrows) {
+            this.addressBookFilePath = addressBookFilePath;
+            this.addressBook = addressBook;
+            this.readAddressBookException = readAddressBookException;
+            this.saveAddressBookThrows = saveAddressBookThrows;
+        }
+
+        @Override
+        public Optional<UserPrefs> readUserPrefs() {
+            return Optional.empty();
+        }
+
+        @Override
+        public void saveUserPrefs(ReadOnlyUserPrefs userPrefs) {}
+
+        @Override
+        public Path getUserPrefsFilePath() {
+            return Path.of("prefs.json");
+        }
+
+        @Override
+        public Path getAddressBookFilePath() {
+            return addressBookFilePath;
+        }
+
+        @Override
+        public Optional<ReadOnlyAddressBook> readAddressBook() throws DataLoadingException {
+            if (readAddressBookException != null) {
+                throw readAddressBookException;
+            }
+            return addressBook;
+        }
+
+        @Override
+        public Optional<ReadOnlyAddressBook> readAddressBook(Path filePath) throws DataLoadingException {
+            return readAddressBook();
+        }
+
+        @Override
+        public void saveAddressBook(ReadOnlyAddressBook addressBook) throws IOException {
+            if (saveAddressBookThrows) {
+                throw new IOException("cannot save");
+            }
+        }
+
+        @Override
+        public void saveAddressBook(ReadOnlyAddressBook addressBook, Path filePath) throws IOException {
+            saveAddressBook(addressBook);
+        }
     }
 }
