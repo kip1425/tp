@@ -92,6 +92,8 @@ A GUI similar to the below should appear in a few seconds. Note how the app cont
 
 Refer to the [**Commands**](#features) section below for full details of each command.
 
+Refer to the [**Parameter constraints**](#parameter-constraints) section for the rules on valid parameter values.
+
 --------------------------------------------------------------------------------------------------------------------
 
 ## Commands
@@ -521,3 +523,18 @@ Action     | Format, Examples
 **Help**   | `help`
 **Exit**   | `exit`
 
+## Parameter constraints
+Parameter | Constraints
+----------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Name | Should be non-empty string and can only contain: alphanumeric characters, '-' in the middle, and spaces.
+Date of Birth | Should be in the format `dd-mm-yyyy` and a valid date.
+Gender | Should be either `M` or `F` (case insensitive).
+Phone Number | Should only contain numbers, be 8 digits long, and start with 8 or 9
+Emergency Contact | Should only contain numbers, be 8 digits long, and start with 6, 8 or 9
+Membership Expiry Date | Should be in the format `dd-mm-yyyy` and a valid date.
+Membership Join Date | Should be in the format `dd-mm-yyyy` and a valid date.
+Membership Type | Should be either `monthly` or `annual` (case insensitive).
+Member Status | Can only be: `valid`, `invalid`, or `pending`.
+Email | Standard email format
+
+**Note**: Emergency contact number and phone number cannot be the same for the same member.

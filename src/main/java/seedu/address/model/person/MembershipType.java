@@ -11,7 +11,7 @@ import static seedu.address.commons.util.AppUtil.checkArgument;
 public class MembershipType {
 
     public static final String MESSAGE_CONSTRAINTS =
-            "Membership types should only be 'monthly' or 'annual'";
+            "Membership types should only be 'monthly' or 'annual' (case-insensitive)";
     public static final String VALIDATION_REGEX = "(?i)^(Monthly|Annual)$";
     public final String value;
 
