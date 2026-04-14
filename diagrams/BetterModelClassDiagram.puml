@@ -1,0 +1,36 @@
+@startuml
+!include style.puml
+skinparam arrowThickness 1.1
+skinparam arrowColor MODEL_COLOR
+skinparam classBackgroundColor MODEL_COLOR
+
+' Alternative view: AddressBook aggregate and Person field objects (FitDesk; no tags/addresses).
+
+AddressBook *-right-> "1" UniquePersonList
+UniquePersonList -right-> "*" Person
+
+Person *--> Name
+Person *--> Phone
+Person *--> Email
+Person *--> Gender
+Person *--> DateOfBirth
+Person *--> MemberId
+Person *--> EmergencyContact
+Person *--> MembershipType
+Person *--> MembershipJoinDate
+Person *--> MembershipExpiryDate
+Person *--> MemberStatus
+Person *--> Remark
+
+Name -[hidden]right-> Phone
+Phone -[hidden]right-> Email
+Email -[hidden]right-> Gender
+Gender -[hidden]right-> DateOfBirth
+DateOfBirth -[hidden]right-> MemberId
+MemberId -[hidden]right-> EmergencyContact
+EmergencyContact -[hidden]right-> MembershipType
+MembershipType -[hidden]right-> MembershipJoinDate
+MembershipJoinDate -[hidden]right-> MembershipExpiryDate
+MembershipExpiryDate -[hidden]right-> MemberStatus
+MemberStatus -[hidden]right-> Remark
+@enduml

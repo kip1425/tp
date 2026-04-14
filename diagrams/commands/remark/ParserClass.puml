@@ -1,0 +1,14 @@
+@startuml
+hide circle
+skinparam classAttributeIconSize 0
+
+Class "<<interface>>\nParser" as Parser
+Class RemarkCommandParser {
+  +parse(String): RemarkCommand
+}
+Class ParseException
+
+RemarkCommandParser .up.|> Parser
+Parser .right.> ParseException: throws >
+RemarkCommandParser .right.> ParseException: throws >
+@enduml

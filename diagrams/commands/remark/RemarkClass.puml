@@ -1,0 +1,35 @@
+@startuml
+hide circle
+skinparam classAttributeIconSize 0
+
+Class "{abstract}\nCommand" as Command {
+  +execute(Model): CommandResult
+  +isUndoable(): boolean
+  +undo(Model): void
+}
+Class RemarkCommand {
+  +COMMAND_WORD: String
+  +MESSAGE_USAGE: String
+  +MESSAGE_ADD_REMARK_SUCCESS: String
+  +MESSAGE_DELETE_REMARK_SUCCESS: String
+  -index: Index
+  -remark: Remark
+  -originalPerson: Person
+  -editedPerson: Person
+  +execute(Model): CommandResult
+  +isUndoable(): boolean
+  +undo(Model): void
+  +equals(Object): boolean
+}
+Class CommandException
+Class Remark
+Class Index
+Class Person
+
+RemarkCommand -up-|> Command
+Command ..> CommandException: throws >
+RemarkCommand .right.> CommandException: throws >
+RemarkCommand --> Index
+RemarkCommand --> Remark
+RemarkCommand --> Person
+@enduml

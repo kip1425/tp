@@ -1,0 +1,173 @@
+{
+  "enableSearch": true,
+  "pages": [
+    {
+      "src": "AboutUs.md",
+      "title": "About Us",
+      "headings": {
+        "about-us": "About Us",
+        "project-team": "Project team",
+        "raghad-altelmessani": "Raghad Altelmessani",
+        "fathan-mubina": "Fathan Mubina",
+        "yifei": "Yifei",
+        "rachel-ng": "Rachel Ng",
+        "shu-xian": "Shu Xian"
+      },
+      "headingKeywords": {}
+    },
+    {
+      "src": "Configuration.md",
+      "title": "Configuration guide",
+      "headings": {
+        "configuration-guide": "Configuration guide"
+      },
+      "headingKeywords": {}
+    },
+    {
+      "src": "DevOps.md",
+      "title": "DevOps guide",
+      "headings": {
+        "devops-guide": "DevOps guide",
+        "build-automation": "Build automation",
+        "continuous-integration-ci": "Continuous integration (CI)",
+        "code-coverage": "Code coverage",
+        "repository-wide-checks": "Repository-wide checks",
+        "making-a-release": "Making a release"
+      },
+      "headingKeywords": {}
+    },
+    {
+      "src": "DeveloperGuide.md",
+      "title": "Developer Guide",
+      "headings": {
+        "fitdesk-developer-guide": "FitDesk Developer Guide",
+        "acknowledgements": "Acknowledgements",
+        "setting-up-getting-started": "Setting up, getting started",
+        "design": "Design",
+        "architecture": "Architecture",
+        "ui-component": "UI component",
+        "logic-component": "Logic component",
+        "model-component": "Model component",
+        "storage-component": "Storage component",
+        "common-classes": "Common classes",
+        "implementation": "Implementation",
+        "undo-redo-feature": "Undo/redo feature",
+        "tab-completion-feature": "Tab completion feature",
+        "documentation-logging-testing-configuration-dev-ops": "Documentation, logging, testing, configuration, dev-ops",
+        "appendix-requirements": "Appendix: Requirements",
+        "product-scope": "Product scope",
+        "user-stories": "User stories",
+        "use-cases": "Use cases",
+        "non-functional-requirements": "Non-Functional Requirements",
+        "glossary": "Glossary",
+        "appendix-instructions-for-manual-testing": "Appendix: Instructions for manual testing",
+        "launch-and-shutdown": "Launch and shutdown",
+        "deleting-a-person": "Deleting a person",
+        "saving-data": "Saving data"
+      },
+      "headingKeywords": {}
+    },
+    {
+      "src": "Documentation.md",
+      "title": "Documentation guide",
+      "headings": {
+        "documentation-guide": "Documentation Guide"
+      },
+      "headingKeywords": {}
+    },
+    {
+      "src": "Logging.md",
+      "title": "Logging guide",
+      "headings": {
+        "logging-guide": "Logging guide"
+      },
+      "headingKeywords": {}
+    },
+    {
+      "src": "SettingUp.md",
+      "title": "Setting up and getting started",
+      "headings": {
+        "setting-up-and-getting-started": "Setting up and getting started",
+        "setting-up-the-project-in-your-computer": "Setting up the project in your computer",
+        "before-writing-code": "Before writing code"
+      },
+      "headingKeywords": {}
+    },
+    {
+      "src": "Testing.md",
+      "title": "Testing guide",
+      "headings": {
+        "testing-guide": "Testing guide",
+        "running-tests": "Running tests",
+        "types-of-tests": "Types of tests"
+      },
+      "headingKeywords": {}
+    },
+    {
+      "src": "UserGuide.md",
+      "title": "User Guide",
+      "headings": {
+        "fitdesk-user-guide": "FitDesk User Guide",
+        "app-overview": "App Overview",
+        "supported-operating-systems": "Supported Operating Systems",
+        "quick-start": "Quick Start",
+        "setup-instructions": "Setup Instructions",
+        "using-the-application": "Using the Application",
+        "commands": "Commands",
+        "basic-commands": "Basic Commands",
+        "viewing-help-help": "Viewing help: help",
+        "adding-a-member-add": "Adding a member: add",
+        "listing-all-members-list": "Listing all members : list",
+        "editing-a-member-edit": "Editing a member: edit",
+        "deleting-a-member-delete": "Deleting a member : delete",
+        "search-and-amp-filter": "Search &amp; Filter",
+        "locating-members-by-keyword-find": "Locating members by keyword: find",
+        "filtering-members-by-fields-filter": "Filtering members by fields: filter",
+        "member-management": "Member Management",
+        "viewing-the-details-of-a-person-details": "Viewing the details of a person : details",
+        "adding-a-remark-to-a-member-remark": "Adding a remark to a member : remark",
+        "renewing-a-membership-renew": "Renewing a membership: renew",
+        "utility": "Utility",
+        "clearing-all-entries-clear": "Clearing all entries : clear",
+        "undoing-the-last-command-undo": "Undoing the last command : undo",
+        "redoing-the-last-undone-command-redo": "Redoing the last undone command : redo",
+        "exiting-the-program-exit": "Exiting the program : exit",
+        "saving-the-data": "Saving the data",
+        "editing-the-data-file": "Editing the data file",
+        "keyboard-features": "Keyboard Features",
+        "navigating-command-history": "Navigating command history",
+        "navigating-the-member-list": "Navigating the member list",
+        "using-the-home-button": "Using the home button",
+        "tab-completion": "Tab completion",
+        "faq": "FAQ",
+        "known-issues": "Known issues",
+        "command-summary": "Command summary"
+      },
+      "headingKeywords": {}
+    },
+    {
+      "src": "index.md",
+      "title": "",
+      "headings": {
+        "fitdesk": "FitDesk"
+      },
+      "headingKeywords": {}
+    },
+    {
+      "src": "team/e1356231.md",
+      "title": "John Doe's Project Portfolio Page",
+      "headings": {
+        "project-addressbook-level-3": "Project: AddressBook Level 3"
+      },
+      "headingKeywords": {}
+    },
+    {
+      "src": "team/phfabs.md",
+      "title": "Yifei's Project Portfolio Page",
+      "headings": {
+        "yifei": "Yifei"
+      },
+      "headingKeywords": {}
+    }
+  ]
+}
