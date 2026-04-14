@@ -141,7 +141,9 @@
         "tab-completion": "Tab completion",
         "faq": "FAQ",
         "known-issues": "Known issues",
-        "command-summary": "Command summary"
+        "planned-enhancements": "Planned Enhancements",
+        "command-summary": "Command summary",
+        "parameter-constraints": "Parameter constraints"
       },
       "headingKeywords": {}
     },
