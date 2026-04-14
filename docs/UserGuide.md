@@ -501,8 +501,6 @@ Pressing `Tab` in the command box provides context-sensitive completions to help
 * For `edit`, `remark`, `renew`, `delete`, and `details`, press `Tab` after the command to cycle through valid member indices.
 * e.g. `delete ` + `Tab` → `delete 1` → `Tab` → `delete 2` → ...
 
-<div style="page-break-after: always;"></div>
-
 --------------------------------------------------------------------------------------------------------------------
 
 ## FAQ
@@ -555,11 +553,10 @@ Date of Birth | Should be in the format `dd-mm-yyyy` and a valid date.
 Gender | Should be either `M` or `F` (case insensitive).
 Phone Number | Should only contain numbers, be 8 digits long, and start with 8 or 9
 Emergency Contact | Should only contain numbers, be 8 digits long, and start with 6, 8 or 9
-Email | Standard email format
 Membership Expiry Date | Should be in the format `dd-mm-yyyy` and a valid date.
 Membership Join Date | Should be in the format `dd-mm-yyyy` and a valid date.
 Membership Type | Should be either `monthly` or `annual` (case insensitive).
 Member Status | Can only be: `valid`, `invalid`, or `pending`.
-
+Email | Standard email format
 
 **Note**: Emergency contact number and phone number cannot be the same for the same member.
