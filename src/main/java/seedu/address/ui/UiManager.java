@@ -24,12 +24,21 @@ public class UiManager implements Ui {
 
     private Logic logic;
     private MainWindow mainWindow;
+    private final String startupWarningMessage;
 
     /**
      * Creates a {@code UiManager} with the given {@code Logic}.
      */
     public UiManager(Logic logic) {
+        this(logic, null);
+    }
+
+    /**
+     * Creates a {@code UiManager} with the given {@code Logic} and optional startup warning message.
+     */
+    public UiManager(Logic logic, String startupWarningMessage) {
         this.logic = logic;
+        this.startupWarningMessage = startupWarningMessage;
     }
 
     @Override
@@ -40,7 +49,7 @@ public class UiManager implements Ui {
         primaryStage.getIcons().add(getImage(ICON_APPLICATION));
 
         try {
-            mainWindow = new MainWindow(primaryStage, logic);
+            mainWindow = new MainWindow(primaryStage, logic, startupWarningMessage);
             mainWindow.show(); //This should be called before creating other UI parts
             mainWindow.fillInnerParts();
 

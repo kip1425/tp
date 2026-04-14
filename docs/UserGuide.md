@@ -434,12 +434,12 @@ Membership status is not stored as a fixed value in the data file. It is derived
 
 FitDesk data are saved automatically as a JSON file `[JAR file location]/data/fitdesk.json`. Advanced users are welcome to update data directly by editing that data file.
 
-Membership **expiry date** must agree with **join date** and **type** (or successive renewals from that); otherwise FitDesk corrects it to the first-period expiry on load.
+The data file must remain valid JSON and must contain exactly one valid value for every required persisted field of each member. Duplicate JSON keys, duplicate members, missing required fields, and invalid field values will all cause FitDesk to reject the saved data on the next startup.
 
 <box type="warning" seamless>
 
 **Caution:**
-If your changes to the data file makes its format invalid, FitDesk will discard all data and start with an empty data file at the next run.  Hence, it is recommended to take a backup of the file before editing it.<br>
+If your changes make the data file invalid, FitDesk will discard all saved members, reset the data file to an empty valid file on the next run, and show a warning message in the usual feedback area. Hence, it is recommended to take a backup of the file before editing it.<br>
 Furthermore, certain edits can cause FitDesk to behave in unexpected ways (e.g., if a value entered is outside the acceptable range). Therefore, edit the data file only if you are confident that you can update it correctly.
 </box>
 

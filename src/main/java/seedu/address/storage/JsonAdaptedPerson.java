@@ -95,6 +95,9 @@ class JsonAdaptedPerson {
     public Person toModelType() throws IllegalValueException {
         final MemberId modelId;
         if (id != null) {
+            if (!isValidMemberId(id)) {
+                throw new IllegalValueException("MemberId should be in the format M###.");
+            }
             int idNumber = Integer.parseInt(id.substring(1));
             modelId = new MemberId(idNumber);
         } else {
@@ -162,30 +165,37 @@ class JsonAdaptedPerson {
 
         final MembershipJoinDate modelJoinDate;
         if (joinDate != null) {
+            if (!MembershipJoinDate.isValidJoinDate(joinDate)) {
+                throw new IllegalValueException(MembershipJoinDate.MESSAGE_CONSTRAINTS);
+            }
             modelJoinDate = new MembershipJoinDate(joinDate);
         } else {
             modelJoinDate = new MembershipJoinDate();
         }
 
+        if (expiryDate == null || expiryDate.trim().isEmpty()) {
+            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT,
+                    MembershipExpiryDate.class.getSimpleName()));
+        }
+
         final MembershipExpiryDate modelExpiryDate;
         MembershipExpiryDate derivedExpiry = new MembershipExpiryDate(modelJoinDate.getDate(), modelType);
-        if (expiryDate != null && !expiryDate.trim().isEmpty()) {
-            String trimmedExpiry = expiryDate.trim();
-            if (!MembershipExpiryDate.isValidExpiryDate(trimmedExpiry)) {
-                throw new IllegalValueException(MembershipExpiryDate.MESSAGE_CONSTRAINTS);
-            }
-            MembershipExpiryDate parsedStored = new MembershipExpiryDate(trimmedExpiry);
-            LocalDate anchor = derivedExpiry.getExpiryDate();
-            LocalDate storedDate = parsedStored.getExpiryDate();
-            if (isRenewalExtensionOf(anchor, storedDate, modelType)) {
-                modelExpiryDate = parsedStored;
-            } else {
-                modelExpiryDate = derivedExpiry;
-            }
+        String trimmedExpiry = expiryDate.trim();
+        if (!MembershipExpiryDate.isValidExpiryDate(trimmedExpiry)) {
+            throw new IllegalValueException(MembershipExpiryDate.MESSAGE_CONSTRAINTS);
+        }
+        MembershipExpiryDate parsedStored = new MembershipExpiryDate(trimmedExpiry);
+        LocalDate anchor = derivedExpiry.getExpiryDate();
+        LocalDate storedDate = parsedStored.getExpiryDate();
+        if (isRenewalExtensionOf(anchor, storedDate, modelType)) {
+            modelExpiryDate = parsedStored;
         } else {
             modelExpiryDate = derivedExpiry;
         }
-        final Remark modelRemark = new Remark(remark != null ? remark : "");
+        if (remark == null) {
+            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Remark.class.getSimpleName()));
+        }
+        final Remark modelRemark = new Remark(remark);
 
         try {
             return new Person(modelId, modelName, modelPhone, modelGender, modelDateOfBirth,
@@ -221,6 +231,10 @@ class JsonAdaptedPerson {
             return currentExpiry.plusYears(1);
         }
         return currentExpiry.plusMonths(1);
+    }
+
+    private static boolean isValidMemberId(String test) {
+        return test.matches("M\\d{3}");
     }
 
 }

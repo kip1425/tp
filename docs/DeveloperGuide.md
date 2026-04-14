@@ -155,7 +155,9 @@ The `Storage` component,
 * inherits from both `AddressBookStorage` and `UserPrefStorage`, which means it can be treated as either one (if only the functionality of only one is needed).
 * depends on some classes in the `Model` component (because the `Storage` component's job is to save/retrieve objects that belong to the `Model`)
 
-On load, `JsonAdaptedPerson` accepts a stored expiry only if it matches join + type or the renewal chain from that date (`RenewCommand` stepping); else it uses the first-period expiry.
+On load, persisted member data is validated strictly. Missing required fields, invalid field values, duplicate persons, and duplicate JSON keys are all treated as load failures.
+
+When loading fails, `MainApp` falls back to an empty `AddressBook`, immediately rewrites the corrupted data file as an empty valid file, and passes a warning message to the UI so it appears in `ResultDisplay` on startup.
 
 ### Common classes
 
@@ -365,8 +367,9 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 **Extensions**
 
 * 2a. The list is empty.
+    * 2a1. FitDesk shows an error message.
 
-  Use case ends.
+      Use case ends.
 
 
 * 3a. The given index is invalid.
@@ -674,7 +677,7 @@ testers are expected to do more *exploratory* testing.
    1. Open `data/fitdesk.json` in a text editor and introduce invalid JSON (e.g. delete a closing brace `}` or set a field to an invalid value such as `"gender": "X"`).
 
    1. Launch the application.<br>
-      Expected: FitDesk starts with an empty member list (no sample data). A warning may be logged. The corrupted file is not overwritten until a data-modifying command is executed.
+      Expected: FitDesk starts with an empty member list (no sample data). The corrupted file is immediately replaced with an empty valid data file, and a warning is shown in the normal feedback area.
 
 1. Dealing with missing/incorrect preference file
 

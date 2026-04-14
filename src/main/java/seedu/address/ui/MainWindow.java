@@ -33,6 +33,7 @@ public class MainWindow extends UiPart<Stage> {
 
     private Stage primaryStage;
     private Logic logic;
+    private final String initialFeedbackToUser;
 
     // Independent Ui parts residing in this Ui container
     private PersonListPanel personListPanel;
@@ -70,11 +71,19 @@ public class MainWindow extends UiPart<Stage> {
      * Creates a {@code MainWindow} with the given {@code Stage} and {@code Logic}.
      */
     public MainWindow(Stage primaryStage, Logic logic) {
+        this(primaryStage, logic, null);
+    }
+
+    /**
+     * Creates a {@code MainWindow} with the given {@code Stage}, {@code Logic}, and initial feedback text.
+     */
+    public MainWindow(Stage primaryStage, Logic logic, String initialFeedbackToUser) {
         super(FXML, primaryStage);
 
         // Set dependencies
         this.primaryStage = primaryStage;
         this.logic = logic;
+        this.initialFeedbackToUser = initialFeedbackToUser;
 
         // Configure the UI
         setWindowDefaultSize(logic.getGuiSettings());
@@ -147,6 +156,9 @@ public class MainWindow extends UiPart<Stage> {
 
         resultDisplay = new ResultDisplay();
         resultDisplayPlaceholder.getChildren().add(resultDisplay.getRoot());
+        if (initialFeedbackToUser != null && !initialFeedbackToUser.isBlank()) {
+            resultDisplay.setFeedbackToUser(initialFeedbackToUser);
+        }
 
         StatusBarFooter statusBarFooter = new StatusBarFooter(logic.getAddressBookFilePath());
         statusbarPlaceholder.getChildren().add(statusBarFooter.getRoot());

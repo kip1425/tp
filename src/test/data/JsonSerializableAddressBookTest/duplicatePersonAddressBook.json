@@ -1,21 +1,27 @@
 {
-  "persons": [ {
-    "name": "Alice Pauline",
-    "phone": "94351253",
-    "gender": "F",
-    "dateOfBirth": "08-08-1998",
-    "memberStatus": "valid",
-    "email": "alice@example.com",
-    "emergency contact": "81236811",
-    "type" : "Annual"
+  "persons" : [ {
+    "member id" : "M001",
+    "name" : "Alice Pauline",
+    "phone" : "94351253",
+    "gender" : "F",
+    "dateOfBirth" : "01-01-1990",
+    "email" : "alice@example.com",
+    "emergency contact" : "81236811",
+    "type" : "Annual",
+    "join date" : "11-03-2026",
+    "expiry date" : "11-03-2027",
+    "remark" : ""
   }, {
-    "name": "Alice Pauline",
-    "phone": "94351253",
-    "gender": "F",
-    "dateOfBirth": "08-08-1998",
-    "memberStatus": "valid",
-    "email": "pauline@example.com",
-    "emergency contact": "81446811",
-    "type" : "Annual"
+    "member id" : "M001",
+    "name" : "Alice Pauline",
+    "phone" : "94351253",
+    "gender" : "F",
+    "dateOfBirth" : "01-01-1990",
+    "email" : "alice@example.com",
+    "emergency contact" : "81236811",
+    "type" : "Annual",
+    "join date" : "11-03-2026",
+    "expiry date" : "11-03-2027",
+    "remark" : ""
   } ]
 }

@@ -45,6 +45,7 @@ public class MainApp extends Application {
     protected Storage storage;
     protected Model model;
     protected Config config;
+    private String addressBookLoadFailureMessage;
 
     @Override
     public void init() throws Exception {
@@ -58,13 +59,7 @@ public class MainApp extends Application {
         UserPrefsStorage userPrefsStorage = new JsonUserPrefsStorage(config.getUserPrefsFilePath());
         UserPrefs userPrefs = initPrefs(userPrefsStorage);
         AddressBookStorage addressBookStorage = new JsonAddressBookStorage(userPrefs.getAddressBookFilePath());
-        storage = new StorageManager(addressBookStorage, userPrefsStorage);
-
-        model = initModelManager(storage, userPrefs);
-
-        logic = new LogicManager(model, storage);
-
-        ui = new UiManager(logic);
+        initModelLogicAndUi(addressBookStorage, userPrefsStorage, userPrefs);
     }
 
     /**
@@ -72,13 +67,14 @@ public class MainApp extends Application {
      * The data from the sample address book will be used instead if {@code storage}'s address book is not found,
      * or an empty address book will be used instead if errors occur when reading {@code storage}'s address book.
      */
-    private Model initModelManager(Storage storage, ReadOnlyUserPrefs userPrefs) {
+    protected Model initModelManager(Storage storage, ReadOnlyUserPrefs userPrefs) {
         logger.info("Using data file : " + storage.getAddressBookFilePath());
 
         Optional<ReadOnlyAddressBook> addressBookOptional;
         ReadOnlyAddressBook initialData;
         try {
             addressBookOptional = storage.readAddressBook();
+            addressBookLoadFailureMessage = null;
             if (!addressBookOptional.isPresent()) {
                 logger.info("Creating a new data file " + storage.getAddressBookFilePath()
                         + " populated with a sample AddressBook.");
@@ -87,14 +83,48 @@ public class MainApp extends Application {
         } catch (DataLoadingException e) {
             logger.warning("Data file at " + storage.getAddressBookFilePath() + " could not be loaded."
                     + " Will be starting with an empty AddressBook.");
+            addressBookLoadFailureMessage = "The data file at " + storage.getAddressBookFilePath()
+                    + " is invalid. FitDesk started with an empty data file instead.";
             initialData = new AddressBook();
+            saveAddressBookOnLoadFailure(storage, initialData);
         }
 
         return new ModelManager(initialData, userPrefs);
     }
 
+    /**
+     * Replaces corrupted persisted data with the fallback address book so the next launch can start normally.
+     */
+    private void saveAddressBookOnLoadFailure(Storage storage, ReadOnlyAddressBook addressBook) {
+        try {
+            storage.saveAddressBook(addressBook);
+        } catch (IOException ioe) {
+            logger.warning("Failed to reset corrupted data file : " + StringUtil.getDetails(ioe));
+        }
+    }
+
     private void initLogging(Config config) {
         LogsCenter.init(config);
+    }
+
+    protected String getAddressBookLoadFailureMessage() {
+        return addressBookLoadFailureMessage;
+    }
+
+    protected void initModelLogicAndUi(AddressBookStorage addressBookStorage, UserPrefsStorage userPrefsStorage,
+                                       UserPrefs userPrefs) {
+        storage = new StorageManager(addressBookStorage, userPrefsStorage);
+        model = initModelManager(storage, userPrefs);
+        logic = createLogic(model, storage);
+        ui = createUi(logic, addressBookLoadFailureMessage);
+    }
+
+    protected Logic createLogic(Model model, Storage storage) {
+        return new LogicManager(model, storage);
+    }
+
+    protected Ui createUi(Logic logic, String startupWarningMessage) {
+        return new UiManager(logic, startupWarningMessage);
     }
 
     /**
